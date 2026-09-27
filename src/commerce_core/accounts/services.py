@@ -29,8 +29,8 @@ def deactivate_user(user: User) -> None:
     user.is_active = False
 
 
-def change_password(user: User, raw_password: str) -> None:
-    """Validate, hash with Argon2id (A1b), store, and bump the token version."""
+def check_password_rules(user: User, raw_password: str) -> None:
+    """Run Django's password validators (A1b); raise ``validation_error`` on failure."""
     try:
         validate_password(raw_password, user)
     except DjangoValidationError as exc:
@@ -41,6 +41,11 @@ def change_password(user: User, raw_password: str) -> None:
                 for e in exc.error_list
             ],
         ) from None
+
+
+def change_password(user: User, raw_password: str) -> None:
+    """Validate, hash with Argon2id (A1b), store, and bump the token version."""
+    check_password_rules(user, raw_password)
     user.set_password(raw_password)
     with transaction.atomic():
         user.save(update_fields=["password"])

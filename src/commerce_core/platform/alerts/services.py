@@ -61,10 +61,9 @@ def raise_alert(
 
 def _transition(alert_id: int, actor: Actor, to: str) -> Alert:
     with transaction.atomic():
-        try:
-            alert = Alert.objects.select_for_update().get(pk=alert_id)
-        except Alert.DoesNotExist:
-            raise NotFound() from None
+        alert = Alert.objects.select_for_update().filter(pk=alert_id).first()
+        if alert is None:
+            raise NotFound()
         allowed = {
             AlertStatus.ACKNOWLEDGED: {AlertStatus.OPEN},
             AlertStatus.RESOLVED: {AlertStatus.OPEN, AlertStatus.ACKNOWLEDGED},

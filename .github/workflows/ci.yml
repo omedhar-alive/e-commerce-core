@@ -63,6 +63,8 @@ jobs:
           version: "0.12.19"
       - run: uv sync --locked
       - run: uv run lint-imports
+      - name: W8a AST checks
+        run: uv run python -m tools.checks.ast_rules
       - name: Compiled translations are up to date (L3)
         run: |
           sudo apt-get install -y gettext >/dev/null

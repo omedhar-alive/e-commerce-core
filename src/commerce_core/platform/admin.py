@@ -11,7 +11,13 @@ from commerce_core.platform.actors import Actor
 from commerce_core.platform.admin_base import ReadOnlyModelAdmin
 from commerce_core.platform.alerts.services import acknowledge_alert, resolve_alert
 from commerce_core.platform.errors.exceptions import DomainError
-from commerce_core.platform.models import Alert, RuntimeSetting, SettingChange
+from commerce_core.platform.models import (
+    Alert,
+    JobSchedule,
+    ReleaseRecord,
+    RuntimeSetting,
+    SettingChange,
+)
 from commerce_core.platform.runtime_settings.services import change_runtime_setting
 
 
@@ -121,3 +127,19 @@ class AlertAdmin(ReadOnlyModelAdmin):
     @admin.action(description="Resolve", permissions=["handle"])
     def resolve(self, request, queryset):
         self._apply(request, queryset, resolve_alert)
+
+
+@admin.register(JobSchedule)
+class JobScheduleAdmin(ReadOnlyModelAdmin):
+    list_display = (
+        "name",
+        "next_run_at",
+        "last_enqueued_at",
+        "last_started_at",
+        "last_succeeded_at",
+    )
+
+
+@admin.register(ReleaseRecord)
+class ReleaseRecordAdmin(ReadOnlyModelAdmin):
+    list_display = ("applied_at", "core_version", "deployment_env", "restore_point")

@@ -14,7 +14,7 @@ from django_otp.plugins.otp_totp.models import TOTPDevice
 
 from commerce_core.accounts.models import User
 from commerce_core.accounts.normalize import normalize_email
-from commerce_core.accounts.services import change_password
+from commerce_core.accounts.services import change_password, check_password_rules
 from commerce_core.platform.errors.exceptions import ValidationFailed
 
 
@@ -52,6 +52,14 @@ class Command(BaseCommand):
         if len(groups) != len(set(group)):
             raise CommandError("Unknown group name.")
         password = read_password()
+        try:
+            check_password_rules(
+                User(email=email, first_name=first_name, last_name=last_name), password
+            )
+        except ValidationFailed as exc:
+            raise CommandError(
+                "Password refused: " + "; ".join(f["message"] for f in exc.fields)
+            ) from None
         with transaction.atomic():
             user = User(
                 email=email,
@@ -62,12 +70,7 @@ class Command(BaseCommand):
             )
             user.set_unusable_password()
             user.save(force_insert=True)
-            try:
-                change_password(user, password)
-            except ValidationFailed as exc:
-                raise CommandError(
-                    "Password refused: " + "; ".join(f["message"] for f in exc.fields)
-                ) from None
+            change_password(user, password)
             user.groups.set(groups)
             device = TOTPDevice.objects.create(user=user, name="default", confirmed=True)
         self.stdout.write(f"Staff user {user.pk} created.")

@@ -37,12 +37,13 @@ def change_runtime_setting(
 
     actor = Actor.staff(user)
     with transaction.atomic():
-        try:
-            row = RuntimeSetting.objects.select_for_update().get(
-                kind=kind, provider_key=provider_key
-            )
-        except RuntimeSetting.DoesNotExist:
-            raise NotFound() from None
+        row = (
+            RuntimeSetting.objects.select_for_update()
+            .filter(kind=kind, provider_key=provider_key)
+            .first()
+        )
+        if row is None:
+            raise NotFound()
         before = row.enabled
         if before == enabled:
             return None
