@@ -1,36 +1,33 @@
-"""Test settings. Tests connect as the web role (phase plan, section 4).
+"""Test settings, built through the same registry as a deployment's.
 
-The harness in ``tests/harness.py`` builds the database as the migration role
-and switches the connection to web before any test runs.
+Tests connect as the web role (phase plan section 4). ``tests/harness.py``
+builds the database as the migration role and switches the connection to web
+before any test runs.
 """
 
 import os
 
-SECRET_KEY = "test-only-not-secret"
-USE_TZ = True
-TIME_ZONE = "UTC"
+from commerce_core.platform.conf.django_settings import build
 
-INSTALLED_APPS = [
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "commerce_core.platform",
-    "commerce_core.accounts",
-    "tests.testapp",
-]
+TEST_ENV = {
+    "DEPLOYMENT_ENV": "test",
+    "SECRET_KEY": "test-only-" + "x" * 50,
+    "STORE_CURRENCY": "EGP",
+    "STORE_TIMEZONE": "Africa/Cairo",
+    "INSTALLED_LANGUAGES": "en,ar",
+    "STORE_DEFAULT_LANGUAGE": "en",
+    "ALERT_RECIPIENTS": "alerts@example.test",
+    "EMAIL_FROM": "store@example.test",
+    "SMTP_HOST": "localhost",
+    "SMTP_PORT": "2525",
+    "SMTP_SECURITY": "none",
+    "MONITORING_TOKEN": "t" * 40,
+}
 
-AUTH_USER_MODEL = "accounts.User"
-AUTHENTICATION_BACKENDS = ["commerce_core.accounts.backends.EmailBackend"]
-SILENCED_SYSTEM_CHECKS = ["auth.W004"]
-PASSWORD_HASHERS = ["django.contrib.auth.hashers.Argon2PasswordHasher"]
-AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-        "OPTIONS": {"min_length": 12},
-    },
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
-]
+globals().update(build(role=None, env=TEST_ENV))
+
+INSTALLED_APPS = INSTALLED_APPS + ["tests.testapp"]  # noqa: F821
+ALLOWED_HOSTS = ["testserver"]
 
 DATABASES = {
     "default": {
