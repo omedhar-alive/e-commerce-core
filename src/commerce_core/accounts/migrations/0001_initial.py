@@ -5,7 +5,6 @@ import django.utils.timezone
 from django.db import migrations, models
 
 import commerce_core.accounts.fields
-import commerce_core.accounts.models
 
 
 class Migration(migrations.Migration):
@@ -84,8 +83,5 @@ class Migration(migrations.Migration):
                     )
                 ],
             },
-            managers=[
-                ("objects", commerce_core.accounts.models.UserManager()),
-            ],
         ),
     ]

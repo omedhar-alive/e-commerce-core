@@ -53,3 +53,27 @@ jobs:
           version: "0.12.19"
       - run: uv sync --locked
       - run: uv run python -m tools.checks.config_reference --check
+
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.19"
+      - run: uv sync --locked
+      - run: uv run lint-imports
+
+  migrations:
+    runs-on: ubuntu-latest
+    env:
+      DJANGO_SETTINGS_MODULE: tools.ci_settings
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.19"
+      - run: uv sync --locked
+      - name: makemigrations --check (D2f)
+        run: uv run django-admin makemigrations --check --dry-run

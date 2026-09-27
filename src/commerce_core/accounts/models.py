@@ -11,7 +11,7 @@ from commerce_core.accounts.permissions import PERMISSIONS
 
 
 class UserManager(BaseUserManager):
-    use_in_migrations = True
+    use_in_migrations = False  # migrations use historical models only (D2d)
 
     def get_by_natural_key(self, email):
         return self.get(email=normalize_email(email))

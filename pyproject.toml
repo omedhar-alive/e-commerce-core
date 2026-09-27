@@ -66,3 +66,44 @@ addopts = "-ra --strict-markers"
 markers = [
     "concurrency: real-connection concurrency tests (D5)",
 ]
+
+[tool.importlinter]
+root_packages = ["commerce_core"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "T4: only the shared client imports an HTTP library"
+type = "forbidden"
+source_modules = ["commerce_core"]
+forbidden_modules = ["httpx", "requests", "urllib3", "aiohttp"]
+ignore_imports = ["commerce_core.platform.http -> httpx"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "X6: domain code imports no API layer"
+type = "forbidden"
+source_modules = [
+    "commerce_core.accounts.models",
+    "commerce_core.accounts.services",
+    "commerce_core.accounts.permissions",
+    "commerce_core.accounts.normalize",
+    "commerce_core.platform.models",
+    "commerce_core.platform.runtime_settings",
+]
+forbidden_modules = ["commerce_core.platform.api", "ninja", "commerce_core.urls"]
+
+[[tool.importlinter.contracts]]
+name = "D2d: migrations import no domain code"
+type = "forbidden"
+source_modules = ["commerce_core.accounts.migrations", "commerce_core.platform.migrations"]
+# Field types (fields.py, money.py) and grant helpers are schema, not domain code.
+allow_indirect_imports = true
+forbidden_modules = [
+    "commerce_core.accounts.models",
+    "commerce_core.accounts.services",
+    "commerce_core.accounts.permissions",
+    "commerce_core.platform.models",
+    "commerce_core.platform.runtime_settings",
+    "commerce_core.platform.api",
+    "commerce_core.platform.errors",
+]
