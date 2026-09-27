@@ -93,3 +93,95 @@ jobs:
           current=$(git describe --tags --exact-match 2>/dev/null || true)
           previous=$(git tag --sort=-v:refname --merged HEAD | grep -vx "${current:-__none__}" | head -1)
           uv run python -m tools.checks.migration_safety ${previous:+--previous-tag "$previous"}
+
+  migration-review:
+    # D1: every changed migration's SQL is posted for a human to read, and the
+    # PR cannot pass until the author ticks the D1 box.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      CI_DB_NAME: postgres
+      CI_DB_USER: postgres
+      CI_DB_PASSWORD: postgres
+      CI_DB_HOST: localhost
+      GH_TOKEN: ${{ github.token }}
+      PR_BODY: ${{ github.event.pull_request.body }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.19"
+      - run: uv sync --locked
+      - name: Post migration SQL and require the D1 checkbox
+        run: |
+          set +e
+          uv run python -m tools.checks.sqlmigrate_comment "origin/${{ github.base_ref }}" > d1.md
+          status=$?
+          set -e
+          if [ "$status" = "0" ]; then echo "No migrations changed."; exit 0; fi
+          if [ "$status" != "3" ]; then cat d1.md; exit "$status"; fi
+          gh pr comment "${{ github.event.pull_request.number }}" --body-file d1.md --edit-last \
+            || gh pr comment "${{ github.event.pull_request.number }}" --body-file d1.md
+          if ! printf '%s' "$PR_BODY" | grep -qiE '^- \[x\] Migrations and SQL read'; then
+            echo "D1: tick 'Migrations and SQL read' in the PR description after reading the SQL."
+            exit 1
+          fi
+
+  lockfile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.19"
+      - name: Lockfile is current and hash-pinned
+        run: |
+          uv lock --check
+          uv export --format requirements-txt --no-dev --no-emit-project --hashes --locked -o /tmp/requirements.lock
+          diff -u requirements.lock /tmp/requirements.lock
+      - name: Install from hashes only
+        run: |
+          python -m venv /tmp/hashcheck
+          /tmp/hashcheck/bin/pip install --require-hashes --no-deps -r requirements.lock
+      - name: pip-audit
+        run: uvx --from pip-audit==2.10.1 pip-audit -r requirements.lock --disable-pip --no-deps
+
+  release-gates:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.19"
+      - run: uv sync --locked
+      - name: Changelog entry and version match the tag (W4)
+        run: uv run python -m tools.checks.changelog_check "${GITHUB_REF_NAME}"
+      - name: No error code removed or changed (X8)
+        run: |
+          previous=$(git tag --sort=-v:refname --merged HEAD | grep -vx "${GITHUB_REF_NAME}" | head -1)
+          if [ -n "$previous" ]; then uv run python -m tools.checks.registry_diff "$previous"; else echo "First release."; fi
+
+  upgrade-path:
+    # D2, W5, W4a: migrate a database at the previous minor holding seed_demo
+    # data, run the previous release's suite against it, and diff port
+    # signatures. Not applicable to the first release (0.1.0); enabled from 0.2.0.
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "enabled from the second release"

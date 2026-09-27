@@ -17,5 +17,16 @@ globals().update(
     )
 )
 
-# A PostgreSQL engine so migration tooling can compute column types; nothing connects.
-DATABASES = {"default": {"ENGINE": "django.db.backends.postgresql", "NAME": "unused"}}
+# A PostgreSQL engine so migration tooling can compute column types. Only
+# sqlmigrate connects, to the CI service database named here.
+import os  # noqa: E402
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("CI_DB_NAME", "unused"),
+        "USER": os.environ.get("CI_DB_USER", ""),
+        "PASSWORD": os.environ.get("CI_DB_PASSWORD", ""),
+        "HOST": os.environ.get("CI_DB_HOST", ""),
+    }
+}
