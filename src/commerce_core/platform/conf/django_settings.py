@@ -93,6 +93,7 @@ def build(role: Role | None = ..., env: Mapping[str, str] | None = None) -> dict
         "LANGUAGE_CODE": values["STORE_DEFAULT_LANGUAGE"],
         "LANGUAGES": [(code, code) for code in values["INSTALLED_LANGUAGES"]],
         "LANGUAGES_BIDI": [c for c, d in SUPPORTED_LANGUAGES.items() if d == "rtl"],
+        "LOCALE_PATHS": [],
         # Background tasks (django.tasks API on the django-tasks backport)
         "TASKS": {"default": {"BACKEND": "django_tasks_db.DatabaseBackend"}},
         # Admin sessions (A2, A5, A6b)
@@ -124,6 +125,7 @@ def build(role: Role | None = ..., env: Mapping[str, str] | None = None) -> dict
             "django.middleware.csrf.CsrfViewMiddleware",
             "django.contrib.auth.middleware.AuthenticationMiddleware",
             "django_otp.middleware.OTPMiddleware",
+            "commerce_core.platform.locale.LanguageMiddleware",
             "commerce_core.accounts.middleware.AdminIdleTimeoutMiddleware",
             "django.contrib.messages.middleware.MessageMiddleware",
             "django.middleware.clickjacking.XFrameOptionsMiddleware",

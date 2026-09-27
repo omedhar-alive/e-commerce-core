@@ -1,0 +1,50 @@
+# commerce-core error messages (X7, L3).
+msgid ""
+msgstr ""
+"Project-Id-Version: commerce-core\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-27 00:00+0000\n"
+"PO-Revision-Date: 2026-09-27 00:00+0000\n"
+"Last-Translator: commerce-core\n"
+"Language-Team: commerce-core\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: errors/handlers.py:31
+msgid "Invalid value."
+msgstr "قيمة غير صالحة."
+
+#: errors/registry.py:56
+msgid "The request is not valid."
+msgstr "الطلب غير صالح."
+
+#: errors/registry.py:57
+msgid "Authentication is required."
+msgstr "يلزم تسجيل الدخول."
+
+#: errors/registry.py:62
+msgid "You do not have permission to do this."
+msgstr "ليست لديك صلاحية للقيام بذلك."
+
+#: errors/registry.py:64
+msgid "Not found."
+msgstr "غير موجود."
+
+#: errors/registry.py:65
+msgid "The request body is too large."
+msgstr "حجم الطلب كبير جدًا."
+
+#: errors/registry.py:70
+msgid "Too many requests. Try again later."
+msgstr "طلبات كثيرة جدًا. حاول مرة أخرى لاحقًا."
+
+#: errors/registry.py:77
+msgid "The service is temporarily unavailable. Try again."
+msgstr "الخدمة غير متاحة مؤقتًا. حاول مرة أخرى."
+
+#: errors/registry.py:80
+msgid "An unexpected error occurred."
+msgstr "حدث خطأ غير متوقع."
