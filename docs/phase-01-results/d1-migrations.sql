@@ -1,5 +1,5 @@
 -- D1: every core migration's SQL (sqlmigrate) and the source of every RunPython and RunSQL,
--- in migration-graph order. Generated from core df1f721 with Django's sqlmigrate against
+-- in migration-graph order. Generated from core 1f97c63 with Django's sqlmigrate against
 -- PostgreSQL 16; Python source is commented out so the file stays valid SQL.
 -- 8 migrations: accounts.0001_initial, accounts.0002_corepermissions, accounts.0003_seed_groups, platform.0001_initial, platform.0002_jobs, platform.0003_alert, platform.0004_ratelimit, platform.0005_releaserecord
 
@@ -168,5 +168,15 @@ CREATE TABLE "platform_releaserecord" ("id" bigint NOT NULL PRIMARY KEY GENERATE
 -- Protect table of ReleaseRecord (D7/D7a grants)
 --
 REVOKE UPDATE, DELETE, TRUNCATE ON "platform_releaserecord" FROM "commerce_web", "commerce_job";
+--
+-- Raw SQL operation
+--
+REVOKE INSERT ON platform_releaserecord FROM commerce_web, commerce_job;
 COMMIT;
+
+-- RunPython / RunSQL source in platform.0005_releaserecord:
+-- operation 2: RunSQL forward (source)
+-- REVOKE INSERT ON platform_releaserecord FROM commerce_web, commerce_job
+-- operation 2: RunSQL reverse (source)
+-- GRANT INSERT ON platform_releaserecord TO commerce_web, commerce_job
 
