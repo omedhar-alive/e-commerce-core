@@ -12308,3 +12308,303 @@ was verified mutant by mutant.
 +        release=None,
          send_default_pii=False,
 
+
+## Round 2: before/after for the modules the new tests touch
+
+Tests added in round 2: T1 page boundaries, T2 error `field`, T3 DEBUG and monitoring-token
+cross-checks, T4 production web build, T5 governed inserts, T6 racing sync_schedules.
+mutmut 3.8.0 rerun on these five modules only (`uv run mutmut run --max-children 1 <module>.*`).
+
+  module                                                       before            after   change
+                                                          killed/surv      killed/surv     surv
+  commerce_core.platform.api.pagination                        121/38           138/21      -17
+  commerce_core.platform.conf.boot                              81/58           112/27      -31
+  commerce_core.platform.conf.django_settings                   0/283           79/204      -79
+  commerce_core.platform.db.governed                             11/9             12/8       -1
+  commerce_core.platform.runtime_settings.services              46/15             53/8       -7
+  total survivors                                                 403              268     -135
+
+Other statuses in the rerun: none (no timeouts, signals or uncovered mutants in these modules).
+
+conf.django_settings still has the most survivors. They have not been triaged mutant by mutant;
+the list below is the starting point.
+
+### Survivors remaining in these modules after round 2
+
+commerce_core.platform.api.pagination (21):
+  commerce_core.platform.api.pagination.x__decode__mutmut_1
+  commerce_core.platform.api.pagination.x_decode_cursor__mutmut_6
+  commerce_core.platform.api.pagination.x_encode_cursor__mutmut_10
+  commerce_core.platform.api.pagination.x_encode_cursor__mutmut_12
+  commerce_core.platform.api.pagination.x_encode_cursor__mutmut_3
+  commerce_core.platform.api.pagination.x_encode_cursor__mutmut_5
+  commerce_core.platform.api.pagination.x_encode_cursor__mutmut_9
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_1
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_2
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_3
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_4
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_5
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_6
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_7
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_8
+  commerce_core.platform.api.pagination.x_list_spec__mutmut_9
+  commerce_core.platform.api.pagination.x_paginate__mutmut_18
+  commerce_core.platform.api.pagination.x_paginate__mutmut_23
+  commerce_core.platform.api.pagination.x_paginate__mutmut_25
+  commerce_core.platform.api.pagination.x_paginate__mutmut_29
+  commerce_core.platform.api.pagination.x_paginate__mutmut_86
+
+commerce_core.platform.conf.boot (27):
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_40
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_41
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_42
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_43
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_44
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_45
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_49
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_50
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_51
+  commerce_core.platform.conf.boot.x__cross_checks__mutmut_52
+  commerce_core.platform.conf.boot.x__parse__mutmut_10
+  commerce_core.platform.conf.boot.x__parse__mutmut_11
+  commerce_core.platform.conf.boot.x__parse__mutmut_14
+  commerce_core.platform.conf.boot.x__parse__mutmut_17
+  commerce_core.platform.conf.boot.x__parse__mutmut_20
+  commerce_core.platform.conf.boot.x__parse__mutmut_21
+  commerce_core.platform.conf.boot.x__parse__mutmut_22
+  commerce_core.platform.conf.boot.x__parse__mutmut_23
+  commerce_core.platform.conf.boot.x__parse__mutmut_24
+  commerce_core.platform.conf.boot.x__parse__mutmut_25
+  commerce_core.platform.conf.boot.x__parse__mutmut_4
+  commerce_core.platform.conf.boot.x_applies_to__mutmut_2
+  commerce_core.platform.conf.boot.xǁConfigurationErrorǁ__init____mutmut_2
+  commerce_core.platform.conf.boot.xǁConfigurationErrorǁ__init____mutmut_4
+  commerce_core.platform.conf.boot.xǁConfigurationErrorǁ__init____mutmut_5
+  commerce_core.platform.conf.boot.xǁConfigurationErrorǁ__init____mutmut_6
+  commerce_core.platform.conf.boot.xǁConfigurationErrorǁ__init____mutmut_8
+
+commerce_core.platform.conf.django_settings (204):
+  commerce_core.platform.conf.django_settings.x__init_error_tracking__mutmut_2
+  commerce_core.platform.conf.django_settings.x_build__mutmut_100
+  commerce_core.platform.conf.django_settings.x_build__mutmut_101
+  commerce_core.platform.conf.django_settings.x_build__mutmut_102
+  commerce_core.platform.conf.django_settings.x_build__mutmut_103
+  commerce_core.platform.conf.django_settings.x_build__mutmut_104
+  commerce_core.platform.conf.django_settings.x_build__mutmut_105
+  commerce_core.platform.conf.django_settings.x_build__mutmut_106
+  commerce_core.platform.conf.django_settings.x_build__mutmut_107
+  commerce_core.platform.conf.django_settings.x_build__mutmut_108
+  commerce_core.platform.conf.django_settings.x_build__mutmut_109
+  commerce_core.platform.conf.django_settings.x_build__mutmut_110
+  commerce_core.platform.conf.django_settings.x_build__mutmut_111
+  commerce_core.platform.conf.django_settings.x_build__mutmut_112
+  commerce_core.platform.conf.django_settings.x_build__mutmut_113
+  commerce_core.platform.conf.django_settings.x_build__mutmut_114
+  commerce_core.platform.conf.django_settings.x_build__mutmut_117
+  commerce_core.platform.conf.django_settings.x_build__mutmut_118
+  commerce_core.platform.conf.django_settings.x_build__mutmut_121
+  commerce_core.platform.conf.django_settings.x_build__mutmut_122
+  commerce_core.platform.conf.django_settings.x_build__mutmut_123
+  commerce_core.platform.conf.django_settings.x_build__mutmut_124
+  commerce_core.platform.conf.django_settings.x_build__mutmut_125
+  commerce_core.platform.conf.django_settings.x_build__mutmut_126
+  commerce_core.platform.conf.django_settings.x_build__mutmut_127
+  commerce_core.platform.conf.django_settings.x_build__mutmut_128
+  commerce_core.platform.conf.django_settings.x_build__mutmut_129
+  commerce_core.platform.conf.django_settings.x_build__mutmut_130
+  commerce_core.platform.conf.django_settings.x_build__mutmut_131
+  commerce_core.platform.conf.django_settings.x_build__mutmut_132
+  commerce_core.platform.conf.django_settings.x_build__mutmut_133
+  commerce_core.platform.conf.django_settings.x_build__mutmut_134
+  commerce_core.platform.conf.django_settings.x_build__mutmut_135
+  commerce_core.platform.conf.django_settings.x_build__mutmut_136
+  commerce_core.platform.conf.django_settings.x_build__mutmut_142
+  commerce_core.platform.conf.django_settings.x_build__mutmut_143
+  commerce_core.platform.conf.django_settings.x_build__mutmut_144
+  commerce_core.platform.conf.django_settings.x_build__mutmut_145
+  commerce_core.platform.conf.django_settings.x_build__mutmut_146
+  commerce_core.platform.conf.django_settings.x_build__mutmut_147
+  commerce_core.platform.conf.django_settings.x_build__mutmut_148
+  commerce_core.platform.conf.django_settings.x_build__mutmut_149
+  commerce_core.platform.conf.django_settings.x_build__mutmut_150
+  commerce_core.platform.conf.django_settings.x_build__mutmut_151
+  commerce_core.platform.conf.django_settings.x_build__mutmut_154
+  commerce_core.platform.conf.django_settings.x_build__mutmut_155
+  commerce_core.platform.conf.django_settings.x_build__mutmut_156
+  commerce_core.platform.conf.django_settings.x_build__mutmut_157
+  commerce_core.platform.conf.django_settings.x_build__mutmut_158
+  commerce_core.platform.conf.django_settings.x_build__mutmut_159
+  commerce_core.platform.conf.django_settings.x_build__mutmut_160
+  commerce_core.platform.conf.django_settings.x_build__mutmut_161
+  commerce_core.platform.conf.django_settings.x_build__mutmut_162
+  commerce_core.platform.conf.django_settings.x_build__mutmut_163
+  commerce_core.platform.conf.django_settings.x_build__mutmut_164
+  commerce_core.platform.conf.django_settings.x_build__mutmut_165
+  commerce_core.platform.conf.django_settings.x_build__mutmut_166
+  commerce_core.platform.conf.django_settings.x_build__mutmut_167
+  commerce_core.platform.conf.django_settings.x_build__mutmut_168
+  commerce_core.platform.conf.django_settings.x_build__mutmut_169
+  commerce_core.platform.conf.django_settings.x_build__mutmut_174
+  commerce_core.platform.conf.django_settings.x_build__mutmut_175
+  commerce_core.platform.conf.django_settings.x_build__mutmut_176
+  commerce_core.platform.conf.django_settings.x_build__mutmut_177
+  commerce_core.platform.conf.django_settings.x_build__mutmut_178
+  commerce_core.platform.conf.django_settings.x_build__mutmut_179
+  commerce_core.platform.conf.django_settings.x_build__mutmut_180
+  commerce_core.platform.conf.django_settings.x_build__mutmut_186
+  commerce_core.platform.conf.django_settings.x_build__mutmut_187
+  commerce_core.platform.conf.django_settings.x_build__mutmut_188
+  commerce_core.platform.conf.django_settings.x_build__mutmut_189
+  commerce_core.platform.conf.django_settings.x_build__mutmut_190
+  commerce_core.platform.conf.django_settings.x_build__mutmut_194
+  commerce_core.platform.conf.django_settings.x_build__mutmut_2
+  commerce_core.platform.conf.django_settings.x_build__mutmut_203
+  commerce_core.platform.conf.django_settings.x_build__mutmut_204
+  commerce_core.platform.conf.django_settings.x_build__mutmut_205
+  commerce_core.platform.conf.django_settings.x_build__mutmut_206
+  commerce_core.platform.conf.django_settings.x_build__mutmut_207
+  commerce_core.platform.conf.django_settings.x_build__mutmut_208
+  commerce_core.platform.conf.django_settings.x_build__mutmut_209
+  commerce_core.platform.conf.django_settings.x_build__mutmut_210
+  commerce_core.platform.conf.django_settings.x_build__mutmut_211
+  commerce_core.platform.conf.django_settings.x_build__mutmut_212
+  commerce_core.platform.conf.django_settings.x_build__mutmut_213
+  commerce_core.platform.conf.django_settings.x_build__mutmut_214
+  commerce_core.platform.conf.django_settings.x_build__mutmut_215
+  commerce_core.platform.conf.django_settings.x_build__mutmut_216
+  commerce_core.platform.conf.django_settings.x_build__mutmut_217
+  commerce_core.platform.conf.django_settings.x_build__mutmut_218
+  commerce_core.platform.conf.django_settings.x_build__mutmut_219
+  commerce_core.platform.conf.django_settings.x_build__mutmut_22
+  commerce_core.platform.conf.django_settings.x_build__mutmut_220
+  commerce_core.platform.conf.django_settings.x_build__mutmut_221
+  commerce_core.platform.conf.django_settings.x_build__mutmut_222
+  commerce_core.platform.conf.django_settings.x_build__mutmut_223
+  commerce_core.platform.conf.django_settings.x_build__mutmut_224
+  commerce_core.platform.conf.django_settings.x_build__mutmut_225
+  commerce_core.platform.conf.django_settings.x_build__mutmut_226
+  commerce_core.platform.conf.django_settings.x_build__mutmut_227
+  commerce_core.platform.conf.django_settings.x_build__mutmut_228
+  commerce_core.platform.conf.django_settings.x_build__mutmut_229
+  commerce_core.platform.conf.django_settings.x_build__mutmut_23
+  commerce_core.platform.conf.django_settings.x_build__mutmut_230
+  commerce_core.platform.conf.django_settings.x_build__mutmut_231
+  commerce_core.platform.conf.django_settings.x_build__mutmut_232
+  commerce_core.platform.conf.django_settings.x_build__mutmut_233
+  commerce_core.platform.conf.django_settings.x_build__mutmut_234
+  commerce_core.platform.conf.django_settings.x_build__mutmut_235
+  commerce_core.platform.conf.django_settings.x_build__mutmut_236
+  commerce_core.platform.conf.django_settings.x_build__mutmut_237
+  commerce_core.platform.conf.django_settings.x_build__mutmut_238
+  commerce_core.platform.conf.django_settings.x_build__mutmut_242
+  commerce_core.platform.conf.django_settings.x_build__mutmut_243
+  commerce_core.platform.conf.django_settings.x_build__mutmut_244
+  commerce_core.platform.conf.django_settings.x_build__mutmut_245
+  commerce_core.platform.conf.django_settings.x_build__mutmut_246
+  commerce_core.platform.conf.django_settings.x_build__mutmut_247
+  commerce_core.platform.conf.django_settings.x_build__mutmut_248
+  commerce_core.platform.conf.django_settings.x_build__mutmut_249
+  commerce_core.platform.conf.django_settings.x_build__mutmut_250
+  commerce_core.platform.conf.django_settings.x_build__mutmut_251
+  commerce_core.platform.conf.django_settings.x_build__mutmut_252
+  commerce_core.platform.conf.django_settings.x_build__mutmut_253
+  commerce_core.platform.conf.django_settings.x_build__mutmut_254
+  commerce_core.platform.conf.django_settings.x_build__mutmut_255
+  commerce_core.platform.conf.django_settings.x_build__mutmut_256
+  commerce_core.platform.conf.django_settings.x_build__mutmut_257
+  commerce_core.platform.conf.django_settings.x_build__mutmut_258
+  commerce_core.platform.conf.django_settings.x_build__mutmut_259
+  commerce_core.platform.conf.django_settings.x_build__mutmut_260
+  commerce_core.platform.conf.django_settings.x_build__mutmut_261
+  commerce_core.platform.conf.django_settings.x_build__mutmut_267
+  commerce_core.platform.conf.django_settings.x_build__mutmut_268
+  commerce_core.platform.conf.django_settings.x_build__mutmut_269
+  commerce_core.platform.conf.django_settings.x_build__mutmut_272
+  commerce_core.platform.conf.django_settings.x_build__mutmut_273
+  commerce_core.platform.conf.django_settings.x_build__mutmut_274
+  commerce_core.platform.conf.django_settings.x_build__mutmut_275
+  commerce_core.platform.conf.django_settings.x_build__mutmut_276
+  commerce_core.platform.conf.django_settings.x_build__mutmut_277
+  commerce_core.platform.conf.django_settings.x_build__mutmut_278
+  commerce_core.platform.conf.django_settings.x_build__mutmut_279
+  commerce_core.platform.conf.django_settings.x_build__mutmut_30
+  commerce_core.platform.conf.django_settings.x_build__mutmut_31
+  commerce_core.platform.conf.django_settings.x_build__mutmut_33
+  commerce_core.platform.conf.django_settings.x_build__mutmut_34
+  commerce_core.platform.conf.django_settings.x_build__mutmut_36
+  commerce_core.platform.conf.django_settings.x_build__mutmut_37
+  commerce_core.platform.conf.django_settings.x_build__mutmut_38
+  commerce_core.platform.conf.django_settings.x_build__mutmut_39
+  commerce_core.platform.conf.django_settings.x_build__mutmut_40
+  commerce_core.platform.conf.django_settings.x_build__mutmut_44
+  commerce_core.platform.conf.django_settings.x_build__mutmut_45
+  commerce_core.platform.conf.django_settings.x_build__mutmut_46
+  commerce_core.platform.conf.django_settings.x_build__mutmut_47
+  commerce_core.platform.conf.django_settings.x_build__mutmut_48
+  commerce_core.platform.conf.django_settings.x_build__mutmut_49
+  commerce_core.platform.conf.django_settings.x_build__mutmut_50
+  commerce_core.platform.conf.django_settings.x_build__mutmut_51
+  commerce_core.platform.conf.django_settings.x_build__mutmut_52
+  commerce_core.platform.conf.django_settings.x_build__mutmut_53
+  commerce_core.platform.conf.django_settings.x_build__mutmut_54
+  commerce_core.platform.conf.django_settings.x_build__mutmut_55
+  commerce_core.platform.conf.django_settings.x_build__mutmut_56
+  commerce_core.platform.conf.django_settings.x_build__mutmut_57
+  commerce_core.platform.conf.django_settings.x_build__mutmut_58
+  commerce_core.platform.conf.django_settings.x_build__mutmut_59
+  commerce_core.platform.conf.django_settings.x_build__mutmut_60
+  commerce_core.platform.conf.django_settings.x_build__mutmut_61
+  commerce_core.platform.conf.django_settings.x_build__mutmut_62
+  commerce_core.platform.conf.django_settings.x_build__mutmut_63
+  commerce_core.platform.conf.django_settings.x_build__mutmut_64
+  commerce_core.platform.conf.django_settings.x_build__mutmut_65
+  commerce_core.platform.conf.django_settings.x_build__mutmut_66
+  commerce_core.platform.conf.django_settings.x_build__mutmut_67
+  commerce_core.platform.conf.django_settings.x_build__mutmut_73
+  commerce_core.platform.conf.django_settings.x_build__mutmut_74
+  commerce_core.platform.conf.django_settings.x_build__mutmut_75
+  commerce_core.platform.conf.django_settings.x_build__mutmut_76
+  commerce_core.platform.conf.django_settings.x_build__mutmut_77
+  commerce_core.platform.conf.django_settings.x_build__mutmut_78
+  commerce_core.platform.conf.django_settings.x_build__mutmut_79
+  commerce_core.platform.conf.django_settings.x_build__mutmut_8
+  commerce_core.platform.conf.django_settings.x_build__mutmut_80
+  commerce_core.platform.conf.django_settings.x_build__mutmut_81
+  commerce_core.platform.conf.django_settings.x_build__mutmut_82
+  commerce_core.platform.conf.django_settings.x_build__mutmut_83
+  commerce_core.platform.conf.django_settings.x_build__mutmut_84
+  commerce_core.platform.conf.django_settings.x_build__mutmut_85
+  commerce_core.platform.conf.django_settings.x_build__mutmut_86
+  commerce_core.platform.conf.django_settings.x_build__mutmut_87
+  commerce_core.platform.conf.django_settings.x_build__mutmut_88
+  commerce_core.platform.conf.django_settings.x_build__mutmut_89
+  commerce_core.platform.conf.django_settings.x_build__mutmut_90
+  commerce_core.platform.conf.django_settings.x_build__mutmut_91
+  commerce_core.platform.conf.django_settings.x_build__mutmut_92
+  commerce_core.platform.conf.django_settings.x_build__mutmut_93
+  commerce_core.platform.conf.django_settings.x_build__mutmut_94
+  commerce_core.platform.conf.django_settings.x_build__mutmut_95
+  commerce_core.platform.conf.django_settings.x_build__mutmut_96
+  commerce_core.platform.conf.django_settings.x_build__mutmut_97
+  commerce_core.platform.conf.django_settings.x_build__mutmut_98
+  commerce_core.platform.conf.django_settings.x_build__mutmut_99
+
+commerce_core.platform.db.governed (8):
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_10
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_13
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_15
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_16
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_6
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_7
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_8
+  commerce_core.platform.db.governed.xǁGovernedModelǁsave__mutmut_9
+
+commerce_core.platform.runtime_settings.services (8):
+  commerce_core.platform.runtime_settings.services.x_change_runtime_setting__mutmut_29
+  commerce_core.platform.runtime_settings.services.x_change_runtime_setting__mutmut_30
+  commerce_core.platform.runtime_settings.services.x_change_runtime_setting__mutmut_31
+  commerce_core.platform.runtime_settings.services.x_change_runtime_setting__mutmut_39
+  commerce_core.platform.runtime_settings.services.x_change_runtime_setting__mutmut_42
+  commerce_core.platform.runtime_settings.services.x_change_runtime_setting__mutmut_50
+  commerce_core.platform.runtime_settings.services.x_change_runtime_setting__mutmut_56
+  commerce_core.platform.runtime_settings.services.x_is_checkout_disabled__mutmut_3

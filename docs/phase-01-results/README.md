@@ -30,3 +30,13 @@ Python 3.12.14. No code was changed during the run.
    once, at settings import, so all 283 of its mutants survive. Not triaged mutant by mutant.
 6. **Definition of done items still open:** the owner's D1 read of the migrations, the owner's
    review of the build-time assumptions, deployment, and the two external monitors.
+
+## Round 2 (tests only)
+
+- Tests T1–T6 added; the suite is now 428 tests, all passing (`pytest.txt` regenerated).
+- Item 3 above is closed: T6 races `sync_schedules()` on two connections and finds one
+  `JobSchedule` row per job.
+- Item 2 above is closed: CI run 36346574828 passed every job, `clean-install` included.
+- `d1-migrations.sql`: `sqlmigrate` for all 8 core migrations plus the source of every
+  `RunPython` and `RunSQL`, for the owner's D1 read.
+- `mutmut.txt`: before/after survivors for the five touched modules appended (403 → 268).
