@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "commerce_core.platform",
+    "tests.testapp",
 ]
 
 DATABASES = {
