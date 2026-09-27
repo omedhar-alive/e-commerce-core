@@ -1,0 +1,1165 @@
+# uv run pytest -v -rA --durations=20   (2026-09-27T17:43:55Z, core 9d9cfe3, PostgreSQL 16.13 (Homebrew))
+# Test DB built by the migration role through the release step; tests connect as commerce_web (commerce_job where a test says so).
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- /Users/omar/Desktop/Learning projects/e-commerce-core/.venv/bin/python
+cachedir: .pytest_cache
+django: version: 5.2.17, settings: tests.settings (from ini)
+rootdir: /Users/omar/Desktop/Learning projects/e-commerce-core
+configfile: pyproject.toml
+testpaths: tests
+plugins: platformdirs-4.12.0, time-machine-3.5.1, django-4.14.0, anyio-4.15.1, Faker-40.39.0
+collecting ... collected 390 items
+
+tests/accounts/test_admin_csrf.py::test_login_post_without_csrf_token_is_refused PASSED [  0%]
+tests/accounts/test_admin_csrf.py::test_admin_change_post_without_csrf_token_is_refused PASSED [  0%]
+tests/accounts/test_admin_csrf.py::test_admin_uses_session_authentication PASSED [  0%]
+tests/accounts/test_admin_otp.py::test_admin_login_page_responds PASSED  [  1%]
+tests/accounts/test_admin_otp.py::test_login_with_device_and_token_reaches_admin PASSED [  1%]
+tests/accounts/test_admin_otp.py::test_staff_without_device_cannot_log_in PASSED [  1%]
+tests/accounts/test_admin_otp.py::test_wrong_token_is_refused PASSED     [  1%]
+tests/accounts/test_admin_otp.py::test_password_session_without_second_factor_is_refused PASSED [  2%]
+tests/accounts/test_admin_otp.py::test_idle_session_expires PASSED       [  2%]
+tests/accounts/test_create_staff.py::test_creates_staff_with_confirmed_device_and_prints_uri PASSED [  2%]
+tests/accounts/test_create_staff.py::test_joins_named_groups PASSED      [  2%]
+tests/accounts/test_create_staff.py::test_weak_password_is_refused_and_nothing_is_created PASSED [  3%]
+tests/accounts/test_create_staff.py::test_password_is_never_an_argument PASSED [  3%]
+tests/accounts/test_email.py::test_normalize_trims_and_lowercases_whole_address PASSED [  3%]
+tests/accounts/test_email.py::test_case_variants_cannot_create_two_accounts PASSED [  3%]
+tests/accounts/test_email.py::test_stored_value_is_normalized_on_save PASSED [  4%]
+tests/accounts/test_email.py::test_queryset_update_normalizes PASSED     [  4%]
+tests/accounts/test_email.py::test_lookup_by_any_case_finds_the_account PASSED [  4%]
+tests/accounts/test_email.py::test_database_refuses_raw_case_variant PASSED [  4%]
+tests/accounts/test_passwords.py::test_stored_hash_is_argon2id PASSED    [  5%]
+tests/accounts/test_passwords.py::test_validator_refuses_weak_password_and_keeps_old_one PASSED [  5%]
+tests/accounts/test_permissions.py::test_all_a6a_permissions_exist_in_the_database PASSED [  5%]
+tests/accounts/test_permissions.py::test_default_groups_match_the_handoff PASSED [  5%]
+tests/accounts/test_permissions.py::test_manage_settings_is_in_no_default_group PASSED [  6%]
+tests/accounts/test_permissions.py::test_seed_never_overwrites_a_regrouped_deployment PASSED [  6%]
+tests/accounts/test_permissions.py::test_require_refuses_without_the_named_permission PASSED [  6%]
+tests/accounts/test_permissions.py::test_require_refuses_inactive_users PASSED [  6%]
+tests/accounts/test_phone.py::test_normalizes_to_e164[+20 100 123 4567-+201001234567] PASSED [  7%]
+tests/accounts/test_phone.py::test_normalizes_to_e164[+965 5000 1234-+96550001234] PASSED [  7%]
+tests/accounts/test_phone.py::test_invalid_phone_raises_validation_error[01001234567] PASSED [  7%]
+tests/accounts/test_phone.py::test_invalid_phone_raises_validation_error[+20 12] PASSED [  7%]
+tests/accounts/test_phone.py::test_invalid_phone_raises_validation_error[not a phone] PASSED [  8%]
+tests/accounts/test_phone.py::test_field_normalizes_on_save_and_update PASSED [  8%]
+tests/accounts/test_phone.py::test_invalid_phone_on_write_raises_validation_error PASSED [  8%]
+tests/accounts/test_token_version.py::test_new_user_starts_at_zero PASSED [  8%]
+tests/accounts/test_token_version.py::test_bump_is_a_single_atomic_increment PASSED [  9%]
+tests/accounts/test_token_version.py::test_deactivation_bumps PASSED     [  9%]
+tests/accounts/test_token_version.py::test_password_change_bumps PASSED  [  9%]
+tests/accounts/test_token_version.py::test_admin_deactivation_bumps PASSED [ 10%]
+tests/admin/test_admin_query_counts.py::test_every_registered_admin_has_a_builder PASSED [ 10%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[accounts.User] PASSED [ 10%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[auth.Group] PASSED [ 10%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[django_tasks_database.DBTaskResult] PASSED [ 11%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[otp_totp.TOTPDevice] PASSED [ 11%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.Alert] PASSED [ 11%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.JobSchedule] PASSED [ 11%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.ReleaseRecord] PASSED [ 12%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.RuntimeSetting] PASSED [ 12%]
+tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.SettingChange] PASSED [ 12%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[accounts.User] PASSED [ 12%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[auth.Group] PASSED [ 13%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[django_tasks_database.DBTaskResult] PASSED [ 13%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[otp_totp.TOTPDevice] PASSED [ 13%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.Alert] PASSED [ 13%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.JobSchedule] PASSED [ 14%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.ReleaseRecord] PASSED [ 14%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.RuntimeSetting] PASSED [ 14%]
+tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.SettingChange] PASSED [ 14%]
+tests/api/test_body_cap.py::test_body_over_cap_is_413 PASSED             [ 15%]
+tests/api/test_body_cap.py::test_refused_before_parsing PASSED           [ 15%]
+tests/api/test_body_cap.py::test_body_at_cap_is_accepted PASSED          [ 15%]
+tests/api/test_error_shape.py::test_domain_error_body PASSED             [ 15%]
+tests/api/test_error_shape.py::test_validation_error_names_each_field PASSED [ 16%]
+tests/api/test_error_shape.py::test_rate_limited_carries_retry_after_and_details PASSED [ 16%]
+tests/api/test_error_shape.py::test_unhandled_becomes_internal_error_without_internals PASSED [ 16%]
+tests/api/test_error_shape.py::test_unknown_url_uses_the_error_shape PASSED [ 16%]
+tests/api/test_error_shape.py::test_class_status_map_per_x9 PASSED       [ 17%]
+tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[JPY-1999-0] PASSED [ 17%]
+tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[KWD-1999-3] PASSED [ 17%]
+tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[EGP-1999-2] PASSED [ 17%]
+tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[KWD-0-3] PASSED [ 18%]
+tests/api/test_money_schema.py::test_exponent_is_always_present PASSED   [ 18%]
+tests/api/test_pagination.py::test_page_size_defaults_to_20_and_clamps_at_100 PASSED [ 18%]
+tests/api/test_pagination.py::test_no_total_count PASSED                 [ 18%]
+tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[created_at] PASSED [ 19%]
+tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[-created_at] PASSED [ 19%]
+tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[name] PASSED [ 19%]
+tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[-name] PASSED [ 20%]
+tests/api/test_pagination.py::test_ties_on_the_sort_key_are_broken_by_public_id PASSED [ 20%]
+tests/api/test_pagination.py::test_no_cursor_decodes_to_a_primary_key PASSED [ 20%]
+tests/api/test_pagination.py::test_responses_carry_no_primary_key PASSED [ 20%]
+tests/api/test_pagination.py::test_unknown_filter_or_sort_is_400[param0] PASSED [ 21%]
+tests/api/test_pagination.py::test_unknown_filter_or_sort_is_400[param1] PASSED [ 21%]
+tests/api/test_pagination.py::test_unknown_filter_or_sort_is_400[param2] PASSED [ 21%]
+tests/api/test_pagination.py::test_allowlisted_filter_works PASSED       [ 21%]
+tests/api/test_pagination.py::test_tampered_cursor_is_400_or_stays_scoped PASSED [ 22%]
+tests/api/test_pagination.py::test_query_count_is_constant_at_two_sizes[10] PASSED [ 22%]
+tests/api/test_pagination.py::test_query_count_is_constant_at_two_sizes[30] PASSED [ 22%]
+tests/api/test_pagination.py::test_every_allowlisted_sort_and_filter_is_indexed PASSED [ 22%]
+tests/api/test_request_id.py::test_request_id_is_random_and_returned PASSED [ 23%]
+tests/api/test_request_id.py::test_inbound_id_never_replaces_request_id PASSED [ 23%]
+tests/api/test_request_id.py::test_valid_upstream_id_is_kept PASSED      [ 23%]
+tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx] PASSED [ 23%]
+tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[has space] PASSED [ 24%]
+tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[semi;colon] PASSED [ 24%]
+tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[new\nline] PASSED [ 24%]
+tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[] PASSED [ 24%]
+tests/db/test_bootstrap.py::test_owner_url_is_never_an_argument PASSED   [ 25%]
+tests/db/test_bootstrap.py::test_owner_url_read_from_stdin_when_piped PASSED [ 25%]
+tests/db/test_bootstrap.py::test_owner_url_prompted_without_echo_on_a_terminal PASSED [ 25%]
+tests/db/test_bootstrap.py::test_command_module_reads_no_environment_or_settings PASSED [ 25%]
+tests/db/test_bootstrap.py::test_rerun_never_regrants_on_existing_tables PASSED [ 26%]
+tests/db/test_bootstrap.py::test_rerun_creates_no_role_and_returns_no_password PASSED [ 26%]
+tests/db/test_grants.py::test_append_only_refuses_update_and_delete[UPDATE testapp_appendonlyprobe SET note = 'changed'-commerce_web] PASSED [ 26%]
+tests/db/test_grants.py::test_append_only_refuses_update_and_delete[UPDATE testapp_appendonlyprobe SET note = 'changed'-commerce_job] PASSED [ 26%]
+tests/db/test_grants.py::test_append_only_refuses_update_and_delete[DELETE FROM testapp_appendonlyprobe-commerce_web] PASSED [ 27%]
+tests/db/test_grants.py::test_append_only_refuses_update_and_delete[DELETE FROM testapp_appendonlyprobe-commerce_job] PASSED [ 27%]
+tests/db/test_grants.py::test_frozen_table_allows_only_listed_columns[commerce_web] PASSED [ 27%]
+tests/db/test_grants.py::test_frozen_table_allows_only_listed_columns[commerce_job] PASSED [ 27%]
+tests/db/test_grants.py::test_bare_save_is_refused_before_sql PASSED     [ 28%]
+tests/db/test_grants.py::test_bare_save_is_refused_by_the_database_too PASSED [ 28%]
+tests/db/test_grants.py::test_named_columns_save_works PASSED            [ 28%]
+tests/db/test_grants.py::test_declared_governance_matches_database_grants PASSED [ 28%]
+tests/db/test_grants.py::test_no_auto_now_on_governed_models_unless_updatable PASSED [ 29%]
+tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_migration] PASSED [ 29%]
+tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_web] PASSED [ 29%]
+tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_job] PASSED [ 30%]
+tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_retention] PASSED [ 30%]
+tests/db/test_roles.py::test_web_and_job_timeouts_match_t4a PASSED       [ 30%]
+tests/db/test_roles.py::test_migration_role_has_d2a_lock_timeout_and_no_statement_timeout PASSED [ 30%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE TABLE ddl_probe (id int)-commerce_web] PASSED [ 31%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE TABLE ddl_probe (id int)-commerce_job] PASSED [ 31%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[ALTER TABLE django_content_type ADD COLUMN ddl_probe int-commerce_web] PASSED [ 31%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[ALTER TABLE django_content_type ADD COLUMN ddl_probe int-commerce_job] PASSED [ 31%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[DROP TABLE django_content_type-commerce_web] PASSED [ 32%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[DROP TABLE django_content_type-commerce_job] PASSED [ 32%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE INDEX ddl_probe_idx ON django_content_type (model)-commerce_web] PASSED [ 32%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE INDEX ddl_probe_idx ON django_content_type (model)-commerce_job] PASSED [ 32%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[TRUNCATE django_content_type-commerce_web] PASSED [ 33%]
+tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[TRUNCATE django_content_type-commerce_job] PASSED [ 33%]
+tests/db/test_roles.py::test_roles_are_not_privileged[commerce_migration] PASSED [ 33%]
+tests/db/test_roles.py::test_roles_are_not_privileged[commerce_web] PASSED [ 33%]
+tests/db/test_roles.py::test_roles_are_not_privileged[commerce_job] PASSED [ 34%]
+tests/db/test_roles.py::test_roles_are_not_privileged[commerce_retention] PASSED [ 34%]
+tests/db/test_roles.py::test_migration_role_owns_schema_and_tables PASSED [ 34%]
+tests/db/test_roles.py::test_retention_role_reads_but_cannot_write_by_default PASSED [ 34%]
+tests/db/test_timeouts.py::test_web_lock_wait_fails_at_lock_timeout PASSED [ 35%]
+tests/health/test_health.py::test_health_is_200_with_an_empty_body PASSED [ 35%]
+tests/health/test_health.py::test_health_is_503_when_the_database_is_unreachable PASSED [ 35%]
+tests/health/test_health.py::test_health_jobs_is_200_with_an_empty_body PASSED [ 35%]
+tests/health/test_health.py::test_stopped_job_alerts_and_health_jobs_503_while_health_stays_200 PASSED [ 36%]
+tests/health/test_health.py::test_detail_refuses_unauthenticated_requests PASSED [ 36%]
+tests/health/test_health.py::test_detail_with_token_reports_the_core_version PASSED [ 36%]
+tests/health/test_health.py::test_detail_with_a_verified_staff_session PASSED [ 36%]
+tests/health/test_health.py::test_detail_refuses_a_staff_session_without_second_factor PASSED [ 37%]
+tests/health/test_health.py::test_detail_refuses_a_wrong_token[wrong-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx] PASSED [ 37%]
+tests/health/test_health.py::test_detail_refuses_a_wrong_token[] PASSED  [ 37%]
+tests/health/test_health.py::test_detail_refuses_a_wrong_token[ttttttttttttttttttttttttttttttttttttttt] PASSED [ 37%]
+tests/health/test_health.py::test_token_opens_nothing_else PASSED        [ 38%]
+tests/health/test_health.py::test_previous_token_only_inside_its_window PASSED [ 38%]
+tests/health/test_health.py::test_detail_query_count_is_constant[3] PASSED [ 38%]
+tests/health/test_health.py::test_detail_query_count_is_constant[9] PASSED [ 38%]
+tests/platform/test_alerts.py::test_alert_is_written_in_its_causes_transaction PASSED [ 39%]
+tests/platform/test_alerts.py::test_rollback_of_the_cause_leaves_no_alert PASSED [ 39%]
+tests/platform/test_alerts.py::test_retry_updates_the_open_alert_instead_of_adding_one PASSED [ 39%]
+tests/platform/test_alerts.py::test_after_resolution_a_new_alert_opens PASSED [ 40%]
+tests/platform/test_alerts.py::test_database_refuses_a_second_open_alert PASSED [ 40%]
+tests/platform/test_alerts.py::test_unknown_code_is_refused PASSED       [ 40%]
+tests/platform/test_alerts.py::test_acknowledge_and_resolve_record_a_typed_actor PASSED [ 40%]
+tests/platform/test_alerts.py::test_subject_is_a_typed_pair_not_a_foreign_key PASSED [ 41%]
+tests/platform/test_alerts.py::test_stopped_job_raises_job_stale_and_recovery_resolves_it PASSED [ 41%]
+tests/platform/test_business_day.py::test_spring_forward_day_is_23_hours PASSED [ 41%]
+tests/platform/test_business_day.py::test_fall_back_day_is_25_hours PASSED [ 41%]
+tests/platform/test_business_day.py::test_local_date_of_a_utc_instant PASSED [ 42%]
+tests/platform/test_business_day.py::test_business_day_job_runs_exactly_once_per_local_date_across_dst[first_day0] PASSED [ 42%]
+tests/platform/test_business_day.py::test_business_day_job_runs_exactly_once_per_local_date_across_dst[first_day1] PASSED [ 42%]
+tests/platform/test_business_day.py::test_failed_run_leaves_no_marker_and_reruns PASSED [ 42%]
+tests/platform/test_business_day.py::test_timestamps_are_stored_in_utc PASSED [ 43%]
+tests/platform/test_http.py::test_raises_inside_atomic_before_any_request PASSED [ 43%]
+tests/platform/test_jobs.py::test_task_result_pruning_is_registered PASSED [ 43%]
+tests/platform/test_jobs.py::test_every_registered_job_has_a_schedule_row_after_release PASSED [ 43%]
+tests/platform/test_jobs.py::test_sync_is_idempotent PASSED              [ 44%]
+tests/platform/test_jobs.py::test_tick_enqueues_each_due_job_once_and_advances PASSED [ 44%]
+tests/platform/test_jobs.py::test_nothing_is_enqueued_before_commit PASSED [ 44%]
+tests/platform/test_jobs.py::test_run_records_start_and_success PASSED   [ 44%]
+tests/platform/test_jobs.py::test_failed_run_records_start_only PASSED   [ 45%]
+tests/platform/test_jobs.py::test_staleness PASSED                       [ 45%]
+tests/platform/test_jobs.py::test_phase_1_jobs_are_registered PASSED     [ 45%]
+tests/platform/test_jobs.py::test_a_registered_job_without_a_row_is_stale PASSED [ 45%]
+tests/platform/test_jobs.py::test_daily_schedule_is_in_utc PASSED        [ 46%]
+tests/platform/test_jobs.py::test_task_result_pruning_only_finished_past_retention PASSED [ 46%]
+tests/platform/test_jobs.py::test_no_periodic_enqueue_outside_the_scheduler PASSED [ 46%]
+tests/platform/test_jobs.py::test_scheduler_refuses_to_start_without_rows PASSED [ 46%]
+tests/platform/test_locale.py::test_order_language_wins PASSED           [ 47%]
+tests/platform/test_locale.py::test_user_preference_beats_accept_language PASSED [ 47%]
+tests/platform/test_locale.py::test_accept_language_limited_to_installed_with_q_values PASSED [ 47%]
+tests/platform/test_locale.py::test_falls_back_to_store_default PASSED   [ 47%]
+tests/platform/test_locale.py::test_uninstalled_preferences_are_skipped PASSED [ 48%]
+tests/platform/test_locale.py::test_each_language_has_a_direction PASSED [ 48%]
+tests/platform/test_locale.py::test_error_message_renders_in_request_language_and_code_does_not_change PASSED [ 48%]
+tests/platform/test_locale.py::test_every_error_message_has_an_arabic_translation PASSED [ 48%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[EGP-2] PASSED [ 49%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[USD-2] PASSED [ 49%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[KWD-3] PASSED [ 49%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[BHD-3] PASSED [ 50%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[OMR-3] PASSED [ 50%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[JOD-3] PASSED [ 50%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[TND-3] PASSED [ 50%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[JPY-0] PASSED [ 51%]
+tests/platform/test_money.py::test_exponents_come_from_the_iso_table[VND-0] PASSED [ 51%]
+tests/platform/test_money.py::test_unknown_currency_raises PASSED        [ 51%]
+tests/platform/test_money.py::test_table_has_only_three_letter_codes PASSED [ 51%]
+tests/platform/test_money.py::test_money_column_is_bigint PASSED         [ 52%]
+tests/platform/test_money.py::test_negative_amount_refused_by_db PASSED  [ 52%]
+tests/platform/test_notification_contract.py::TestSmtpAdapter::test_refuses_to_send_inside_a_transaction PASSED [ 52%]
+tests/platform/test_ratelimit.py::test_limit_holds_at_its_boundary PASSED [ 52%]
+tests/platform/test_ratelimit.py::test_enforce_raises_rate_limited_with_retry_after PASSED [ 53%]
+tests/platform/test_ratelimit.py::test_windows_and_principals_are_independent PASSED [ 53%]
+tests/platform/test_ratelimit.py::test_principal_is_never_stored_in_clear PASSED [ 53%]
+tests/platform/test_ratelimit.py::test_increment_is_one_statement PASSED [ 53%]
+tests/platform/test_ratelimit.py::test_pruning_removes_only_expired_windows PASSED [ 54%]
+tests/platform/test_ratelimit.py::test_policy_declaration_is_validated PASSED [ 54%]
+tests/platform/test_redaction.py::test_request_log_through_the_api_contains_no_pii PASSED [ 54%]
+tests/platform/test_runtime_settings.py::test_kill_switch_row_is_seeded_off PASSED [ 54%]
+tests/platform/test_runtime_settings.py::test_change_writes_audit_row_with_typed_actor PASSED [ 55%]
+tests/platform/test_runtime_settings.py::test_no_op_change_writes_no_audit_row PASSED [ 55%]
+tests/platform/test_runtime_settings.py::test_refused_without_manage_settings PASSED [ 55%]
+tests/platform/test_runtime_settings.py::test_reason_is_required PASSED  [ 55%]
+tests/platform/test_runtime_settings.py::test_failure_rolls_back_both PASSED [ 56%]
+tests/platform/test_runtime_settings.py::test_provider_kind_refused_without_registered_provider PASSED [ 56%]
+tests/platform/test_runtime_settings.py::test_unknown_kind_refused PASSED [ 56%]
+tests/platform/test_runtime_settings.py::test_unknown_kind_refused_by_db PASSED [ 56%]
+tests/platform/test_runtime_settings.py::test_kill_switch_with_provider_key_refused_by_db PASSED [ 57%]
+tests/platform/test_runtime_settings.py::test_provider_toggle_without_key_refused_by_db PASSED [ 57%]
+tests/platform/test_runtime_settings.py::test_second_kill_switch_row_refused_by_db PASSED [ 57%]
+tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[UPDATE platform_settingchange SET reason = 'rewritten'-commerce_web] PASSED [ 57%]
+tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[UPDATE platform_settingchange SET reason = 'rewritten'-commerce_job] PASSED [ 58%]
+tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[DELETE FROM platform_settingchange-commerce_web] PASSED [ 58%]
+tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[DELETE FROM platform_settingchange-commerce_job] PASSED [ 58%]
+tests/platform/test_runtime_settings.py::test_actor_type_is_a_closed_set_in_the_db PASSED [ 58%]
+tests/platform/test_runtime_settings.py::test_admin_forms_are_read_only_even_for_superusers PASSED [ 59%]
+tests/platform/test_runtime_settings.py::test_admin_change_view_changes_setting_with_permission PASSED [ 59%]
+tests/platform/test_runtime_settings.py::test_admin_change_view_refused_without_permission PASSED [ 59%]
+tests/platform/test_runtime_settings.py::test_governed_admin_check_passes_and_catches_a_writable_admin PASSED [ 60%]
+tests/platform/test_savepoint.py::test_named_violation_is_treated_as_replay_and_outer_transaction_survives PASSED [ 60%]
+tests/platform/test_savepoint.py::test_named_violation_is_retried_with_a_new_value PASSED [ 60%]
+tests/platform/test_savepoint.py::test_other_constraint_reraises PASSED  [ 60%]
+tests/platform/test_savepoint.py::test_retries_are_bounded PASSED        [ 61%]
+tests/release/test_release.py::test_release_step_refuses_before_migrating[production] PASSED [ 61%]
+tests/release/test_release.py::test_release_step_refuses_before_migrating[demo] PASSED [ 61%]
+tests/release/test_release.py::test_restore_point_is_recorded_with_the_release PASSED [ 61%]
+tests/release/test_release.py::test_release_refuses_a_deployment_two_minors_behind PASSED [ 62%]
+tests/release/test_smoke_and_seed.py::test_seed_demo_creates_one_staff_user_per_group_and_is_idempotent PASSED [ 62%]
+tests/api/test_error_shape.py::test_lock_timeout_is_a_retryable_503 PASSED [ 62%]
+tests/concurrency/test_d5.py::test_email_concurrent_insert_one_wins PASSED [ 62%]
+tests/concurrency/test_d5.py::test_runtimesetting_unique_nulls_not_distinct PASSED [ 63%]
+tests/concurrency/test_d5.py::test_two_schedulers_enqueue_each_run_once PASSED [ 63%]
+tests/concurrency/test_d5.py::test_business_day_marker_concurrent_insert_one_wins PASSED [ 63%]
+tests/concurrency/test_d5.py::test_alert_retry_on_two_connections_keeps_one_open_alert PASSED [ 63%]
+tests/concurrency/test_d5.py::test_rate_limit_holds_at_boundary_under_concurrency PASSED [ 64%]
+tests/platform/test_alerts.py::test_notification_job_emails_open_unnotified_alerts_at_least_once PASSED [ 64%]
+tests/platform/test_alerts.py::test_failed_notification_is_retried_next_run PASSED [ 64%]
+tests/platform/test_http.py::test_works_outside_a_transaction PASSED     [ 64%]
+tests/platform/test_http.py::test_request_refuses_disabling_the_timeout PASSED [ 65%]
+tests/platform/test_jobs.py::test_worker_runs_an_enqueued_job_end_to_end PASSED [ 65%]
+tests/platform/test_notification_contract.py::TestSmtpAdapter::test_delivers_to_every_recipient_with_body_intact PASSED [ 65%]
+tests/platform/test_notification_contract.py::TestSmtpAdapter::test_unreachable_server_is_a_transient_failure PASSED [ 65%]
+tests/platform/test_notification_contract.py::TestSmtpAdapter::test_no_recipients_is_a_permanent_failure PASSED [ 66%]
+tests/release/test_release.py::test_real_migration_lock_fails_at_three_seconds_and_retries PASSED [ 66%]
+tests/release/test_smoke_and_seed.py::test_smoke_script_passes_against_a_live_server PASSED [ 66%]
+tests/release/test_smoke_and_seed.py::test_smoke_script_fails_on_a_stale_job PASSED [ 66%]
+tests/accounts/test_migration_graph.py::test_auth_user_model_is_set PASSED [ 67%]
+tests/accounts/test_migration_graph.py::test_accounts_0001_depends_only_on_contrib PASSED [ 67%]
+tests/accounts/test_migration_graph.py::test_accounts_0001_is_first_core_migration_and_every_other_descends_from_it PASSED [ 67%]
+tests/api/test_router_guard.py::test_all_registered_routes_pass PASSED   [ 67%]
+tests/api/test_router_guard.py::test_route_without_schema_fails PASSED   [ 68%]
+tests/api/test_router_guard.py::test_route_returning_bare_dict_fails PASSED [ 68%]
+tests/api/test_router_guard.py::test_schema_exposing_id_fails_even_nested PASSED [ 68%]
+tests/platform/test_client_ip.py::test_no_trusted_hops_uses_remote_addr_and_ignores_xff PASSED [ 68%]
+tests/platform/test_client_ip.py::test_one_trusted_hop_uses_the_address_the_proxy_saw PASSED [ 69%]
+tests/platform/test_client_ip.py::test_spoofed_xff_does_not_change_the_ip PASSED [ 69%]
+tests/platform/test_client_ip.py::test_two_hops PASSED                   [ 69%]
+tests/platform/test_client_ip.py::test_missing_or_garbage_falls_back_to_remote_addr[] PASSED [ 70%]
+tests/platform/test_client_ip.py::test_missing_or_garbage_falls_back_to_remote_addr[not-an-ip] PASSED [ 70%]
+tests/platform/test_client_ip.py::test_ipv6_is_normalized PASSED         [ 70%]
+tests/platform/test_errors.py::test_registry_starts_with_the_phase_1_codes PASSED [ 70%]
+tests/platform/test_errors.py::test_every_code_has_exactly_one_exception_class PASSED [ 71%]
+tests/platform/test_errors.py::test_every_status_matches_its_x9_class PASSED [ 71%]
+tests/platform/test_errors.py::test_unregistered_code_fails_at_import PASSED [ 71%]
+tests/platform/test_errors.py::test_second_class_for_a_code_fails_at_import PASSED [ 71%]
+tests/platform/test_errors.py::test_undeclared_details_are_refused PASSED [ 72%]
+tests/platform/test_errors.py::test_rate_limited_carries_retry_after PASSED [ 72%]
+tests/platform/test_http.py::test_default_timeouts_are_all_set PASSED    [ 72%]
+tests/platform/test_http.py::test_client_refuses_a_missing_timeout PASSED [ 72%]
+tests/platform/test_notification_contract.py::TestSmtpAdapter::test_implements_the_port PASSED [ 73%]
+tests/platform/test_notification_contract.py::test_configured_adapter_must_implement_the_port PASSED [ 73%]
+tests/platform/test_notification_contract.py::test_default_adapter_is_core_smtp PASSED [ 73%]
+tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[bearer] PASSED [ 73%]
+tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[card] PASSED [ 74%]
+tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[email] PASSED [ 74%]
+tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[jwt] PASSED [ 74%]
+tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[local_phone] PASSED [ 74%]
+tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[phone] PASSED [ 75%]
+tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[totp] PASSED [ 75%]
+tests/platform/test_redaction.py::test_named_fields_are_replaced_whole PASSED [ 75%]
+tests/platform/test_redaction.py::test_exception_text_is_scrubbed PASSED [ 75%]
+tests/platform/test_redaction.py::test_dates_and_ids_survive PASSED      [ 76%]
+tests/platform/test_redaction.py::test_error_logs_carry_request_id_and_upstream PASSED [ 76%]
+tests/platform/test_redaction.py::test_settings_wire_the_filters_on_every_handler PASSED [ 76%]
+tests/platform/test_redaction.py::test_sentry_event_is_scrubbed PASSED   [ 76%]
+tests/platform/test_settings_registry.py::test_test_env_is_valid PASSED  [ 77%]
+tests/platform/test_settings_registry.py::test_missing_required_secret_fails_boot PASSED [ 77%]
+tests/platform/test_settings_registry.py::test_missing_required_setting_fails_boot PASSED [ 77%]
+tests/platform/test_settings_registry.py::test_mistyped_setting_fails_boot PASSED [ 77%]
+tests/platform/test_settings_registry.py::test_out_of_range_setting_fails_boot PASSED [ 78%]
+tests/platform/test_settings_registry.py::test_task_result_retention_out_of_range_fails_boot PASSED [ 78%]
+tests/platform/test_settings_registry.py::test_task_result_retention_defaults_to_seven_days PASSED [ 78%]
+tests/platform/test_settings_registry.py::test_unknown_store_currency_fails_boot PASSED [ 78%]
+tests/platform/test_settings_registry.py::test_store_currency_validated_against_iso_table PASSED [ 79%]
+tests/platform/test_settings_registry.py::test_production_requires_error_tracking_dsn PASSED [ 79%]
+tests/platform/test_settings_registry.py::test_production_refuses_debug PASSED [ 79%]
+tests/platform/test_settings_registry.py::test_demo_may_run_without_error_tracking PASSED [ 80%]
+tests/platform/test_settings_registry.py::test_default_language_must_be_installed PASSED [ 80%]
+tests/platform/test_settings_registry.py::test_secret_values_never_appear_in_boot_errors PASSED [ 80%]
+tests/platform/test_settings_registry.py::test_every_setting_has_default_or_manual_step PASSED [ 80%]
+tests/platform/test_settings_registry.py::test_backup_rpo_and_rto_declared_with_defaults PASSED [ 81%]
+tests/platform/test_settings_registry.py::test_every_setting_declares_change_class_and_type PASSED [ 81%]
+tests/platform/test_settings_registry.py::test_runtime_settings_are_exactly_the_kill_switch_in_phase_1 PASSED [ 81%]
+tests/platform/test_settings_registry.py::test_get_setting_refuses_undeclared_runtime_and_unread PASSED [ 81%]
+tests/release/test_entrypoints.py::test_each_process_reads_only_its_role_url[web-WEB_DATABASE_URL] PASSED [ 82%]
+tests/release/test_entrypoints.py::test_each_process_reads_only_its_role_url[job-JOB_DATABASE_URL] PASSED [ 82%]
+tests/release/test_entrypoints.py::test_each_process_reads_only_its_role_url[migration-MIGRATION_DATABASE_URL] PASSED [ 82%]
+tests/release/test_entrypoints.py::test_runtime_entrypoints_never_read_migration_url[web] PASSED [ 82%]
+tests/release/test_entrypoints.py::test_runtime_entrypoints_never_read_migration_url[job] PASSED [ 83%]
+tests/release/test_entrypoints.py::test_command_roles_follow_the_owner_ruling PASSED [ 83%]
+tests/release/test_entrypoints.py::test_detect_role_from_command[argv0-job] PASSED [ 83%]
+tests/release/test_entrypoints.py::test_detect_role_from_command[argv1-job] PASSED [ 83%]
+tests/release/test_entrypoints.py::test_detect_role_from_command[argv2-migration] PASSED [ 84%]
+tests/release/test_entrypoints.py::test_detect_role_from_command[argv3-None] PASSED [ 84%]
+tests/release/test_entrypoints.py::test_detect_role_from_command[argv4-None] PASSED [ 84%]
+tests/release/test_entrypoints.py::test_detect_role_from_command[argv5-None] PASSED [ 84%]
+tests/release/test_entrypoints.py::test_wsgi_entrypoint_declares_web PASSED [ 85%]
+tests/release/test_entrypoints.py::test_no_process_entry_point_runs_migrate PASSED [ 85%]
+tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[production] PASSED [ 85%]
+tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[demo] PASSED [ 85%]
+tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[local] PASSED [ 86%]
+tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[test] PASSED [ 86%]
+tests/release/test_release.py::test_restore_point_accepted_and_returned_outside_production[demo] PASSED [ 86%]
+tests/release/test_release.py::test_restore_point_accepted_and_returned_outside_production[local] PASSED [ 86%]
+tests/release/test_release.py::test_restore_point_accepted_and_returned_outside_production[test] PASSED [ 87%]
+tests/release/test_release.py::test_production_destructive_migration_needs_verified_restore_point PASSED [ 87%]
+tests/release/test_release.py::test_non_destructive_needs_no_restore_point PASSED [ 87%]
+tests/release/test_release.py::test_production_refuses_a_backwards_plan PASSED [ 87%]
+tests/release/test_release.py::test_one_minor_version_at_a_time[0.2.0-0.1.0-True] PASSED [ 88%]
+tests/release/test_release.py::test_one_minor_version_at_a_time[0.2.3-0.2.1-True] PASSED [ 88%]
+tests/release/test_release.py::test_one_minor_version_at_a_time[0.3.0-0.1.0-False] PASSED [ 88%]
+tests/release/test_release.py::test_one_minor_version_at_a_time[1.0.0-0.11.0-False] PASSED [ 88%]
+tests/release/test_release.py::test_one_minor_version_at_a_time[0.1.0-0.2.0-True] PASSED [ 89%]
+tests/release/test_release.py::test_one_minor_version_at_a_time[0.1.0-None-True] PASSED [ 89%]
+tests/release/test_release.py::test_lock_timeout_retries_with_exponential_backoff PASSED [ 89%]
+tests/release/test_release.py::test_lock_timeout_fails_the_deploy_after_the_last_retry PASSED [ 90%]
+tests/release/test_release.py::test_other_database_errors_are_not_retried PASSED [ 90%]
+tests/release/test_smoke_and_seed.py::test_smoke_script_needs_the_token_in_the_environment PASSED [ 90%]
+tests/static/test_ast_rules.py::test_core_passes_every_static_check PASSED [ 90%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[try:\n    f()\nexcept:\n    raise\n-X1] PASSED [ 91%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[try:\n    f()\nexcept Exception:\n    log()\n-X1] PASSED [ 91%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[try:\n    f()\nexcept KeyError:\n    pass\n-X1] PASSED [ 91%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[import os\nx = os.environ['A']\n-F1a] PASSED [ 91%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from django.conf import settings\n-F1a] PASSED [ 92%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[x.save()\n-D7b] PASSED [ 92%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[order.payment_status = 'paid'\n-S3] PASSED [ 92%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[variant.stock -= 1\n-C9] PASSED [ 92%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from commerce_core.platform.errors.exceptions import NotFound\nraise NotFound('no such order')\n-L4] PASSED [ 93%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from django.db import transaction\nwith transaction.atomic():\n    try:\n        f()\n    except KeyError:\n        g()\n-X11] PASSED [ 93%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from django.db import IntegrityError\ntry:\n    f()\nexcept IntegrityError:\n    raise\n-X11a] PASSED [ 93%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[ip = request.META['HTTP_X_FORWARDED_FOR']\n-A9b] PASSED [ 93%]
+tests/static/test_ast_rules.py::test_each_rule_catches_its_form[import urllib.request\n-T4] PASSED [ 94%]
+tests/static/test_ast_rules.py::test_models_may_not_read_settings PASSED [ 94%]
+tests/static/test_ast_rules.py::test_money_rules PASSED                  [ 94%]
+tests/static/test_ast_rules.py::test_history_foreign_keys PASSED         [ 94%]
+tests/static/test_ast_rules.py::test_optional_returns_in_services PASSED [ 95%]
+tests/static/test_ast_rules.py::test_allowed_forms_pass[x.save(update_fields=['a'])\n] PASSED [ 95%]
+tests/static/test_ast_rules.py::test_allowed_forms_pass[x.save(force_insert=True)\n] PASSED [ 95%]
+tests/static/test_ast_rules.py::test_allowed_forms_pass[def transition_to(order):\n    order.payment_status = 'paid'\n] PASSED [ 95%]
+tests/static/test_ast_rules.py::test_allowed_forms_pass[from django.db import transaction\ntry:\n    with transaction.atomic():\n        f()\nexcept KeyError:\n    raise\n] PASSED [ 96%]
+tests/static/test_migration_safety.py::test_rejects_plain_index_on_existing_table PASSED [ 96%]
+tests/static/test_migration_safety.py::test_accepts_concurrent_index_in_non_atomic_migration PASSED [ 96%]
+tests/static/test_migration_safety.py::test_concurrent_index_needs_atomic_false PASSED [ 96%]
+tests/static/test_migration_safety.py::test_rejects_validated_check_constraint_on_existing_table PASSED [ 97%]
+tests/static/test_migration_safety.py::test_new_table_may_use_plain_forms PASSED [ 97%]
+tests/static/test_migration_safety.py::test_not_null_column_without_db_default_is_unsafe PASSED [ 97%]
+tests/static/test_migration_safety.py::test_flags_drop_column_and_table_as_destructive PASSED [ 97%]
+tests/static/test_migration_safety.py::test_flags_type_change_as_destructive PASSED [ 98%]
+tests/static/test_migration_safety.py::test_rename_in_place_is_unsafe PASSED [ 98%]
+tests/static/test_migration_safety.py::test_runsql_rewrite_is_destructive_but_revoke_is_not PASSED [ 98%]
+tests/static/test_migration_safety.py::test_runpython_outside_allowlist_is_rejected PASSED [ 98%]
+tests/static/test_migration_safety.py::test_every_shipped_core_migration_passes PASSED [ 99%]
+tests/static/test_release_tools.py::test_registry_codes_are_read_from_source PASSED [ 99%]
+tests/static/test_release_tools.py::test_current_registry_parses_to_the_live_table PASSED [ 99%]
+tests/static/test_release_tools.py::test_changelog_check PASSED          [100%]
+
+==================================== PASSES ====================================
+________________ test_login_post_without_csrf_token_is_refused _________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:56.919212+00:00", "level": "WARNING", "logger": "django.security.csrf", "message": "Forbidden (CSRF cookie not set.): /admin/login/", "request_id": "d761016a20e2eeaff3565e2112e14929", "status_code": 403, "request": "<WSGIRequest: POST '/admin/login/'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.security.csrf:log.py:253 Forbidden (CSRF cookie not set.): /admin/login/
+_____________ test_admin_change_post_without_csrf_token_is_refused _____________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:57.016915+00:00", "level": "WARNING", "logger": "django.security.csrf", "message": "Forbidden (CSRF token missing.): /admin/accounts/user/2/change/", "request_id": "a419ef1f277c88ae2049b2c0837103ea", "status_code": 403, "request": "<WSGIRequest: POST '/admin/accounts/user/2/change/'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.security.csrf:log.py:253 Forbidden (CSRF token missing.): /admin/accounts/user/2/change/
+__________________________ test_body_over_cap_is_413 ___________________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.330388+00:00", "level": "WARNING", "logger": "django.request", "message": "Request Entity Too Large: /test-api/validate", "request_id": null, "status_code": 413, "request": "<WSGIRequest: POST '/test-api/validate'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Request Entity Too Large: /test-api/validate
+_________________________ test_refused_before_parsing __________________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.331553+00:00", "level": "WARNING", "logger": "django.request", "message": "Request Entity Too Large: /test-api/validate", "request_id": null, "status_code": 413, "request": "<WSGIRequest: POST '/test-api/validate'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Request Entity Too Large: /test-api/validate
+____________________________ test_domain_error_body ____________________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.335871+00:00", "level": "WARNING", "logger": "django.request", "message": "Not Found: /test-api/missing", "request_id": null, "status_code": 404, "request": "<WSGIRequest: GET '/test-api/missing'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Not Found: /test-api/missing
+____________________ test_validation_error_names_each_field ____________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.337328+00:00", "level": "WARNING", "logger": "django.request", "message": "Bad Request: /test-api/validate", "request_id": null, "status_code": 400, "request": "<WSGIRequest: POST '/test-api/validate'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Bad Request: /test-api/validate
+______________ test_rate_limited_carries_retry_after_and_details _______________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.338421+00:00", "level": "WARNING", "logger": "django.request", "message": "Too Many Requests: /test-api/limited", "request_id": null, "status_code": 429, "request": "<WSGIRequest: GET '/test-api/limited'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Too Many Requests: /test-api/limited
+___________ test_unhandled_becomes_internal_error_without_internals ____________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.339359+00:00", "level": "ERROR", "logger": "commerce_core.errors", "message": "unhandled exception", "request_id": "b02bb98fdbf289f3dcad5d22c6e4f3f7", "error_code": "internal_error", "exception": "Traceback (most recent call last):\n  File \"/Users/omar/Desktop/Learning projects/e-commerce-core/.venv/lib/python3.12/site-packages/ninja/operation.py\", line 229, in run\n    result = self.view_func(request, **values)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/omar/Desktop/Learning projects/e-commerce-core/tests/testapp/api.py\", line 46, in boom\n    raise RuntimeError(\"secret internals /srv/app.py SELECT * FROM users\")\nRuntimeError: secret internals /srv/app.py SELECT * FROM users\n"}
+{"time": "2026-09-27T17:43:59.340181+00:00", "level": "ERROR", "logger": "django.request", "message": "Internal Server Error: /test-api/boom", "request_id": null, "status_code": 500, "request": "<WSGIRequest: GET '/test-api/boom'>"}
+------------------------------ Captured log call -------------------------------
+ERROR    commerce_core.errors:handlers.py:115 unhandled exception
+Traceback (most recent call last):
+  File "/Users/omar/Desktop/Learning projects/e-commerce-core/.venv/lib/python3.12/site-packages/ninja/operation.py", line 229, in run
+    result = self.view_func(request, **values)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/omar/Desktop/Learning projects/e-commerce-core/tests/testapp/api.py", line 46, in boom
+    raise RuntimeError("secret internals /srv/app.py SELECT * FROM users")
+RuntimeError: secret internals /srv/app.py SELECT * FROM users
+
+ERROR    django.request:log.py:253 Internal Server Error: /test-api/boom
+____________________ test_unknown_url_uses_the_error_shape _____________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.341183+00:00", "level": "WARNING", "logger": "django.request", "message": "Not Found: /api/definitely-not-a-route", "request_id": null, "status_code": 404, "request": "<WSGIRequest: GET '/api/definitely-not-a-route'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Not Found: /api/definitely-not-a-route
+__________________ test_unknown_filter_or_sort_is_400[param0] __________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.410070+00:00", "level": "WARNING", "logger": "django.request", "message": "Bad Request: /test-api/probes", "request_id": null, "status_code": 400, "request": "<WSGIRequest: GET '/test-api/probes?colour=red'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Bad Request: /test-api/probes
+__________________ test_unknown_filter_or_sort_is_400[param1] __________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.411169+00:00", "level": "WARNING", "logger": "django.request", "message": "Bad Request: /test-api/probes", "request_id": null, "status_code": 400, "request": "<WSGIRequest: GET '/test-api/probes?sort=owner'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Bad Request: /test-api/probes
+__________________ test_unknown_filter_or_sort_is_400[param2] __________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.412299+00:00", "level": "WARNING", "logger": "django.request", "message": "Bad Request: /test-api/probes", "request_id": null, "status_code": 400, "request": "<WSGIRequest: GET '/test-api/probes?sort=-secret'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Bad Request: /test-api/probes
+_________________ test_tampered_cursor_is_400_or_stays_scoped __________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:43:59.416913+00:00", "level": "WARNING", "logger": "django.request", "message": "Bad Request: /test-api/probes", "request_id": null, "status_code": 400, "request": "<WSGIRequest: GET '/test-api/probes?cursor=not-base64%21'>"}
+{"time": "2026-09-27T17:43:59.417144+00:00", "level": "WARNING", "logger": "django.request", "message": "Bad Request: /test-api/probes", "request_id": null, "status_code": 400, "request": "<WSGIRequest: GET '/test-api/probes?cursor=WyJuYW1lIiwibjAwMDAiLCJ4Il0'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Bad Request: /test-api/probes
+WARNING  django.request:log.py:253 Bad Request: /test-api/probes
+_____________ test_health_is_503_when_the_database_is_unreachable ______________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.627259+00:00", "level": "ERROR", "logger": "django.request", "message": "Service Unavailable: /health", "request_id": null, "status_code": 503, "request": "<WSGIRequest: GET '/health'>"}
+------------------------------ Captured log call -------------------------------
+ERROR    django.request:log.py:253 Service Unavailable: /health
+______ test_stopped_job_alerts_and_health_jobs_503_while_health_stays_200 ______
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.641273+00:00", "level": "ERROR", "logger": "django.request", "message": "Service Unavailable: /health/jobs", "request_id": null, "status_code": 503, "request": "<WSGIRequest: GET '/health/jobs'>"}
+------------------------------ Captured log call -------------------------------
+ERROR    django.request:log.py:253 Service Unavailable: /health/jobs
+_________________ test_detail_refuses_unauthenticated_requests _________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.651519+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+__________ test_detail_refuses_a_staff_session_without_second_factor ___________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.751087+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+_ test_detail_refuses_a_wrong_token[wrong-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx] __
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.752987+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+_____________________ test_detail_refuses_a_wrong_token[] ______________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.754368+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+__ test_detail_refuses_a_wrong_token[ttttttttttttttttttttttttttttttttttttttt] __
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.755619+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+__________________ test_previous_token_only_inside_its_window __________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.759340+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+______________ test_tick_enqueues_each_due_job_once_and_advances _______________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.971459+00:00", "level": "INFO", "logger": "commerce_core.scheduler", "message": "enqueued jobs", "request_id": null, "jobs": ["alert_notification", "job_staleness_check", "task_result_pruning", "rate_limit_window_pruning"]}
+------------------------------ Captured log call -------------------------------
+INFO     commerce_core.scheduler:scheduler.py:41 enqueued jobs
+____________________ test_nothing_is_enqueued_before_commit ____________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:04.974119+00:00", "level": "INFO", "logger": "commerce_core.scheduler", "message": "enqueued jobs", "request_id": null, "jobs": ["alert_notification", "job_staleness_check", "task_result_pruning", "rate_limit_window_pruning"]}
+------------------------------ Captured log call -------------------------------
+INFO     commerce_core.scheduler:scheduler.py:41 enqueued jobs
+___ test_error_message_renders_in_request_language_and_code_does_not_change ____
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:05.021000+00:00", "level": "WARNING", "logger": "django.request", "message": "Not Found: /test-api/missing", "request_id": null, "status_code": 404, "request": "<WSGIRequest: GET '/test-api/missing'>"}
+{"time": "2026-09-27T17:44:05.023571+00:00", "level": "WARNING", "logger": "django.request", "message": "Not Found: /test-api/missing", "request_id": null, "status_code": 404, "request": "<WSGIRequest: GET '/test-api/missing'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  django.request:log.py:253 Not Found: /test-api/missing
+WARNING  django.request:log.py:253 Not Found: /test-api/missing
+__________ TestSmtpAdapter.test_refuses_to_send_inside_a_transaction ___________
+---------------------------- Captured stderr setup -----------------------------
+{"time": "2026-09-27T17:44:05.044009+00:00", "level": "INFO", "logger": "mail.log", "message": "Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)", "request_id": null}
+{"time": "2026-09-27T17:44:05.044158+00:00", "level": "INFO", "logger": "mail.log", "message": "Peer: ('127.0.0.1', 51117)", "request_id": null}
+{"time": "2026-09-27T17:44:05.044218+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51117) handling connection", "request_id": null}
+{"time": "2026-09-27T17:44:05.044680+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51117) EOF received", "request_id": null}
+------------------------------ Captured log setup ------------------------------
+INFO     mail.log:smtp.py:407 Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)
+INFO     mail.log:smtp.py:523 Peer: ('127.0.0.1', 51117)
+INFO     mail.log:smtp.py:615 ('127.0.0.1', 51117) handling connection
+INFO     mail.log:smtp.py:547 ('127.0.0.1', 51117) EOF received
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:05.044750+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51117) Connection lost during _handle_client()", "request_id": null}
+{"time": "2026-09-27T17:44:05.044880+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51117) connection lost", "request_id": null}
+------------------------------ Captured log call -------------------------------
+INFO     mail.log:smtp.py:761 ('127.0.0.1', 51117) Connection lost during _handle_client()
+INFO     mail.log:smtp.py:530 ('127.0.0.1', 51117) connection lost
+_______________ test_request_log_through_the_api_contains_no_pii _______________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:05.053384+00:00", "level": "ERROR", "logger": "django.request", "message": "Internal Server Error: /test-api/boom", "request_id": null, "status_code": 500, "request": "<WSGIRequest: GET '/test-api/boom'>"}
+------------------------------ Captured log call -------------------------------
+ERROR    django.request:log.py:253 Internal Server Error: /test-api/boom
+_____________________ test_lock_timeout_is_a_retryable_503 _____________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:10.585655+00:00", "level": "WARNING", "logger": "commerce_core.errors", "message": "database timeout", "request_id": "8c52440fa49347bcfd161ed7a8e33c1f", "error_code": "service_unavailable"}
+{"time": "2026-09-27T17:44:10.586484+00:00", "level": "ERROR", "logger": "django.request", "message": "Service Unavailable: /test-api/lock", "request_id": null, "status_code": 503, "request": "<WSGIRequest: GET '/test-api/lock'>"}
+------------------------------ Captured log call -------------------------------
+WARNING  commerce_core.errors:handlers.py:113 database timeout
+ERROR    django.request:log.py:253 Service Unavailable: /test-api/lock
+__________________ test_two_schedulers_enqueue_each_run_once ___________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:10.751349+00:00", "level": "INFO", "logger": "commerce_core.scheduler", "message": "enqueued jobs", "request_id": null, "jobs": ["alert_notification", "job_staleness_check", "task_result_pruning", "rate_limit_window_pruning"]}
+------------------------------ Captured log call -------------------------------
+INFO     commerce_core.scheduler:scheduler.py:41 enqueued jobs
+______ test_notification_job_emails_open_unnotified_alerts_at_least_once _______
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:10.915117+00:00", "level": "INFO", "logger": "mail.log", "message": "Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)", "request_id": null}
+{"time": "2026-09-27T17:44:10.915368+00:00", "level": "INFO", "logger": "mail.log", "message": "Peer: ('127.0.0.1', 51118)", "request_id": null}
+{"time": "2026-09-27T17:44:10.915485+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) handling connection", "request_id": null}
+{"time": "2026-09-27T17:44:10.917686+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) >> b'ehlo 1.0.0.127.in-addr.arpa'", "request_id": null}
+{"time": "2026-09-27T17:44:10.918365+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) >> b'mail FROM:<store@example.test> size=476'", "request_id": null}
+{"time": "2026-09-27T17:44:10.918558+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) sender: [REDACTED]", "request_id": null}
+{"time": "2026-09-27T17:44:10.918748+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) >> b'rcpt TO:<alerts@example.test>'", "request_id": null}
+{"time": "2026-09-27T17:44:10.919055+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) recip: [REDACTED]", "request_id": null}
+{"time": "2026-09-27T17:44:10.919206+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) >> b'data'", "request_id": null}
+{"time": "2026-09-27T17:44:10.920031+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) >> b'QUIT'", "request_id": null}
+{"time": "2026-09-27T17:44:10.920148+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) connection lost", "request_id": null}
+{"time": "2026-09-27T17:44:10.920227+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51118) Connection lost during _handle_client()", "request_id": null}
+------------------------------ Captured log call -------------------------------
+INFO     mail.log:smtp.py:407 Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)
+INFO     mail.log:smtp.py:523 Peer: ('127.0.0.1', 51118)
+INFO     mail.log:smtp.py:615 ('127.0.0.1', 51118) handling connection
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51118) >> b'ehlo 1.0.0.127.in-addr.arpa'
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51118) >> b'mail FROM:<store@example.test> size=476'
+INFO     mail.log:smtp.py:1338 ('127.0.0.1', 51118) sender: [REDACTED]
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51118) >> b'rcpt TO:<alerts@example.test>'
+INFO     mail.log:smtp.py:1391 ('127.0.0.1', 51118) recip: [REDACTED]
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51118) >> b'data'
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51118) >> b'QUIT'
+INFO     mail.log:smtp.py:530 ('127.0.0.1', 51118) connection lost
+INFO     mail.log:smtp.py:761 ('127.0.0.1', 51118) Connection lost during _handle_client()
+_________________ test_failed_notification_is_retried_next_run _________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:10.956116+00:00", "level": "WARNING", "logger": "commerce_core.alerts", "message": "alert notification failed", "request_id": null, "alert_id": 53, "transient": true}
+{"time": "2026-09-27T17:44:10.960584+00:00", "level": "INFO", "logger": "mail.log", "message": "Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)", "request_id": null}
+{"time": "2026-09-27T17:44:10.960770+00:00", "level": "INFO", "logger": "mail.log", "message": "Peer: ('127.0.0.1', 51122)", "request_id": null}
+{"time": "2026-09-27T17:44:10.960878+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) handling connection", "request_id": null}
+{"time": "2026-09-27T17:44:10.962308+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) >> b'ehlo 1.0.0.127.in-addr.arpa'", "request_id": null}
+{"time": "2026-09-27T17:44:10.962706+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) >> b'mail FROM:<store@example.test> size=478'", "request_id": null}
+{"time": "2026-09-27T17:44:10.963010+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) sender: [REDACTED]", "request_id": null}
+{"time": "2026-09-27T17:44:10.963209+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) >> b'rcpt TO:<alerts@example.test>'", "request_id": null}
+{"time": "2026-09-27T17:44:10.963325+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) recip: [REDACTED]", "request_id": null}
+{"time": "2026-09-27T17:44:10.963490+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) >> b'data'", "request_id": null}
+{"time": "2026-09-27T17:44:10.964233+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) >> b'QUIT'", "request_id": null}
+{"time": "2026-09-27T17:44:10.964577+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) connection lost", "request_id": null}
+{"time": "2026-09-27T17:44:10.964666+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51122) Connection lost during _handle_client()", "request_id": null}
+------------------------------ Captured log call -------------------------------
+WARNING  commerce_core.alerts:jobs.py:50 alert notification failed
+INFO     mail.log:smtp.py:407 Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)
+INFO     mail.log:smtp.py:523 Peer: ('127.0.0.1', 51122)
+INFO     mail.log:smtp.py:615 ('127.0.0.1', 51122) handling connection
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51122) >> b'ehlo 1.0.0.127.in-addr.arpa'
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51122) >> b'mail FROM:<store@example.test> size=478'
+INFO     mail.log:smtp.py:1338 ('127.0.0.1', 51122) sender: [REDACTED]
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51122) >> b'rcpt TO:<alerts@example.test>'
+INFO     mail.log:smtp.py:1391 ('127.0.0.1', 51122) recip: [REDACTED]
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51122) >> b'data'
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51122) >> b'QUIT'
+INFO     mail.log:smtp.py:530 ('127.0.0.1', 51122) connection lost
+INFO     mail.log:smtp.py:761 ('127.0.0.1', 51122) Connection lost during _handle_client()
+_______________________ test_works_outside_a_transaction _______________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:10.994911+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET https://provider.test/x \"HTTP/1.1 200 OK\"", "request_id": null}
+------------------------------ Captured log call -------------------------------
+INFO     httpx:_client.py:1025 HTTP Request: GET https://provider.test/x "HTTP/1.1 200 OK"
+_________________ test_worker_runs_an_enqueued_job_end_to_end __________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:11.059205+00:00", "level": "INFO", "logger": "commerce_core.scheduler", "message": "enqueued jobs", "request_id": null, "jobs": ["alert_notification", "job_staleness_check", "task_result_pruning", "rate_limit_window_pruning"]}
+{"time": "2026-09-27T17:44:11.060696+00:00", "level": "INFO", "logger": "django_tasks_db", "message": "Starting worker worker_id=B4ddSajDfLiX1icZFX4UURv2FZDdZsXw queues=*", "request_id": null}
+{"time": "2026-09-27T17:44:11.681056+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=d5822b5b-aaaf-4243-b856-1c3f926fdf3e path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING", "request_id": null}
+{"time": "2026-09-27T17:44:11.684548+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=d5822b5b-aaaf-4243-b856-1c3f926fdf3e path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL", "request_id": null}
+{"time": "2026-09-27T17:44:11.696761+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=e9aa379c-4efb-4ae6-a7fa-deab2d0c6648 path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING", "request_id": null}
+{"time": "2026-09-27T17:44:11.703275+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=e9aa379c-4efb-4ae6-a7fa-deab2d0c6648 path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL", "request_id": null}
+{"time": "2026-09-27T17:44:11.713587+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=18a10d00-8116-4fae-995e-6c4d4aaa0ad4 path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING", "request_id": null}
+{"time": "2026-09-27T17:44:11.719646+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=18a10d00-8116-4fae-995e-6c4d4aaa0ad4 path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL", "request_id": null}
+{"time": "2026-09-27T17:44:11.730700+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=3610833d-3df7-4a55-a693-0e4c7dd2b713 path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING", "request_id": null}
+{"time": "2026-09-27T17:44:11.735140+00:00", "level": "INFO", "logger": "django_tasks", "message": "Task id=3610833d-3df7-4a55-a693-0e4c7dd2b713 path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL", "request_id": null}
+{"time": "2026-09-27T17:44:11.744527+00:00", "level": "INFO", "logger": "django_tasks_db", "message": "No more tasks to run for worker_id=B4ddSajDfLiX1icZFX4UURv2FZDdZsXw - exiting gracefully.", "request_id": null}
+------------------------------ Captured log call -------------------------------
+INFO     commerce_core.scheduler:scheduler.py:41 enqueued jobs
+INFO     django_tasks_db:db_worker.py:96 Starting worker worker_id=B4ddSajDfLiX1icZFX4UURv2FZDdZsXw queues=*
+INFO     django_tasks:signals.py:47 Task id=d5822b5b-aaaf-4243-b856-1c3f926fdf3e path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING
+INFO     django_tasks:signals.py:65 Task id=d5822b5b-aaaf-4243-b856-1c3f926fdf3e path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL
+INFO     django_tasks:signals.py:47 Task id=e9aa379c-4efb-4ae6-a7fa-deab2d0c6648 path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING
+INFO     django_tasks:signals.py:65 Task id=e9aa379c-4efb-4ae6-a7fa-deab2d0c6648 path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL
+INFO     django_tasks:signals.py:47 Task id=18a10d00-8116-4fae-995e-6c4d4aaa0ad4 path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING
+INFO     django_tasks:signals.py:65 Task id=18a10d00-8116-4fae-995e-6c4d4aaa0ad4 path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL
+INFO     django_tasks:signals.py:47 Task id=3610833d-3df7-4a55-a693-0e4c7dd2b713 path=commerce_core.platform.jobs.registry.run_registered_job state=RUNNING
+INFO     django_tasks:signals.py:65 Task id=3610833d-3df7-4a55-a693-0e4c7dd2b713 path=commerce_core.platform.jobs.registry.run_registered_job state=SUCCESSFUL
+INFO     django_tasks_db:db_worker.py:139 No more tasks to run for worker_id=B4ddSajDfLiX1icZFX4UURv2FZDdZsXw - exiting gracefully.
+______ TestSmtpAdapter.test_delivers_to_every_recipient_with_body_intact _______
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:11.845904+00:00", "level": "INFO", "logger": "mail.log", "message": "Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)", "request_id": null}
+{"time": "2026-09-27T17:44:11.846322+00:00", "level": "INFO", "logger": "mail.log", "message": "Peer: ('127.0.0.1', 51123)", "request_id": null}
+{"time": "2026-09-27T17:44:11.846493+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) handling connection", "request_id": null}
+{"time": "2026-09-27T17:44:11.850379+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) >> b'ehlo 1.0.0.127.in-addr.arpa'", "request_id": null}
+{"time": "2026-09-27T17:44:11.851229+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) >> b'mail FROM:<store@example.test> size=300'", "request_id": null}
+{"time": "2026-09-27T17:44:11.851553+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) sender: [REDACTED]", "request_id": null}
+{"time": "2026-09-27T17:44:11.851811+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) >> b'rcpt TO:<a@example.test>'", "request_id": null}
+{"time": "2026-09-27T17:44:11.852021+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) recip: [REDACTED]", "request_id": null}
+{"time": "2026-09-27T17:44:11.852274+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) >> b'rcpt TO:<b@example.test>'", "request_id": null}
+{"time": "2026-09-27T17:44:11.852449+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) recip: [REDACTED]", "request_id": null}
+{"time": "2026-09-27T17:44:11.852685+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) >> b'data'", "request_id": null}
+{"time": "2026-09-27T17:44:11.853873+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) >> b'QUIT'", "request_id": null}
+{"time": "2026-09-27T17:44:11.854059+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) connection lost", "request_id": null}
+{"time": "2026-09-27T17:44:11.854288+00:00", "level": "INFO", "logger": "mail.log", "message": "('127.0.0.1', 51123) Connection lost during _handle_client()", "request_id": null}
+------------------------------ Captured log call -------------------------------
+INFO     mail.log:smtp.py:407 Available AUTH mechanisms: LOGIN(builtin) PLAIN(builtin)
+INFO     mail.log:smtp.py:523 Peer: ('127.0.0.1', 51123)
+INFO     mail.log:smtp.py:615 ('127.0.0.1', 51123) handling connection
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51123) >> b'ehlo 1.0.0.127.in-addr.arpa'
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51123) >> b'mail FROM:<store@example.test> size=300'
+INFO     mail.log:smtp.py:1338 ('127.0.0.1', 51123) sender: [REDACTED]
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51123) >> b'rcpt TO:<a@example.test>'
+INFO     mail.log:smtp.py:1391 ('127.0.0.1', 51123) recip: [REDACTED]
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51123) >> b'rcpt TO:<b@example.test>'
+INFO     mail.log:smtp.py:1391 ('127.0.0.1', 51123) recip: [REDACTED]
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51123) >> b'data'
+INFO     mail.log:smtp.py:286 ('127.0.0.1', 51123) >> b'QUIT'
+INFO     mail.log:smtp.py:530 ('127.0.0.1', 51123) connection lost
+INFO     mail.log:smtp.py:761 ('127.0.0.1', 51123) Connection lost during _handle_client()
+_________ test_real_migration_lock_fails_at_three_seconds_and_retries __________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:15.093193+00:00", "level": "WARNING", "logger": "commerce_core.release", "message": "migration lock timeout; retrying", "request_id": null, "attempt": 1, "delay_s": 1}
+------------------------------ Captured log call -------------------------------
+WARNING  commerce_core.release:run.py:116 migration lock timeout; retrying
+________________ test_smoke_script_passes_against_a_live_server ________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:15.222078+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health \"HTTP/1.1 200 OK\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.226606+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health/jobs \"HTTP/1.1 200 OK\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.233239+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health/detail \"HTTP/1.1 200 OK\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.234426+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+{"time": "2026-09-27T17:44:15.234830+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health/detail \"HTTP/1.1 401 Unauthorized\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.237736+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/admin/login/ \"HTTP/1.1 200 OK\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.273602+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: POST http://localhost:51126/admin/login/ \"HTTP/1.1 200 OK\"", "request_id": null}
+------------------------------ Captured log call -------------------------------
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health "HTTP/1.1 200 OK"
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health/jobs "HTTP/1.1 200 OK"
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health/detail "HTTP/1.1 200 OK"
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health/detail "HTTP/1.1 401 Unauthorized"
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/admin/login/ "HTTP/1.1 200 OK"
+INFO     httpx:_client.py:1025 HTTP Request: POST http://localhost:51126/admin/login/ "HTTP/1.1 200 OK"
+____________________ test_smoke_script_fails_on_a_stale_job ____________________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:15.348167+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health \"HTTP/1.1 200 OK\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.351119+00:00", "level": "ERROR", "logger": "django.request", "message": "Service Unavailable: /health/jobs", "request_id": null, "status_code": 503, "request": "<WSGIRequest: GET '/health/jobs'>"}
+{"time": "2026-09-27T17:44:15.351452+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health/jobs \"HTTP/1.1 503 Service Unavailable\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.355974+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health/detail \"HTTP/1.1 200 OK\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.356592+00:00", "level": "WARNING", "logger": "django.request", "message": "Unauthorized: /health/detail", "request_id": null, "status_code": 401, "request": "<WSGIRequest: GET '/health/detail'>"}
+{"time": "2026-09-27T17:44:15.356831+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/health/detail \"HTTP/1.1 401 Unauthorized\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.358927+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: GET http://localhost:51126/admin/login/ \"HTTP/1.1 200 OK\"", "request_id": null}
+{"time": "2026-09-27T17:44:15.394013+00:00", "level": "INFO", "logger": "httpx", "message": "HTTP Request: POST http://localhost:51126/admin/login/ \"HTTP/1.1 200 OK\"", "request_id": null}
+------------------------------ Captured log call -------------------------------
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health "HTTP/1.1 200 OK"
+ERROR    django.request:log.py:253 Service Unavailable: /health/jobs
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health/jobs "HTTP/1.1 503 Service Unavailable"
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health/detail "HTTP/1.1 200 OK"
+WARNING  django.request:log.py:253 Unauthorized: /health/detail
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/health/detail "HTTP/1.1 401 Unauthorized"
+INFO     httpx:_client.py:1025 HTTP Request: GET http://localhost:51126/admin/login/ "HTTP/1.1 200 OK"
+INFO     httpx:_client.py:1025 HTTP Request: POST http://localhost:51126/admin/login/ "HTTP/1.1 200 OK"
+______________ test_lock_timeout_retries_with_exponential_backoff ______________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:15.534352+00:00", "level": "WARNING", "logger": "commerce_core.release", "message": "migration lock timeout; retrying", "request_id": null, "attempt": 1, "delay_s": 1}
+{"time": "2026-09-27T17:44:15.534442+00:00", "level": "WARNING", "logger": "commerce_core.release", "message": "migration lock timeout; retrying", "request_id": null, "attempt": 2, "delay_s": 2}
+------------------------------ Captured log call -------------------------------
+WARNING  commerce_core.release:run.py:116 migration lock timeout; retrying
+WARNING  commerce_core.release:run.py:116 migration lock timeout; retrying
+___________ test_lock_timeout_fails_the_deploy_after_the_last_retry ____________
+----------------------------- Captured stderr call -----------------------------
+{"time": "2026-09-27T17:44:15.534894+00:00", "level": "WARNING", "logger": "commerce_core.release", "message": "migration lock timeout; retrying", "request_id": null, "attempt": 1, "delay_s": 1}
+{"time": "2026-09-27T17:44:15.534929+00:00", "level": "WARNING", "logger": "commerce_core.release", "message": "migration lock timeout; retrying", "request_id": null, "attempt": 2, "delay_s": 2}
+------------------------------ Captured log call -------------------------------
+WARNING  commerce_core.release:run.py:116 migration lock timeout; retrying
+WARNING  commerce_core.release:run.py:116 migration lock timeout; retrying
+_____________ test_smoke_script_needs_the_token_in_the_environment _____________
+----------------------------- Captured stdout call -----------------------------
+MONITORING_TOKEN is not set.
+_____________________________ test_changelog_check _____________________________
+----------------------------- Captured stdout call -----------------------------
+W4: package version 0.1.0 does not match tag v0.2.0
+W4: CHANGELOG.md has no dated '## 0.2.0 — YYYY-MM-DD' entry
+============================= slowest 20 durations =============================
+5.09s call     tests/api/test_error_shape.py::test_lock_timeout_is_a_retryable_503
+5.08s call     tests/db/test_timeouts.py::test_web_lock_wait_fails_at_lock_timeout
+3.08s call     tests/release/test_release.py::test_real_migration_lock_fails_at_three_seconds_and_retries
+0.69s call     tests/platform/test_jobs.py::test_worker_runs_an_enqueued_job_end_to_end
+0.42s setup    tests/accounts/test_admin_csrf.py::test_login_post_without_csrf_token_is_refused
+0.36s teardown tests/static/test_release_tools.py::test_changelog_check
+0.11s call     tests/static/test_ast_rules.py::test_core_passes_every_static_check
+0.10s call     tests/accounts/test_admin_csrf.py::test_admin_change_post_without_csrf_token_is_refused
+0.09s teardown tests/release/test_release.py::test_real_migration_lock_fails_at_three_seconds_and_retries
+0.09s call     tests/accounts/test_token_version.py::test_admin_deactivation_bumps
+0.09s teardown tests/platform/test_jobs.py::test_worker_runs_an_enqueued_job_end_to_end
+0.09s call     tests/platform/test_business_day.py::test_business_day_job_runs_exactly_once_per_local_date_across_dst[first_day0]
+0.08s call     tests/release/test_smoke_and_seed.py::test_smoke_script_passes_against_a_live_server
+0.07s teardown tests/api/test_error_shape.py::test_lock_timeout_is_a_retryable_503
+0.07s teardown tests/platform/test_notification_contract.py::TestSmtpAdapter::test_delivers_to_every_recipient_with_body_intact
+0.07s call     tests/release/test_smoke_and_seed.py::test_seed_demo_creates_one_staff_user_per_group_and_is_idempotent
+0.07s call     tests/accounts/test_admin_csrf.py::test_login_post_without_csrf_token_is_refused
+0.07s call     tests/accounts/test_token_version.py::test_password_change_bumps
+0.07s teardown tests/release/test_smoke_and_seed.py::test_smoke_script_fails_on_a_stale_job
+0.07s call     tests/platform/test_business_day.py::test_business_day_job_runs_exactly_once_per_local_date_across_dst[first_day1]
+=========================== short test summary info ============================
+PASSED tests/accounts/test_admin_csrf.py::test_login_post_without_csrf_token_is_refused
+PASSED tests/accounts/test_admin_csrf.py::test_admin_change_post_without_csrf_token_is_refused
+PASSED tests/accounts/test_admin_csrf.py::test_admin_uses_session_authentication
+PASSED tests/accounts/test_admin_otp.py::test_admin_login_page_responds
+PASSED tests/accounts/test_admin_otp.py::test_login_with_device_and_token_reaches_admin
+PASSED tests/accounts/test_admin_otp.py::test_staff_without_device_cannot_log_in
+PASSED tests/accounts/test_admin_otp.py::test_wrong_token_is_refused
+PASSED tests/accounts/test_admin_otp.py::test_password_session_without_second_factor_is_refused
+PASSED tests/accounts/test_admin_otp.py::test_idle_session_expires
+PASSED tests/accounts/test_create_staff.py::test_creates_staff_with_confirmed_device_and_prints_uri
+PASSED tests/accounts/test_create_staff.py::test_joins_named_groups
+PASSED tests/accounts/test_create_staff.py::test_weak_password_is_refused_and_nothing_is_created
+PASSED tests/accounts/test_create_staff.py::test_password_is_never_an_argument
+PASSED tests/accounts/test_email.py::test_normalize_trims_and_lowercases_whole_address
+PASSED tests/accounts/test_email.py::test_case_variants_cannot_create_two_accounts
+PASSED tests/accounts/test_email.py::test_stored_value_is_normalized_on_save
+PASSED tests/accounts/test_email.py::test_queryset_update_normalizes
+PASSED tests/accounts/test_email.py::test_lookup_by_any_case_finds_the_account
+PASSED tests/accounts/test_email.py::test_database_refuses_raw_case_variant
+PASSED tests/accounts/test_passwords.py::test_stored_hash_is_argon2id
+PASSED tests/accounts/test_passwords.py::test_validator_refuses_weak_password_and_keeps_old_one
+PASSED tests/accounts/test_permissions.py::test_all_a6a_permissions_exist_in_the_database
+PASSED tests/accounts/test_permissions.py::test_default_groups_match_the_handoff
+PASSED tests/accounts/test_permissions.py::test_manage_settings_is_in_no_default_group
+PASSED tests/accounts/test_permissions.py::test_seed_never_overwrites_a_regrouped_deployment
+PASSED tests/accounts/test_permissions.py::test_require_refuses_without_the_named_permission
+PASSED tests/accounts/test_permissions.py::test_require_refuses_inactive_users
+PASSED tests/accounts/test_phone.py::test_normalizes_to_e164[+20 100 123 4567-+201001234567]
+PASSED tests/accounts/test_phone.py::test_normalizes_to_e164[+965 5000 1234-+96550001234]
+PASSED tests/accounts/test_phone.py::test_invalid_phone_raises_validation_error[01001234567]
+PASSED tests/accounts/test_phone.py::test_invalid_phone_raises_validation_error[+20 12]
+PASSED tests/accounts/test_phone.py::test_invalid_phone_raises_validation_error[not a phone]
+PASSED tests/accounts/test_phone.py::test_field_normalizes_on_save_and_update
+PASSED tests/accounts/test_phone.py::test_invalid_phone_on_write_raises_validation_error
+PASSED tests/accounts/test_token_version.py::test_new_user_starts_at_zero
+PASSED tests/accounts/test_token_version.py::test_bump_is_a_single_atomic_increment
+PASSED tests/accounts/test_token_version.py::test_deactivation_bumps
+PASSED tests/accounts/test_token_version.py::test_password_change_bumps
+PASSED tests/accounts/test_token_version.py::test_admin_deactivation_bumps
+PASSED tests/admin/test_admin_query_counts.py::test_every_registered_admin_has_a_builder
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[accounts.User]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[auth.Group]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[django_tasks_database.DBTaskResult]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[otp_totp.TOTPDevice]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.Alert]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.JobSchedule]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.ReleaseRecord]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.RuntimeSetting]
+PASSED tests/admin/test_admin_query_counts.py::test_changelist_query_count_is_constant[platform.SettingChange]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[accounts.User]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[auth.Group]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[django_tasks_database.DBTaskResult]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[otp_totp.TOTPDevice]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.Alert]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.JobSchedule]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.ReleaseRecord]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.RuntimeSetting]
+PASSED tests/admin/test_admin_query_counts.py::test_change_page_query_count_is_constant[platform.SettingChange]
+PASSED tests/api/test_body_cap.py::test_body_over_cap_is_413
+PASSED tests/api/test_body_cap.py::test_refused_before_parsing
+PASSED tests/api/test_body_cap.py::test_body_at_cap_is_accepted
+PASSED tests/api/test_error_shape.py::test_domain_error_body
+PASSED tests/api/test_error_shape.py::test_validation_error_names_each_field
+PASSED tests/api/test_error_shape.py::test_rate_limited_carries_retry_after_and_details
+PASSED tests/api/test_error_shape.py::test_unhandled_becomes_internal_error_without_internals
+PASSED tests/api/test_error_shape.py::test_unknown_url_uses_the_error_shape
+PASSED tests/api/test_error_shape.py::test_class_status_map_per_x9
+PASSED tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[JPY-1999-0]
+PASSED tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[KWD-1999-3]
+PASSED tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[EGP-1999-2]
+PASSED tests/api/test_money_schema.py::test_zero_and_three_decimal_currencies_round_trip[KWD-0-3]
+PASSED tests/api/test_money_schema.py::test_exponent_is_always_present
+PASSED tests/api/test_pagination.py::test_page_size_defaults_to_20_and_clamps_at_100
+PASSED tests/api/test_pagination.py::test_no_total_count
+PASSED tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[created_at]
+PASSED tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[-created_at]
+PASSED tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[name]
+PASSED tests/api/test_pagination.py::test_paging_while_rows_are_inserted_never_repeats_or_skips[-name]
+PASSED tests/api/test_pagination.py::test_ties_on_the_sort_key_are_broken_by_public_id
+PASSED tests/api/test_pagination.py::test_no_cursor_decodes_to_a_primary_key
+PASSED tests/api/test_pagination.py::test_responses_carry_no_primary_key
+PASSED tests/api/test_pagination.py::test_unknown_filter_or_sort_is_400[param0]
+PASSED tests/api/test_pagination.py::test_unknown_filter_or_sort_is_400[param1]
+PASSED tests/api/test_pagination.py::test_unknown_filter_or_sort_is_400[param2]
+PASSED tests/api/test_pagination.py::test_allowlisted_filter_works
+PASSED tests/api/test_pagination.py::test_tampered_cursor_is_400_or_stays_scoped
+PASSED tests/api/test_pagination.py::test_query_count_is_constant_at_two_sizes[10]
+PASSED tests/api/test_pagination.py::test_query_count_is_constant_at_two_sizes[30]
+PASSED tests/api/test_pagination.py::test_every_allowlisted_sort_and_filter_is_indexed
+PASSED tests/api/test_request_id.py::test_request_id_is_random_and_returned
+PASSED tests/api/test_request_id.py::test_inbound_id_never_replaces_request_id
+PASSED tests/api/test_request_id.py::test_valid_upstream_id_is_kept
+PASSED tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]
+PASSED tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[has space]
+PASSED tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[semi;colon]
+PASSED tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[new\nline]
+PASSED tests/api/test_request_id.py::test_invalid_upstream_id_is_dropped[]
+PASSED tests/db/test_bootstrap.py::test_owner_url_is_never_an_argument
+PASSED tests/db/test_bootstrap.py::test_owner_url_read_from_stdin_when_piped
+PASSED tests/db/test_bootstrap.py::test_owner_url_prompted_without_echo_on_a_terminal
+PASSED tests/db/test_bootstrap.py::test_command_module_reads_no_environment_or_settings
+PASSED tests/db/test_bootstrap.py::test_rerun_never_regrants_on_existing_tables
+PASSED tests/db/test_bootstrap.py::test_rerun_creates_no_role_and_returns_no_password
+PASSED tests/db/test_grants.py::test_append_only_refuses_update_and_delete[UPDATE testapp_appendonlyprobe SET note = 'changed'-commerce_web]
+PASSED tests/db/test_grants.py::test_append_only_refuses_update_and_delete[UPDATE testapp_appendonlyprobe SET note = 'changed'-commerce_job]
+PASSED tests/db/test_grants.py::test_append_only_refuses_update_and_delete[DELETE FROM testapp_appendonlyprobe-commerce_web]
+PASSED tests/db/test_grants.py::test_append_only_refuses_update_and_delete[DELETE FROM testapp_appendonlyprobe-commerce_job]
+PASSED tests/db/test_grants.py::test_frozen_table_allows_only_listed_columns[commerce_web]
+PASSED tests/db/test_grants.py::test_frozen_table_allows_only_listed_columns[commerce_job]
+PASSED tests/db/test_grants.py::test_bare_save_is_refused_before_sql
+PASSED tests/db/test_grants.py::test_bare_save_is_refused_by_the_database_too
+PASSED tests/db/test_grants.py::test_named_columns_save_works
+PASSED tests/db/test_grants.py::test_declared_governance_matches_database_grants
+PASSED tests/db/test_grants.py::test_no_auto_now_on_governed_models_unless_updatable
+PASSED tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_migration]
+PASSED tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_web]
+PASSED tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_job]
+PASSED tests/db/test_roles.py::test_role_reports_its_timeouts[commerce_retention]
+PASSED tests/db/test_roles.py::test_web_and_job_timeouts_match_t4a
+PASSED tests/db/test_roles.py::test_migration_role_has_d2a_lock_timeout_and_no_statement_timeout
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE TABLE ddl_probe (id int)-commerce_web]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE TABLE ddl_probe (id int)-commerce_job]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[ALTER TABLE django_content_type ADD COLUMN ddl_probe int-commerce_web]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[ALTER TABLE django_content_type ADD COLUMN ddl_probe int-commerce_job]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[DROP TABLE django_content_type-commerce_web]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[DROP TABLE django_content_type-commerce_job]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE INDEX ddl_probe_idx ON django_content_type (model)-commerce_web]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[CREATE INDEX ddl_probe_idx ON django_content_type (model)-commerce_job]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[TRUNCATE django_content_type-commerce_web]
+PASSED tests/db/test_roles.py::test_web_and_job_cannot_run_ddl[TRUNCATE django_content_type-commerce_job]
+PASSED tests/db/test_roles.py::test_roles_are_not_privileged[commerce_migration]
+PASSED tests/db/test_roles.py::test_roles_are_not_privileged[commerce_web]
+PASSED tests/db/test_roles.py::test_roles_are_not_privileged[commerce_job]
+PASSED tests/db/test_roles.py::test_roles_are_not_privileged[commerce_retention]
+PASSED tests/db/test_roles.py::test_migration_role_owns_schema_and_tables
+PASSED tests/db/test_roles.py::test_retention_role_reads_but_cannot_write_by_default
+PASSED tests/db/test_timeouts.py::test_web_lock_wait_fails_at_lock_timeout
+PASSED tests/health/test_health.py::test_health_is_200_with_an_empty_body
+PASSED tests/health/test_health.py::test_health_is_503_when_the_database_is_unreachable
+PASSED tests/health/test_health.py::test_health_jobs_is_200_with_an_empty_body
+PASSED tests/health/test_health.py::test_stopped_job_alerts_and_health_jobs_503_while_health_stays_200
+PASSED tests/health/test_health.py::test_detail_refuses_unauthenticated_requests
+PASSED tests/health/test_health.py::test_detail_with_token_reports_the_core_version
+PASSED tests/health/test_health.py::test_detail_with_a_verified_staff_session
+PASSED tests/health/test_health.py::test_detail_refuses_a_staff_session_without_second_factor
+PASSED tests/health/test_health.py::test_detail_refuses_a_wrong_token[wrong-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]
+PASSED tests/health/test_health.py::test_detail_refuses_a_wrong_token[]
+PASSED tests/health/test_health.py::test_detail_refuses_a_wrong_token[ttttttttttttttttttttttttttttttttttttttt]
+PASSED tests/health/test_health.py::test_token_opens_nothing_else
+PASSED tests/health/test_health.py::test_previous_token_only_inside_its_window
+PASSED tests/health/test_health.py::test_detail_query_count_is_constant[3]
+PASSED tests/health/test_health.py::test_detail_query_count_is_constant[9]
+PASSED tests/platform/test_alerts.py::test_alert_is_written_in_its_causes_transaction
+PASSED tests/platform/test_alerts.py::test_rollback_of_the_cause_leaves_no_alert
+PASSED tests/platform/test_alerts.py::test_retry_updates_the_open_alert_instead_of_adding_one
+PASSED tests/platform/test_alerts.py::test_after_resolution_a_new_alert_opens
+PASSED tests/platform/test_alerts.py::test_database_refuses_a_second_open_alert
+PASSED tests/platform/test_alerts.py::test_unknown_code_is_refused
+PASSED tests/platform/test_alerts.py::test_acknowledge_and_resolve_record_a_typed_actor
+PASSED tests/platform/test_alerts.py::test_subject_is_a_typed_pair_not_a_foreign_key
+PASSED tests/platform/test_alerts.py::test_stopped_job_raises_job_stale_and_recovery_resolves_it
+PASSED tests/platform/test_business_day.py::test_spring_forward_day_is_23_hours
+PASSED tests/platform/test_business_day.py::test_fall_back_day_is_25_hours
+PASSED tests/platform/test_business_day.py::test_local_date_of_a_utc_instant
+PASSED tests/platform/test_business_day.py::test_business_day_job_runs_exactly_once_per_local_date_across_dst[first_day0]
+PASSED tests/platform/test_business_day.py::test_business_day_job_runs_exactly_once_per_local_date_across_dst[first_day1]
+PASSED tests/platform/test_business_day.py::test_failed_run_leaves_no_marker_and_reruns
+PASSED tests/platform/test_business_day.py::test_timestamps_are_stored_in_utc
+PASSED tests/platform/test_http.py::test_raises_inside_atomic_before_any_request
+PASSED tests/platform/test_jobs.py::test_task_result_pruning_is_registered
+PASSED tests/platform/test_jobs.py::test_every_registered_job_has_a_schedule_row_after_release
+PASSED tests/platform/test_jobs.py::test_sync_is_idempotent
+PASSED tests/platform/test_jobs.py::test_tick_enqueues_each_due_job_once_and_advances
+PASSED tests/platform/test_jobs.py::test_nothing_is_enqueued_before_commit
+PASSED tests/platform/test_jobs.py::test_run_records_start_and_success
+PASSED tests/platform/test_jobs.py::test_failed_run_records_start_only
+PASSED tests/platform/test_jobs.py::test_staleness
+PASSED tests/platform/test_jobs.py::test_phase_1_jobs_are_registered
+PASSED tests/platform/test_jobs.py::test_a_registered_job_without_a_row_is_stale
+PASSED tests/platform/test_jobs.py::test_daily_schedule_is_in_utc
+PASSED tests/platform/test_jobs.py::test_task_result_pruning_only_finished_past_retention
+PASSED tests/platform/test_jobs.py::test_no_periodic_enqueue_outside_the_scheduler
+PASSED tests/platform/test_jobs.py::test_scheduler_refuses_to_start_without_rows
+PASSED tests/platform/test_locale.py::test_order_language_wins
+PASSED tests/platform/test_locale.py::test_user_preference_beats_accept_language
+PASSED tests/platform/test_locale.py::test_accept_language_limited_to_installed_with_q_values
+PASSED tests/platform/test_locale.py::test_falls_back_to_store_default
+PASSED tests/platform/test_locale.py::test_uninstalled_preferences_are_skipped
+PASSED tests/platform/test_locale.py::test_each_language_has_a_direction
+PASSED tests/platform/test_locale.py::test_error_message_renders_in_request_language_and_code_does_not_change
+PASSED tests/platform/test_locale.py::test_every_error_message_has_an_arabic_translation
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[EGP-2]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[USD-2]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[KWD-3]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[BHD-3]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[OMR-3]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[JOD-3]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[TND-3]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[JPY-0]
+PASSED tests/platform/test_money.py::test_exponents_come_from_the_iso_table[VND-0]
+PASSED tests/platform/test_money.py::test_unknown_currency_raises
+PASSED tests/platform/test_money.py::test_table_has_only_three_letter_codes
+PASSED tests/platform/test_money.py::test_money_column_is_bigint
+PASSED tests/platform/test_money.py::test_negative_amount_refused_by_db
+PASSED tests/platform/test_notification_contract.py::TestSmtpAdapter::test_refuses_to_send_inside_a_transaction
+PASSED tests/platform/test_ratelimit.py::test_limit_holds_at_its_boundary
+PASSED tests/platform/test_ratelimit.py::test_enforce_raises_rate_limited_with_retry_after
+PASSED tests/platform/test_ratelimit.py::test_windows_and_principals_are_independent
+PASSED tests/platform/test_ratelimit.py::test_principal_is_never_stored_in_clear
+PASSED tests/platform/test_ratelimit.py::test_increment_is_one_statement
+PASSED tests/platform/test_ratelimit.py::test_pruning_removes_only_expired_windows
+PASSED tests/platform/test_ratelimit.py::test_policy_declaration_is_validated
+PASSED tests/platform/test_redaction.py::test_request_log_through_the_api_contains_no_pii
+PASSED tests/platform/test_runtime_settings.py::test_kill_switch_row_is_seeded_off
+PASSED tests/platform/test_runtime_settings.py::test_change_writes_audit_row_with_typed_actor
+PASSED tests/platform/test_runtime_settings.py::test_no_op_change_writes_no_audit_row
+PASSED tests/platform/test_runtime_settings.py::test_refused_without_manage_settings
+PASSED tests/platform/test_runtime_settings.py::test_reason_is_required
+PASSED tests/platform/test_runtime_settings.py::test_failure_rolls_back_both
+PASSED tests/platform/test_runtime_settings.py::test_provider_kind_refused_without_registered_provider
+PASSED tests/platform/test_runtime_settings.py::test_unknown_kind_refused
+PASSED tests/platform/test_runtime_settings.py::test_unknown_kind_refused_by_db
+PASSED tests/platform/test_runtime_settings.py::test_kill_switch_with_provider_key_refused_by_db
+PASSED tests/platform/test_runtime_settings.py::test_provider_toggle_without_key_refused_by_db
+PASSED tests/platform/test_runtime_settings.py::test_second_kill_switch_row_refused_by_db
+PASSED tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[UPDATE platform_settingchange SET reason = 'rewritten'-commerce_web]
+PASSED tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[UPDATE platform_settingchange SET reason = 'rewritten'-commerce_job]
+PASSED tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[DELETE FROM platform_settingchange-commerce_web]
+PASSED tests/platform/test_runtime_settings.py::test_web_and_job_cannot_update_or_delete_setting_change[DELETE FROM platform_settingchange-commerce_job]
+PASSED tests/platform/test_runtime_settings.py::test_actor_type_is_a_closed_set_in_the_db
+PASSED tests/platform/test_runtime_settings.py::test_admin_forms_are_read_only_even_for_superusers
+PASSED tests/platform/test_runtime_settings.py::test_admin_change_view_changes_setting_with_permission
+PASSED tests/platform/test_runtime_settings.py::test_admin_change_view_refused_without_permission
+PASSED tests/platform/test_runtime_settings.py::test_governed_admin_check_passes_and_catches_a_writable_admin
+PASSED tests/platform/test_savepoint.py::test_named_violation_is_treated_as_replay_and_outer_transaction_survives
+PASSED tests/platform/test_savepoint.py::test_named_violation_is_retried_with_a_new_value
+PASSED tests/platform/test_savepoint.py::test_other_constraint_reraises
+PASSED tests/platform/test_savepoint.py::test_retries_are_bounded
+PASSED tests/release/test_release.py::test_release_step_refuses_before_migrating[production]
+PASSED tests/release/test_release.py::test_release_step_refuses_before_migrating[demo]
+PASSED tests/release/test_release.py::test_restore_point_is_recorded_with_the_release
+PASSED tests/release/test_release.py::test_release_refuses_a_deployment_two_minors_behind
+PASSED tests/release/test_smoke_and_seed.py::test_seed_demo_creates_one_staff_user_per_group_and_is_idempotent
+PASSED tests/api/test_error_shape.py::test_lock_timeout_is_a_retryable_503
+PASSED tests/concurrency/test_d5.py::test_email_concurrent_insert_one_wins
+PASSED tests/concurrency/test_d5.py::test_runtimesetting_unique_nulls_not_distinct
+PASSED tests/concurrency/test_d5.py::test_two_schedulers_enqueue_each_run_once
+PASSED tests/concurrency/test_d5.py::test_business_day_marker_concurrent_insert_one_wins
+PASSED tests/concurrency/test_d5.py::test_alert_retry_on_two_connections_keeps_one_open_alert
+PASSED tests/concurrency/test_d5.py::test_rate_limit_holds_at_boundary_under_concurrency
+PASSED tests/platform/test_alerts.py::test_notification_job_emails_open_unnotified_alerts_at_least_once
+PASSED tests/platform/test_alerts.py::test_failed_notification_is_retried_next_run
+PASSED tests/platform/test_http.py::test_works_outside_a_transaction
+PASSED tests/platform/test_http.py::test_request_refuses_disabling_the_timeout
+PASSED tests/platform/test_jobs.py::test_worker_runs_an_enqueued_job_end_to_end
+PASSED tests/platform/test_notification_contract.py::TestSmtpAdapter::test_delivers_to_every_recipient_with_body_intact
+PASSED tests/platform/test_notification_contract.py::TestSmtpAdapter::test_unreachable_server_is_a_transient_failure
+PASSED tests/platform/test_notification_contract.py::TestSmtpAdapter::test_no_recipients_is_a_permanent_failure
+PASSED tests/release/test_release.py::test_real_migration_lock_fails_at_three_seconds_and_retries
+PASSED tests/release/test_smoke_and_seed.py::test_smoke_script_passes_against_a_live_server
+PASSED tests/release/test_smoke_and_seed.py::test_smoke_script_fails_on_a_stale_job
+PASSED tests/accounts/test_migration_graph.py::test_auth_user_model_is_set
+PASSED tests/accounts/test_migration_graph.py::test_accounts_0001_depends_only_on_contrib
+PASSED tests/accounts/test_migration_graph.py::test_accounts_0001_is_first_core_migration_and_every_other_descends_from_it
+PASSED tests/api/test_router_guard.py::test_all_registered_routes_pass
+PASSED tests/api/test_router_guard.py::test_route_without_schema_fails
+PASSED tests/api/test_router_guard.py::test_route_returning_bare_dict_fails
+PASSED tests/api/test_router_guard.py::test_schema_exposing_id_fails_even_nested
+PASSED tests/platform/test_client_ip.py::test_no_trusted_hops_uses_remote_addr_and_ignores_xff
+PASSED tests/platform/test_client_ip.py::test_one_trusted_hop_uses_the_address_the_proxy_saw
+PASSED tests/platform/test_client_ip.py::test_spoofed_xff_does_not_change_the_ip
+PASSED tests/platform/test_client_ip.py::test_two_hops
+PASSED tests/platform/test_client_ip.py::test_missing_or_garbage_falls_back_to_remote_addr[]
+PASSED tests/platform/test_client_ip.py::test_missing_or_garbage_falls_back_to_remote_addr[not-an-ip]
+PASSED tests/platform/test_client_ip.py::test_ipv6_is_normalized
+PASSED tests/platform/test_errors.py::test_registry_starts_with_the_phase_1_codes
+PASSED tests/platform/test_errors.py::test_every_code_has_exactly_one_exception_class
+PASSED tests/platform/test_errors.py::test_every_status_matches_its_x9_class
+PASSED tests/platform/test_errors.py::test_unregistered_code_fails_at_import
+PASSED tests/platform/test_errors.py::test_second_class_for_a_code_fails_at_import
+PASSED tests/platform/test_errors.py::test_undeclared_details_are_refused
+PASSED tests/platform/test_errors.py::test_rate_limited_carries_retry_after
+PASSED tests/platform/test_http.py::test_default_timeouts_are_all_set
+PASSED tests/platform/test_http.py::test_client_refuses_a_missing_timeout
+PASSED tests/platform/test_notification_contract.py::TestSmtpAdapter::test_implements_the_port
+PASSED tests/platform/test_notification_contract.py::test_configured_adapter_must_implement_the_port
+PASSED tests/platform/test_notification_contract.py::test_default_adapter_is_core_smtp
+PASSED tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[bearer]
+PASSED tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[card]
+PASSED tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[email]
+PASSED tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[jwt]
+PASSED tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[local_phone]
+PASSED tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[phone]
+PASSED tests/platform/test_redaction.py::test_free_text_secrets_are_scrubbed_from_messages[totp]
+PASSED tests/platform/test_redaction.py::test_named_fields_are_replaced_whole
+PASSED tests/platform/test_redaction.py::test_exception_text_is_scrubbed
+PASSED tests/platform/test_redaction.py::test_dates_and_ids_survive
+PASSED tests/platform/test_redaction.py::test_error_logs_carry_request_id_and_upstream
+PASSED tests/platform/test_redaction.py::test_settings_wire_the_filters_on_every_handler
+PASSED tests/platform/test_redaction.py::test_sentry_event_is_scrubbed
+PASSED tests/platform/test_settings_registry.py::test_test_env_is_valid
+PASSED tests/platform/test_settings_registry.py::test_missing_required_secret_fails_boot
+PASSED tests/platform/test_settings_registry.py::test_missing_required_setting_fails_boot
+PASSED tests/platform/test_settings_registry.py::test_mistyped_setting_fails_boot
+PASSED tests/platform/test_settings_registry.py::test_out_of_range_setting_fails_boot
+PASSED tests/platform/test_settings_registry.py::test_task_result_retention_out_of_range_fails_boot
+PASSED tests/platform/test_settings_registry.py::test_task_result_retention_defaults_to_seven_days
+PASSED tests/platform/test_settings_registry.py::test_unknown_store_currency_fails_boot
+PASSED tests/platform/test_settings_registry.py::test_store_currency_validated_against_iso_table
+PASSED tests/platform/test_settings_registry.py::test_production_requires_error_tracking_dsn
+PASSED tests/platform/test_settings_registry.py::test_production_refuses_debug
+PASSED tests/platform/test_settings_registry.py::test_demo_may_run_without_error_tracking
+PASSED tests/platform/test_settings_registry.py::test_default_language_must_be_installed
+PASSED tests/platform/test_settings_registry.py::test_secret_values_never_appear_in_boot_errors
+PASSED tests/platform/test_settings_registry.py::test_every_setting_has_default_or_manual_step
+PASSED tests/platform/test_settings_registry.py::test_backup_rpo_and_rto_declared_with_defaults
+PASSED tests/platform/test_settings_registry.py::test_every_setting_declares_change_class_and_type
+PASSED tests/platform/test_settings_registry.py::test_runtime_settings_are_exactly_the_kill_switch_in_phase_1
+PASSED tests/platform/test_settings_registry.py::test_get_setting_refuses_undeclared_runtime_and_unread
+PASSED tests/release/test_entrypoints.py::test_each_process_reads_only_its_role_url[web-WEB_DATABASE_URL]
+PASSED tests/release/test_entrypoints.py::test_each_process_reads_only_its_role_url[job-JOB_DATABASE_URL]
+PASSED tests/release/test_entrypoints.py::test_each_process_reads_only_its_role_url[migration-MIGRATION_DATABASE_URL]
+PASSED tests/release/test_entrypoints.py::test_runtime_entrypoints_never_read_migration_url[web]
+PASSED tests/release/test_entrypoints.py::test_runtime_entrypoints_never_read_migration_url[job]
+PASSED tests/release/test_entrypoints.py::test_command_roles_follow_the_owner_ruling
+PASSED tests/release/test_entrypoints.py::test_detect_role_from_command[argv0-job]
+PASSED tests/release/test_entrypoints.py::test_detect_role_from_command[argv1-job]
+PASSED tests/release/test_entrypoints.py::test_detect_role_from_command[argv2-migration]
+PASSED tests/release/test_entrypoints.py::test_detect_role_from_command[argv3-None]
+PASSED tests/release/test_entrypoints.py::test_detect_role_from_command[argv4-None]
+PASSED tests/release/test_entrypoints.py::test_detect_role_from_command[argv5-None]
+PASSED tests/release/test_entrypoints.py::test_wsgi_entrypoint_declares_web
+PASSED tests/release/test_entrypoints.py::test_no_process_entry_point_runs_migrate
+PASSED tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[production]
+PASSED tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[demo]
+PASSED tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[local]
+PASSED tests/release/test_release.py::test_destructive_migration_refused_without_restore_point_in_every_environment[test]
+PASSED tests/release/test_release.py::test_restore_point_accepted_and_returned_outside_production[demo]
+PASSED tests/release/test_release.py::test_restore_point_accepted_and_returned_outside_production[local]
+PASSED tests/release/test_release.py::test_restore_point_accepted_and_returned_outside_production[test]
+PASSED tests/release/test_release.py::test_production_destructive_migration_needs_verified_restore_point
+PASSED tests/release/test_release.py::test_non_destructive_needs_no_restore_point
+PASSED tests/release/test_release.py::test_production_refuses_a_backwards_plan
+PASSED tests/release/test_release.py::test_one_minor_version_at_a_time[0.2.0-0.1.0-True]
+PASSED tests/release/test_release.py::test_one_minor_version_at_a_time[0.2.3-0.2.1-True]
+PASSED tests/release/test_release.py::test_one_minor_version_at_a_time[0.3.0-0.1.0-False]
+PASSED tests/release/test_release.py::test_one_minor_version_at_a_time[1.0.0-0.11.0-False]
+PASSED tests/release/test_release.py::test_one_minor_version_at_a_time[0.1.0-0.2.0-True]
+PASSED tests/release/test_release.py::test_one_minor_version_at_a_time[0.1.0-None-True]
+PASSED tests/release/test_release.py::test_lock_timeout_retries_with_exponential_backoff
+PASSED tests/release/test_release.py::test_lock_timeout_fails_the_deploy_after_the_last_retry
+PASSED tests/release/test_release.py::test_other_database_errors_are_not_retried
+PASSED tests/release/test_smoke_and_seed.py::test_smoke_script_needs_the_token_in_the_environment
+PASSED tests/static/test_ast_rules.py::test_core_passes_every_static_check
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[try:\n    f()\nexcept:\n    raise\n-X1]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[try:\n    f()\nexcept Exception:\n    log()\n-X1]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[try:\n    f()\nexcept KeyError:\n    pass\n-X1]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[import os\nx = os.environ['A']\n-F1a]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from django.conf import settings\n-F1a]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[x.save()\n-D7b]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[order.payment_status = 'paid'\n-S3]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[variant.stock -= 1\n-C9]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from commerce_core.platform.errors.exceptions import NotFound\nraise NotFound('no such order')\n-L4]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from django.db import transaction\nwith transaction.atomic():\n    try:\n        f()\n    except KeyError:\n        g()\n-X11]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[from django.db import IntegrityError\ntry:\n    f()\nexcept IntegrityError:\n    raise\n-X11a]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[ip = request.META['HTTP_X_FORWARDED_FOR']\n-A9b]
+PASSED tests/static/test_ast_rules.py::test_each_rule_catches_its_form[import urllib.request\n-T4]
+PASSED tests/static/test_ast_rules.py::test_models_may_not_read_settings
+PASSED tests/static/test_ast_rules.py::test_money_rules
+PASSED tests/static/test_ast_rules.py::test_history_foreign_keys
+PASSED tests/static/test_ast_rules.py::test_optional_returns_in_services
+PASSED tests/static/test_ast_rules.py::test_allowed_forms_pass[x.save(update_fields=['a'])\n]
+PASSED tests/static/test_ast_rules.py::test_allowed_forms_pass[x.save(force_insert=True)\n]
+PASSED tests/static/test_ast_rules.py::test_allowed_forms_pass[def transition_to(order):\n    order.payment_status = 'paid'\n]
+PASSED tests/static/test_ast_rules.py::test_allowed_forms_pass[from django.db import transaction\ntry:\n    with transaction.atomic():\n        f()\nexcept KeyError:\n    raise\n]
+PASSED tests/static/test_migration_safety.py::test_rejects_plain_index_on_existing_table
+PASSED tests/static/test_migration_safety.py::test_accepts_concurrent_index_in_non_atomic_migration
+PASSED tests/static/test_migration_safety.py::test_concurrent_index_needs_atomic_false
+PASSED tests/static/test_migration_safety.py::test_rejects_validated_check_constraint_on_existing_table
+PASSED tests/static/test_migration_safety.py::test_new_table_may_use_plain_forms
+PASSED tests/static/test_migration_safety.py::test_not_null_column_without_db_default_is_unsafe
+PASSED tests/static/test_migration_safety.py::test_flags_drop_column_and_table_as_destructive
+PASSED tests/static/test_migration_safety.py::test_flags_type_change_as_destructive
+PASSED tests/static/test_migration_safety.py::test_rename_in_place_is_unsafe
+PASSED tests/static/test_migration_safety.py::test_runsql_rewrite_is_destructive_but_revoke_is_not
+PASSED tests/static/test_migration_safety.py::test_runpython_outside_allowlist_is_rejected
+PASSED tests/static/test_migration_safety.py::test_every_shipped_core_migration_passes
+PASSED tests/static/test_release_tools.py::test_registry_codes_are_read_from_source
+PASSED tests/static/test_release_tools.py::test_current_registry_parses_to_the_live_table
+PASSED tests/static/test_release_tools.py::test_changelog_check
+============================= 390 passed in 19.76s =============================
+exit=0

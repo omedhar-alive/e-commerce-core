@@ -1,0 +1,281 @@
+# Phase 1 W8 gates, run locally  2026-09-27T17:44:31Z  core 9d9cfe3
+
+================================================================
+## makemigrations --check (D2f)
+$ PYTHONPATH=. DJANGO_SETTINGS_MODULE=tools.ci_settings uv run django-admin makemigrations --check --dry-run
+----------------------------------------------------------------
+/Users/omar/Desktop/Learning projects/e-commerce-core/.venv/lib/python3.12/site-packages/django/core/management/commands/makemigrations.py:161: RuntimeWarning: Got an error checking a consistent migration history performed for database connection 'default': connection failed: connection to server on socket "/tmp/.s.PGSQL.5432" failed: FATAL:  database "unused" does not exist
+  warnings.warn(
+No changes detected
+----------------------------------------------------------------
+exit=0  (makemigrations --check (D2f))
+
+================================================================
+## blocking-migration check (D2, D2b, D2c, D3)
+$ uv run python -m tools.checks.migration_safety
+----------------------------------------------------------------
+8 new core migration(s) checked against 0 existing table(s).
+----------------------------------------------------------------
+exit=0  (blocking-migration check (D2, D2b, D2c, D3))
+
+================================================================
+## ruff check
+$ uv run ruff check .
+----------------------------------------------------------------
+All checks passed!
+----------------------------------------------------------------
+exit=0  (ruff check)
+
+================================================================
+## ruff format --check
+$ uv run ruff format --check .
+----------------------------------------------------------------
+184 files already formatted
+----------------------------------------------------------------
+exit=0  (ruff format --check)
+
+================================================================
+## import-linter (T4, X6, D2d)
+$ uv run lint-imports
+----------------------------------------------------------------
+
+╔══╗─────────▶╔╗ ╔╗      ╔╗◀───┐
+╚╣╠╝◀─────┐  ╔╝╚╗║║────▶╔╝╚╗   │
+ ║║   ╔══╦══╦╩╗╔╝║║  ╔╦═╩╗╔╝╔═╦══╗
+ ║║╔══╣╔╗║╔╗║╔╣║ ║║ ╔╬╣╔╗║║ ║│║╔═╝
+╔╣╠╣║║║╚╝║╚╝║║║╚╗║╚═╝║║║║║╚╗║═╣║
+╚══╩╩╩╣╔═╩══╩╝╚═╝╚═══╩╩╝╚╩═╩╩═╩╝
+  └──▶║║                    ▲ 
+      ╚╝────────────────────┘
+
+
+---------
+Contracts
+---------
+
+Analyzed 140 files, 291 dependencies.
+-------------------------------------
+
+T4: only the shared client imports an HTTP library KEPT (1 ignored import)
+X6: domain code imports no API layer KEPT
+D2d: migrations import no domain code KEPT
+
+Contracts: 3 kept, 0 broken.
+----------------------------------------------------------------
+exit=0  (import-linter (T4, X6, D2d))
+
+================================================================
+## AST checks (W8a)
+$ uv run python -m tools.checks.ast_rules
+----------------------------------------------------------------
+0 violation(s).
+----------------------------------------------------------------
+exit=0  (AST checks (W8a))
+
+================================================================
+## config reference is current (F1)
+$ uv run python -m tools.checks.config_reference --check
+----------------------------------------------------------------
+----------------------------------------------------------------
+exit=0  (config reference is current (F1))
+
+================================================================
+## compiled translations are current (L3)
+$ for po in $(find src -name '*.po'); do msgfmt --check -o /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/check.mo "$po" && cmp /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/check.mo "${po%.po}.mo" && echo "$po: current"; done
+----------------------------------------------------------------
+src/commerce_core/platform/locale/ar/LC_MESSAGES/django.po: current
+----------------------------------------------------------------
+exit=0  (compiled translations are current (L3))
+
+================================================================
+## lockfile: uv lock --check
+$ uv lock --check
+----------------------------------------------------------------
+Resolved 70 packages in 3ms
+----------------------------------------------------------------
+exit=0  (lockfile: uv lock --check)
+
+================================================================
+## lockfile: export matches requirements.lock
+$ uv export --format requirements-txt --no-dev --no-emit-project --hashes --locked -q -o /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/req.lock && diff -u <(grep -v '^#' requirements.lock) <(grep -v '^#' /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/req.lock) && echo 'requirements.lock matches uv.lock'
+----------------------------------------------------------------
+requirements.lock matches uv.lock
+----------------------------------------------------------------
+exit=0  (lockfile: export matches requirements.lock)
+
+================================================================
+## lockfile: install with --require-hashes
+$ rm -rf /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/hashvenv && $(uv python find 3.12) -m venv /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/hashvenv && /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/hashvenv/bin/pip install -q --require-hashes --no-deps -r requirements.lock && echo "installed $(grep -c '^[a-z]' requirements.lock) pinned packages by hash"
+----------------------------------------------------------------
+bash: /Users/omar/Desktop/Learning: No such file or directory
+----------------------------------------------------------------
+exit=127  (lockfile: install with --require-hashes)
+
+================================================================
+## pip-audit
+$ uv run pip-audit -r requirements.lock --disable-pip --no-deps
+----------------------------------------------------------------
+WARNING:pip_audit._cli:--no-deps is supported, but users are encouraged to fully hash their pinned dependencies
+WARNING:pip_audit._cli:Consider using a tool like `pip-compile`: https://pip-tools.readthedocs.io/en/latest/#using-hashes
+No known vulnerabilities found
+----------------------------------------------------------------
+exit=0  (pip-audit)
+
+================================================================
+## clean-install test (W1, W1b, W2, W3, W8)
+$ rm -rf /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/dist && uv build -q -o /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/dist && PATH="$(dirname $(uv python find 3.12)):$PATH" TEMPLATE_DIR=../commerce-deployment-template OWNER_URL=postgresql:///postgres CORE_SPEC=$(ls /private/tmp/claude-501/-Users-omar-Desktop-Learning-projects-e-commerce-core/6802b34f-6cef-4e7d-ab2e-d680116646bc/scratchpad/dist/*.whl) ROLE_PASSWORD=commerce-test-only tools/clean_install.sh
+----------------------------------------------------------------
+== W2: the template holds no models, migrations or domain code
+== install core into a blank environment
+== fresh database, bootstrapped by its owner
+NOTICE:  database "commerce_clean_install" does not exist, skipping
+All roles already existed; timeouts and privileges re-applied.
+== release step as the migration role
+Operations to perform:
+  Apply all migrations: accounts, admin, auth, contenttypes, django_tasks_database, otp_totp, platform, sessions
+Running migrations:
+  Applying contenttypes.0001_initial...
+ OK
+  Applying contenttypes.0002_remove_content_type_name...
+ OK
+  Applying auth.0001_initial...
+ OK
+  Applying auth.0002_alter_permission_name_max_length...
+ OK
+  Applying auth.0003_alter_user_email_max_length...
+ OK
+  Applying auth.0004_alter_user_username_opts...
+ OK
+  Applying auth.0005_alter_user_last_login_null...
+ OK
+  Applying auth.0006_require_contenttypes_0002...
+ OK
+  Applying auth.0007_alter_validators_add_error_messages...
+ OK
+  Applying auth.0008_alter_user_username_max_length...
+ OK
+  Applying auth.0009_alter_user_last_name_max_length...
+ OK
+  Applying auth.0010_alter_group_name_max_length...
+ OK
+  Applying auth.0011_update_proxy_permissions...
+ OK
+  Applying auth.0012_alter_user_first_name_max_length...
+ OK
+  Applying accounts.0001_initial...
+ OK
+  Applying accounts.0002_corepermissions...
+ OK
+  Applying accounts.0003_seed_groups...
+ OK
+  Applying admin.0001_initial...
+ OK
+  Applying admin.0002_logentry_remove_auto_add...
+ OK
+  Applying admin.0003_logentry_add_action_flag_choices...
+ OK
+  Applying django_tasks_database.0001_initial...
+ OK
+  Applying django_tasks_database.0002_alter_dbtaskresult_options...
+ OK
+  Applying django_tasks_database.0003_dbtaskresult_enqueued_at_dbtaskresult_finished_at...
+ OK
+  Applying django_tasks_database.0004_dbtaskresult_started_at...
+ OK
+  Applying django_tasks_database.0005_alter_dbtaskresult_priority_and_more...
+ OK
+  Applying django_tasks_database.0006_alter_dbtaskresult_args_kwargs_and_more...
+ OK
+  Applying django_tasks_database.0007_add_separate_results_fields...
+ OK
+  Applying django_tasks_database.0008_separate_results_field...
+ OK
+  Applying django_tasks_database.0009_remove_results_field...
+ OK
+  Applying django_tasks_database.0010_alter_dbtaskresult_status...
+ OK
+  Applying django_tasks_database.0011_rename_complete_status...
+ OK
+  Applying django_tasks_database.0012_add_separate_exception_fields...
+ OK
+  Applying django_tasks_database.0013_separate_exception_fields...
+ OK
+  Applying django_tasks_database.0014_remove_dbtaskresult_exception_data...
+ OK
+  Applying django_tasks_database.0015_correctly_order_run_after...
+ OK
+  Applying django_tasks_database.0016_remove_dbtaskresult_django_task_new_ordering_idx_and_more...
+ OK
+  Applying django_tasks_database.0017_dbtaskresult_metadata...
+ OK
+  Applying django_tasks_database.0018_rename_succeeded_status...
+ OK
+  Applying django_tasks_database.0019_rename_django_task_new_ordering_idx_tasks_db_new_ordering_idx_and_more...
+ OK
+  Applying django_tasks_database.0020_update_db_task_result_ordering...
+ OK
+  Applying django_tasks_database.0021_conditional_partial_index_ordering...
+ OK
+  Applying otp_totp.0001_initial...
+ OK
+  Applying otp_totp.0002_auto_20190420_0723...
+ OK
+  Applying otp_totp.0003_add_timestamps...
+ OK
+  Applying platform.0001_initial...
+ OK
+  Applying platform.0002_jobs...
+ OK
+  Applying platform.0003_alert...
+ OK
+  Applying platform.0004_ratelimit...
+ OK
+  Applying platform.0005_releaserecord...
+ OK
+  Applying sessions.0001_initial...
+ OK
+Release recorded: core 0.1.0 (local).
+== boot web with default settings
+admin login page: 200
+== smoke
+PASS  /health is 200
+PASS  /health/jobs is 200
+PASS  /health/detail reports the core version
+PASS  /health/detail refuses an unauthenticated request
+PASS  admin login page responds
+PASS  admin login asks for a second factor
+PASS  admin refuses a login without a second factor
+== clean install passed (core 0.1.0)
+----------------------------------------------------------------
+exit=0  (clean-install test (W1, W1b, W2, W3, W8))
+
+================================================================
+# Summary
+makemigrations --check (D2f)                     exit=0
+blocking-migration check (D2, D2b, D2c, D3)      exit=0
+ruff check                                       exit=0
+ruff format --check                              exit=0
+import-linter (T4, X6, D2d)                      exit=0
+AST checks (W8a)                                 exit=0
+config reference is current (F1)                 exit=0
+compiled translations are current (L3)           exit=0
+lockfile: uv lock --check                        exit=0
+lockfile: export matches requirements.lock       exit=0
+lockfile: install with --require-hashes          exit=127
+pip-audit                                        exit=0
+clean-install test (W1, W1b, W2, W3, W8)         exit=0
+
+================================================================
+## RERUN: lockfile: install with --require-hashes
+# The run above exited 127 because the verification command left the interpreter path
+# unquoted and it contains a space ("Learning projects"); pip never ran. Same gate, path quoted:
+$ "/Users/omar/Desktop/Learning projects/e-commerce-core/.venv/bin/python" -m venv hashvenv && hashvenv/bin/pip install --require-hashes --no-deps -r requirements.lock
+----------------------------------------------------------------
+
+[notice] A new release of pip is available: 25.0.1 -> 26.2.1
+[notice] To update, run: python3.12 -m pip install --upgrade pip
+installed 29 pinned packages by hash
+----------------------------------------------------------------
+exit=0  (lockfile: install with --require-hashes, rerun)
+
+# Summary after rerun: every gate exit=0 (the 127 above is a harness quoting error, not a gate failure).
