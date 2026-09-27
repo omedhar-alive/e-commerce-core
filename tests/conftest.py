@@ -29,3 +29,18 @@ def role_conn():
     yield open_
     for conn in opened:
         conn.close()
+
+
+@pytest.fixture
+def override_setting():
+    """Temporarily replace registry values seen by get_setting()."""
+    from commerce_core.platform import conf
+
+    original = dict(conf._loaded)
+
+    def set_(name, value):
+        conf._loaded[name] = value
+
+    yield set_
+    conf._loaded.clear()
+    conf._loaded.update(original)

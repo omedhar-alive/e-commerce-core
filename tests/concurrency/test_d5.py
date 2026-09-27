@@ -43,3 +43,42 @@ def test_runtimesetting_unique_nulls_not_distinct():
     loser = next(e for r, e in outcomes if e is not None)
     assert isinstance(loser, IntegrityError)
     assert "runtimesetting_kind_provider_uniq" in str(loser)
+
+
+def test_two_schedulers_enqueue_each_run_once():
+    from datetime import timedelta
+
+    from django.utils import timezone
+    from django_tasks_db.models import DBTaskResult
+
+    from commerce_core.platform.jobs.registry import JOBS, sync_schedules
+    from commerce_core.platform.jobs.scheduler import tick
+    from commerce_core.platform.models import JobSchedule
+
+    sync_schedules()
+    now = timezone.now()
+    JobSchedule.objects.update(next_run_at=now - timedelta(seconds=1))
+
+    def scheduler(barrier):
+        barrier.wait()
+        return tick(now)
+
+    outcomes = run_concurrently(scheduler, scheduler)
+    assert all(e is None for _, e in outcomes)
+    enqueued = [name for result, _ in outcomes for name in result]
+    assert sorted(enqueued) == sorted(JOBS)
+    assert DBTaskResult.objects.count() == len(JOBS)
+
+
+def test_business_day_marker_concurrent_insert_one_wins():
+    from datetime import date
+
+    from commerce_core.platform.models import BusinessDayRun
+
+    def mark(barrier):
+        barrier.wait()
+        return BusinessDayRun.objects.create(job_name="report", local_date=date(2026, 3, 29)).pk
+
+    outcomes = run_concurrently(mark, mark)
+    assert sum(1 for _, e in outcomes if e is None) == 1
+    assert "businessdayrun_job_date_uniq" in str(next(e for _, e in outcomes if e))

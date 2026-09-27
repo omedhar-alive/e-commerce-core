@@ -93,8 +93,12 @@ def as_role(role: str):
 
 
 def migrate_as_migration_role() -> None:
+    """What the release step does: migrate, then create missing job schedule rows."""
+    from commerce_core.platform.jobs.registry import sync_schedules
+
     with as_role(roles.MIGRATION):
         call_command("migrate", verbosity=0, interactive=False)
+        sync_schedules()
 
 
 def install_flush_as_migration_role() -> None:

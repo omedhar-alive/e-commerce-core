@@ -9,3 +9,4 @@ class PlatformConfig(AppConfig):
 
     def ready(self):
         from commerce_core.platform import checks  # noqa: F401  (registers system checks)
+        from commerce_core.platform.jobs import builtin  # noqa: F401  (registers jobs)

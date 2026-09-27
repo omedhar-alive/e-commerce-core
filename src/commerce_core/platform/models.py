@@ -75,3 +75,41 @@ class SettingChange(GovernedModel):
 
     def __str__(self):
         return f"SettingChange {self.pk}"
+
+
+class JobSchedule(models.Model):
+    """One row per registered job (N4a; decision 14).
+
+    ``run_scheduler`` claims due rows with ``FOR UPDATE SKIP LOCKED`` so a
+    second scheduler can never enqueue the same run. The worker records start
+    and success; ``/health/jobs`` and the staleness check read
+    ``last_succeeded_at`` against the job's maximum staleness.
+    """
+
+    name = models.CharField(max_length=100, unique=True)
+    next_run_at = models.DateTimeField()
+    last_enqueued_at = models.DateTimeField(null=True, blank=True)
+    last_started_at = models.DateTimeField(null=True, blank=True)
+    last_succeeded_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.name
+
+
+class BusinessDayRun(models.Model):
+    """Marks a business-day job as run for one store-local date (L1a)."""
+
+    job_name = models.CharField(max_length=100)
+    local_date = models.DateField()
+    ran_at = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["job_name", "local_date"], name="businessdayrun_job_date_uniq"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.job_name} {self.local_date}"
