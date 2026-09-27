@@ -27,3 +27,19 @@ def test_email_concurrent_insert_one_wins():
     assert len(losers) == 1 and isinstance(losers[0], IntegrityError)
     assert "accounts_user_email_ci_uniq" in str(losers[0])
     assert User.objects.filter(email="race@x.com").count() == 1
+
+
+def test_runtimesetting_unique_nulls_not_distinct():
+    from commerce_core.platform.models import RuntimeSetting
+
+    RuntimeSetting.objects.all().delete()
+
+    def insert(barrier):
+        barrier.wait()
+        return RuntimeSetting.objects.create(kind="checkout_kill_switch", enabled=False).pk
+
+    outcomes = run_concurrently(insert, insert)
+    assert sum(1 for r, e in outcomes if e is None) == 1
+    loser = next(e for r, e in outcomes if e is not None)
+    assert isinstance(loser, IntegrityError)
+    assert "runtimesetting_kind_provider_uniq" in str(loser)

@@ -1,0 +1,9 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Change runtime setting: {{ setting }}</h1>
+<p>Currently <strong>{{ setting.enabled|yesno:"on,off" }}</strong>. Every change is recorded with your account and reason.</p>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Save change">
+</form>
+{% endblock %}

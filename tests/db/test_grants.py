@@ -32,22 +32,30 @@ def _table_privilege(table: str, role: str, privilege: str) -> bool:
 
 
 @pytest.mark.parametrize("role", roles.DML_ROLES)
-def test_append_only_refuses_update_and_delete(role_conn, role):
-    conn = role_conn(role)
-    conn.execute("INSERT INTO testapp_appendonlyprobe (note) VALUES ('committed')")
-    with pytest.raises(errors.InsufficientPrivilege):
-        conn.execute("UPDATE testapp_appendonlyprobe SET note = 'changed'")
-    with pytest.raises(errors.InsufficientPrivilege):
-        conn.execute("DELETE FROM testapp_appendonlyprobe")
+@pytest.mark.parametrize(
+    "statement",
+    ["UPDATE testapp_appendonlyprobe SET note = 'changed'", "DELETE FROM testapp_appendonlyprobe"],
+)
+def test_append_only_refuses_update_and_delete(role_conn, role, statement):
+    conn = role_conn(role, autocommit=False)
+    try:
+        conn.execute("INSERT INTO testapp_appendonlyprobe (note) VALUES ('committed')")
+        with pytest.raises(errors.InsufficientPrivilege):
+            conn.execute(statement)
+    finally:
+        conn.rollback()
 
 
 @pytest.mark.parametrize("role", roles.DML_ROLES)
 def test_frozen_table_allows_only_listed_columns(role_conn, role):
-    conn = role_conn(role)
-    conn.execute("INSERT INTO testapp_governedprobe (amount, status) VALUES (100, 'a')")
-    conn.execute("UPDATE testapp_governedprobe SET status = 'b'")
-    with pytest.raises(errors.InsufficientPrivilege):
-        conn.execute("UPDATE testapp_governedprobe SET amount = 1")
+    conn = role_conn(role, autocommit=False)
+    try:
+        conn.execute("INSERT INTO testapp_governedprobe (amount, status) VALUES (100, 'a')")
+        conn.execute("UPDATE testapp_governedprobe SET status = 'b'")
+        with pytest.raises(errors.InsufficientPrivilege):
+            conn.execute("UPDATE testapp_governedprobe SET amount = 1")
+    finally:
+        conn.rollback()
 
 
 def test_bare_save_is_refused_before_sql():
