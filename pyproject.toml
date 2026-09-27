@@ -30,6 +30,7 @@ dev = [
     "import-linter==2.15",
     "pip-audit==2.10.1",
     "aiosmtpd==1.4.6",
+    "mutmut==3.8.0",
 ]
 
 [build-system]
@@ -65,6 +66,19 @@ testpaths = ["tests"]
 addopts = "-ra --strict-markers"
 markers = [
     "concurrency: real-connection concurrency tests (D5)",
+]
+
+[tool.mutmut]
+source_paths = ["src/commerce_core/platform/", "src/commerce_core/accounts/"]
+pytest_add_cli_args_test_selection = ["tests/"]
+also_copy = ["tools/", "tests/", "src/commerce_core/__init__.py", "src/commerce_core/urls.py", "src/commerce_core/entrypoints.py", "src/commerce_core/scripts/"]
+# These tests read core's source files, which mutmut rewrites with its trampolines.
+pytest_add_cli_args = [
+    "--deselect", "tests/static/test_ast_rules.py::test_core_passes_every_static_check",
+    "--deselect", "tests/platform/test_jobs.py::test_no_periodic_enqueue_outside_the_scheduler",
+    "--deselect", "tests/db/test_bootstrap.py::test_command_module_reads_no_environment_or_settings",
+    "--deselect", "tests/release/test_entrypoints.py::test_no_process_entry_point_runs_migrate",
+    "--deselect", "tests/static/test_release_tools.py::test_current_registry_parses_to_the_live_table",
 ]
 
 [tool.importlinter]

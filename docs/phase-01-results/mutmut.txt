@@ -1,9 +1,9 @@
 # mutmut 3.8.0 on commerce_core/platform and commerce_core/accounts
-# core commit 9d9cfe3; run in a scratch copy of the repo (git archive HEAD); repo unchanged
+# core commit 3e4a710 plus the uncommitted round-1 changes; run in the repo with `uv run mutmut run --max-children 1`
 
 ## Run
 
-Config (scratch copy only):
+Config ([tool.mutmut] in pyproject.toml; mutmut==3.8.0 in the dev group):
   source_paths = ["src/commerce_core/platform/", "src/commerce_core/accounts/"]
   pytest_add_cli_args_test_selection = ["tests/"]
   max-children = 1 (one shared test database; parallel children would collide on it)
@@ -13,8 +13,8 @@ Config (scratch copy only):
     tests/db/test_bootstrap.py::test_command_module_reads_no_environment_or_settings
     tests/release/test_entrypoints.py::test_no_process_entry_point_runs_migrate
     tests/static/test_release_tools.py::test_current_registry_parses_to_the_live_table
-  First attempt (without the deselection) stopped in the stats phase: the AST test found 58
-  violations in the instrumented source. Not a product failure; recorded here.
+  An earlier run in a scratch copy without the deselection stopped in the stats phase: the AST
+  test found 58 violations in the instrumented source. Not a product failure; recorded here.
 
 ## Summary
 
