@@ -160,3 +160,8 @@ class DatabaseTimeoutMiddleware:
         if is_database_timeout(exception):
             return response_for(translate(exception, request), request)
         return None
+
+
+def csrf_failure(request, reason=""):
+    """A session-authenticated write without a valid CSRF token (A5) is refused as 403."""
+    return response_for(exc_types.PermissionDenied(), request)

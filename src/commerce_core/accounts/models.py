@@ -7,6 +7,7 @@ from django.utils import timezone
 
 from commerce_core.accounts.fields import NormalizedEmailField, PhoneField
 from commerce_core.accounts.normalize import normalize_email
+from commerce_core.accounts.permissions import PERMISSIONS
 
 
 class UserManager(BaseUserManager):
@@ -54,3 +55,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return f"User {self.pk}"
+
+
+class CorePermissions(models.Model):
+    """Holds the A6a permissions. Unmanaged: no table, never queried."""
+
+    class Meta:
+        managed = False
+        default_permissions = ()
+        permissions = list(PERMISSIONS.items())
+
+    def __str__(self):
+        return "Core permissions"

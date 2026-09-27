@@ -33,3 +33,29 @@ def test_password_change_bumps():
     user.refresh_from_db()
     assert user.token_version == 1
     assert user.check_password("another-long-password-2")
+
+
+def test_admin_deactivation_bumps(client):
+    from tests.accounts.helpers import make_staff, otp_login
+
+    admin_user, device = make_staff("boss@x.com", is_superuser=True)
+    otp_login(client, admin_user, device)
+    target = User.objects.create_user("t@x.com", "a-long-password-1")
+    response = client.post(
+        f"/admin/accounts/user/{target.pk}/change/",
+        {
+            "email": "t@x.com",
+            "first_name": "",
+            "last_name": "",
+            "phone": "",
+            "country": "",
+            "preferred_language": "",
+            "is_staff": "",
+            "is_active": "",
+            "date_joined_0": "2026-01-01",
+            "date_joined_1": "00:00:00",
+        },
+    )
+    assert response.status_code == 302, response.content[:500]
+    target.refresh_from_db()
+    assert (target.is_active, target.token_version) == (False, 1)
