@@ -33,3 +33,30 @@ class RequestIdMiddleware:
             context.upstream_request_id.reset(tokens[1])
         response["X-Request-ID"] = rid
         return response
+
+
+MAX_BODY_BYTES = 1024 * 1024  # Q3c: 1 MB. Webhooks get their own cap (A10).
+
+
+class BodyCapMiddleware:
+    """Refuse a body over the cap before anything parses it (Q3c).
+
+    The declared ``Content-Length`` is checked before the body is read. A
+    body without one is empty to Django's WSGI handler, and Django's own
+    ``DATA_UPLOAD_MAX_MEMORY_SIZE`` (set to the same cap) backs this up.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        try:
+            declared = int(request.META.get("CONTENT_LENGTH") or 0)
+        except ValueError:
+            declared = MAX_BODY_BYTES + 1
+        if declared > MAX_BODY_BYTES:
+            from commerce_core.platform.errors.exceptions import PayloadTooLarge
+            from commerce_core.platform.errors.handlers import response_for
+
+            return response_for(PayloadTooLarge(), request)
+        return self.get_response(request)

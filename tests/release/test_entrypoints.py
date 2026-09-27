@@ -91,6 +91,7 @@ def test_wsgi_entrypoint_declares_web(monkeypatch):
     from commerce_core import entrypoints
 
     monkeypatch.setattr("django.core.wsgi.get_wsgi_application", lambda: "app")
+    monkeypatch.setattr(entrypoints, "run_startup_checks", lambda: None)
     monkeypatch.setattr(process, "_explicit", process._UNSET)
     assert entrypoints.wsgi_application() == "app"
     assert process.detect_role(["gunicorn"]) == Role.WEB

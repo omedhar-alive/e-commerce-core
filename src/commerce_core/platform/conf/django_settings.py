@@ -107,6 +107,7 @@ def build(role: Role | None = ..., env: Mapping[str, str] | None = None) -> dict
         ),
         "MIDDLEWARE": [
             "commerce_core.platform.api.middleware.RequestIdMiddleware",
+            "commerce_core.platform.api.middleware.BodyCapMiddleware",
             "commerce_core.platform.errors.handlers.DatabaseTimeoutMiddleware",
             "django.middleware.security.SecurityMiddleware",
             "django.contrib.sessions.middleware.SessionMiddleware",
@@ -131,6 +132,7 @@ def build(role: Role | None = ..., env: Mapping[str, str] | None = None) -> dict
                 },
             }
         ],
+        "DATA_UPLOAD_MAX_MEMORY_SIZE": 1024 * 1024,
         "STATIC_URL": "static/",
         "STATIC_ROOT": "staticfiles",
     }
