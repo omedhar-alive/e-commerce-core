@@ -1,0 +1,68 @@
+[project]
+name = "commerce-core"
+version = "0.1.0"
+description = "Headless commerce core: domain, admin and API, installed by tag into client deployments."
+readme = "CHANGELOG.md"
+requires-python = ">=3.12,<3.13"
+license = { text = "Proprietary" }
+dependencies = [
+    "django>=5.2.17,<5.3",
+    "django-ninja>=1.7.1,<1.8",
+    "django-otp>=1.7.3,<1.8",
+    "django-tasks-db[compat]>=0.13.0,<0.14",
+    "argon2-cffi>=25.1.0,<26",
+    "psycopg[binary]>=3.3.6,<3.4",
+    "httpx>=0.28.1,<0.29",
+    "sentry-sdk>=2.70.0,<3",
+    "phonenumbers>=9.0.40,<10",
+]
+
+[project.scripts]
+commerce-smoke = "commerce_core.scripts.smoke:main"
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "pytest-django==4.14.0",
+    "factory-boy==3.3.3",
+    "time-machine==3.5.1",
+    "ruff==0.16.9",
+    "import-linter==2.15",
+    "pip-audit==2.10.1",
+    "aiosmtpd==1.4.6",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/commerce_core"]
+
+[tool.uv]
+required-version = ">=0.12.19"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests", "tools"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "BLE", "S110", "E722", "DJ", "T20"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "T20"]
+"tools/**" = ["T20"]
+"src/commerce_core/management/**" = ["T20"]
+"src/commerce_core/**/management/commands/**" = ["T20"]
+"src/commerce_core/scripts/**" = ["T20"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "concurrency: real-connection concurrency tests (D5)",
+]
