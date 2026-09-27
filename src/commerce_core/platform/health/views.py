@@ -11,7 +11,6 @@
 """
 
 import hmac
-from importlib.metadata import PackageNotFoundError, version
 
 from django.db import DatabaseError, connection
 from django.http import HttpResponse, JsonResponse
@@ -22,13 +21,7 @@ from django.views.decorators.http import require_GET
 from commerce_core.platform.conf import get_setting
 from commerce_core.platform.errors.exceptions import Unauthenticated
 from commerce_core.platform.errors.handlers import response_for
-
-
-def core_version() -> str:
-    try:
-        return version("commerce-core")
-    except PackageNotFoundError:
-        return "unknown"
+from commerce_core.platform.version import core_version
 
 
 def _empty(status: int) -> HttpResponse:

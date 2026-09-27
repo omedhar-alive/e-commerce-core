@@ -18,6 +18,7 @@ from commerce_core.platform import conf
 from commerce_core.platform.conf import boot
 from commerce_core.platform.conf.process import detect_role
 from commerce_core.platform.conf.registry import SUPPORTED_LANGUAGES, DeploymentEnv, Role
+from commerce_core.platform.logging import logging_config
 
 _ROLE_URL = {
     Role.WEB: "WEB_DATABASE_URL",
@@ -41,11 +42,19 @@ CORE_APPS = [
 ]
 
 
+def _init_error_tracking(values) -> None:
+    from commerce_core.platform import sentry
+    from commerce_core.platform.version import core_version
+
+    sentry.init(values, core_version())
+
+
 def build(role: Role | None = ..., env: Mapping[str, str] | None = None) -> dict[str, Any]:
     if role is ...:
         role = detect_role()
     values = boot.load(role, os.environ if env is None else env)
     conf.install(values)
+    _init_error_tracking(values)
     production = values["DEPLOYMENT_ENV"] == DeploymentEnv.PRODUCTION
 
     databases = {}
@@ -133,6 +142,7 @@ def build(role: Role | None = ..., env: Mapping[str, str] | None = None) -> dict
             }
         ],
         "DATA_UPLOAD_MAX_MEMORY_SIZE": 1024 * 1024,
+        "LOGGING": logging_config(values["DEBUG"]),
         "STATIC_URL": "static/",
         "STATIC_ROOT": "staticfiles",
     }
