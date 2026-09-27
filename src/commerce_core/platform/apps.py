@@ -11,3 +11,4 @@ class PlatformConfig(AppConfig):
         from commerce_core.platform import checks  # noqa: F401  (registers system checks)
         from commerce_core.platform.alerts import jobs as alert_jobs  # noqa: F401  (registers jobs)
         from commerce_core.platform.jobs import builtin  # noqa: F401  (registers jobs)
+        from commerce_core.platform.ratelimit import jobs as ratelimit_jobs  # noqa: F401

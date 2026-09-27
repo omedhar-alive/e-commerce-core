@@ -180,3 +180,29 @@ class Alert(models.Model):
 
     def __str__(self):
         return f"{self.code} {self.subject_type}:{self.subject_id}"
+
+
+class RateLimitCounter(models.Model):
+    """One row per (policy, principal, window): the shared rate-limit store (A9).
+
+    Incremented by one ``INSERT … ON CONFLICT DO UPDATE … RETURNING``, so the
+    increment and the read of the new count are one atomic statement. The
+    principal is stored as a keyed hash, never as an email or IP (X13a).
+    """
+
+    policy = models.CharField(max_length=64)
+    principal_hash = models.CharField(max_length=64)
+    window_start = models.DateTimeField()
+    count = models.PositiveIntegerField()
+    expires_at = models.DateTimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["policy", "principal_hash", "window_start"], name="ratelimit_window_uniq"
+            )
+        ]
+        indexes = [models.Index(fields=["expires_at"], name="ratelimit_expires")]
+
+    def __str__(self):
+        return f"{self.policy} {self.window_start:%Y-%m-%d %H:%M}"

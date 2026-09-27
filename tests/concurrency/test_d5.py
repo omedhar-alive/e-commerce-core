@@ -97,3 +97,21 @@ def test_alert_retry_on_two_connections_keeps_one_open_alert():
     assert len({r for r, _ in outcomes}) == 1
     alert = Alert.objects.get(code="job_stale", subject_id="race")
     assert alert.raise_count == 3
+
+
+def test_rate_limit_holds_at_boundary_under_concurrency():
+    """A9, A9a: ten requests on ten connections against a limit of five: exactly five pass."""
+    from datetime import timedelta
+
+    from commerce_core.platform.ratelimit import store
+    from commerce_core.platform.ratelimit.policies import RateLimitPolicy
+
+    policy = RateLimitPolicy("race", "ip", timedelta(minutes=15), 5)
+
+    def request(barrier):
+        barrier.wait()
+        return store.hit(policy, "203.0.113.7").allowed
+
+    outcomes = run_concurrently(*[request] * 10)
+    assert all(e is None for _, e in outcomes)
+    assert sum(1 for allowed, _ in outcomes if allowed) == 5
