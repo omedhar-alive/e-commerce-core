@@ -206,3 +206,23 @@ class RateLimitCounter(models.Model):
 
     def __str__(self):
         return f"{self.policy} {self.window_start:%Y-%m-%d %H:%M}"
+
+
+class ReleaseRecord(GovernedModel):
+    """One row per release step run: the recorded core version (W3, W5) and any restore point (D3).
+
+    Written by the release step as the migration role; append-only for web and job.
+    """
+
+    GOVERNANCE = Governance(rule="append-only (release history)")
+
+    core_version = models.CharField(max_length=32)
+    deployment_env = models.CharField(max_length=20)
+    restore_point = models.CharField(max_length=255, blank=True)
+    restore_point_verified = models.BooleanField(default=False)
+    destructive_migrations = models.JSONField(default=list, blank=True)
+    applied_migrations = models.JSONField(default=list, blank=True)
+    applied_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.core_version} at {self.applied_at:%Y-%m-%d %H:%M}"

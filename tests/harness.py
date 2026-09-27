@@ -12,7 +12,6 @@ import os
 from contextlib import contextmanager
 
 import psycopg
-from django.core.management import call_command
 from django.db import connections
 from psycopg import sql
 
@@ -93,12 +92,13 @@ def as_role(role: str):
 
 
 def migrate_as_migration_role() -> None:
-    """What the release step does: migrate, then create missing job schedule rows."""
-    from commerce_core.platform.jobs.registry import sync_schedules
+    """Build the schema through the real release step, as the migration role."""
+    import io
+
+    from commerce_core.platform.release.run import run_release
 
     with as_role(roles.MIGRATION):
-        call_command("migrate", verbosity=0, interactive=False)
-        sync_schedules()
+        run_release(stdout=io.StringIO())
 
 
 def install_flush_as_migration_role() -> None:

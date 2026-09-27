@@ -78,9 +78,16 @@ jobs:
       PYTHONPATH: .
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@v6
         with:
           version: "0.12.19"
       - run: uv sync --locked
       - name: makemigrations --check (D2f)
         run: uv run django-admin makemigrations --check --dry-run
+      - name: Blocking and destructive migrations (D2, D2b, D2c, D3)
+        run: |
+          current=$(git describe --tags --exact-match 2>/dev/null || true)
+          previous=$(git tag --sort=-v:refname --merged HEAD | grep -vx "${current:-__none__}" | head -1)
+          uv run python -m tools.checks.migration_safety ${previous:+--previous-tag "$previous"}

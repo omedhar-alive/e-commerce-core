@@ -16,3 +16,6 @@ globals().update(
         },
     )
 )
+
+# A PostgreSQL engine so migration tooling can compute column types; nothing connects.
+DATABASES = {"default": {"ENGINE": "django.db.backends.postgresql", "NAME": "unused"}}
