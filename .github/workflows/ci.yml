@@ -185,3 +185,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "enabled from the second release"
+
+  clean-install:
+    # W8 clean-install test (W1, W1a, W1b, W2, W3; decision 24): core is
+    # installed by git+ssh with the read-only CORE_DEPLOY_KEY into the blank
+    # template cloned with TEMPLATE_DEPLOY_KEY, then bootstrapped, released,
+    # booted and smoke-tested.
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Deploy keys for the two private repositories
+        env:
+          CORE_DEPLOY_KEY: ${{ secrets.CORE_DEPLOY_KEY }}
+          TEMPLATE_DEPLOY_KEY: ${{ secrets.TEMPLATE_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$CORE_DEPLOY_KEY" > ~/.ssh/core_key
+          printf '%s\n' "$TEMPLATE_DEPLOY_KEY" > ~/.ssh/template_key
+          chmod 600 ~/.ssh/core_key ~/.ssh/template_key
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<'CFG'
+          Host github-core
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/core_key
+            IdentitiesOnly yes
+          Host github-template
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/template_key
+            IdentitiesOnly yes
+          CFG
+      - name: Clone the blank deployment template
+        run: git clone --depth 1 git@github-template:${{ github.repository_owner }}/commerce-deployment-template.git ../commerce-deployment-template
+      - name: Install core by git+ssh, bootstrap, release, boot, smoke
+        env:
+          TEMPLATE_DIR: ../commerce-deployment-template
+          OWNER_URL: postgresql://postgres:postgres@localhost:5432/postgres
+          CORE_SPEC: commerce-core @ git+ssh://github-core/${{ github.repository }}.git@${{ github.sha }}
+          PYTHON: python
+        run: tools/clean_install.sh
