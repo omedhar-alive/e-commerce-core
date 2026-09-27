@@ -52,7 +52,7 @@ select = ["E", "F", "W", "I", "B", "UP", "BLE", "S110", "E722", "DJ", "T20"]
 ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S", "T20", "BLE001"]
+"tests/**" = ["S", "T20", "BLE001", "DJ008"]
 "tools/**" = ["T20"]
 "src/commerce_core/management/**" = ["T20"]
 "src/commerce_core/**/management/commands/**" = ["T20"]

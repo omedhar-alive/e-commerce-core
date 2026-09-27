@@ -39,3 +39,4 @@ DATABASES = {
         "PORT": os.environ.get("COMMERCE_TEST_DB_PORT", ""),
     }
 }
+ROOT_URLCONF = "tests.urls"

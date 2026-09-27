@@ -104,6 +104,8 @@ def build(role: Role | None = ..., env: Mapping[str, str] | None = None) -> dict
             ("HTTP_X_FORWARDED_PROTO", "https") if values["TRUSTED_PROXY_HOPS"] else None
         ),
         "MIDDLEWARE": [
+            "commerce_core.platform.api.middleware.RequestIdMiddleware",
+            "commerce_core.platform.errors.handlers.DatabaseTimeoutMiddleware",
             "django.middleware.security.SecurityMiddleware",
             "django.contrib.sessions.middleware.SessionMiddleware",
             "django.middleware.common.CommonMiddleware",

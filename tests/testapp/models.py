@@ -20,3 +20,22 @@ class GovernedProbe(GovernedModel):
 
     amount = models.BigIntegerField()
     status = models.CharField(max_length=20)
+
+
+class UniqueProbe(models.Model):
+    """Two named unique constraints, for the X11a helper."""
+
+    code = models.CharField(max_length=20)
+    other = models.CharField(max_length=20)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["code"], name="testapp_uniqueprobe_code_uniq"),
+            models.UniqueConstraint(fields=["other"], name="testapp_uniqueprobe_other_uniq"),
+        ]
+
+
+class LockProbe(models.Model):
+    """A row test code locks from another connection (T4a, D2a)."""
+
+    name = models.CharField(max_length=20)
