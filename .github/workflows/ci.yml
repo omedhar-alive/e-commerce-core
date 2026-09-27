@@ -151,7 +151,7 @@ jobs:
         run: |
           uv lock --check
           uv export --format requirements-txt --no-dev --no-emit-project --hashes --locked -o /tmp/requirements.lock
-          diff -u requirements.lock /tmp/requirements.lock
+          diff -u <(grep -v '^#' requirements.lock) <(grep -v '^#' /tmp/requirements.lock)
       - name: Install from hashes only
         run: |
           python -m venv /tmp/hashcheck
