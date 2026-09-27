@@ -314,6 +314,13 @@ SETTINGS: tuple[Setting, ...] = (
         choices=("starttls", "tls", "none"),
     ),
     Setting(
+        "EMAIL_CHANNEL_ADAPTER",
+        types.parse_str,
+        "import path",
+        "Adapter class for the email notification channel port (W2a). Core ships SMTP.",
+        default="commerce_core.platform.notifications.smtp.SmtpEmailChannel",
+    ),
+    Setting(
         "SMTP_TIMEOUT",
         types.parse_duration,
         "duration",

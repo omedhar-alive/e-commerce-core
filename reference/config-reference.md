@@ -30,6 +30,7 @@ Generated from `commerce_core.platform.conf.registry` by
 | `SMTP_USERNAME` | string | `(unset)` |  | deploy |  | all | SMTP username. |
 | `SMTP_PASSWORD` | string | `(unset)` |  | deploy | yes | all | SMTP password. |
 | `SMTP_SECURITY` | choice | `starttls` | `starttls` \| `tls` \| `none` | deploy |  | all | SMTP transport security. |
+| `EMAIL_CHANNEL_ADAPTER` | import path | `commerce_core.platform.notifications.smtp.SmtpEmailChannel` |  | deploy |  | all | Adapter class for the email notification channel port (W2a). Core ships SMTP. |
 | `SMTP_TIMEOUT` | duration | `10s` | 1s – 1m | deploy |  | all | Connect and send timeout for SMTP (T4). |
 | `ERROR_TRACKING_DSN` | string | `(unset)` |  | deploy | yes | all | Sentry-protocol DSN. Required in production (X14). |
 | `ERROR_TRACKING_REGION` | string | `(unset)` |  | deploy |  | all | Region the error tracker stores data in (X13a, I9). |

@@ -96,10 +96,20 @@ def test_staleness():
     now = timezone.now()
     JobSchedule.objects.update(created_at=now, last_succeeded_at=None)
     assert stale_jobs(now) == []
-    spec = JOBS["task_result_pruning"]
-    assert stale_jobs(now + spec.max_staleness + timedelta(seconds=1)) == ["task_result_pruning"]
-    JobSchedule.objects.update(last_succeeded_at=now + spec.max_staleness)
-    assert stale_jobs(now + spec.max_staleness + timedelta(seconds=1)) == []
+    for name, spec in JOBS.items():
+        just_inside = now + spec.max_staleness
+        just_past = just_inside + timedelta(seconds=1)
+        assert name not in stale_jobs(just_inside)
+        assert name in stale_jobs(just_past)
+        JobSchedule.objects.filter(name=name).update(last_succeeded_at=just_inside)
+        assert name not in stale_jobs(just_past)
+        JobSchedule.objects.filter(name=name).update(last_succeeded_at=None)
+
+
+def test_phase_1_jobs_are_registered():
+    assert {"task_result_pruning", "alert_notification", "job_staleness_check"} <= set(JOBS)
+    for spec in JOBS.values():
+        assert spec.max_staleness > spec.schedule.interval
 
 
 def test_a_registered_job_without_a_row_is_stale():

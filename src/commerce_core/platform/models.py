@@ -113,3 +113,70 @@ class BusinessDayRun(models.Model):
 
     def __str__(self):
         return f"{self.job_name} {self.local_date}"
+
+
+class AlertSeverity(models.TextChoices):
+    CRITICAL = "critical"
+    WARNING = "warning"
+
+
+class AlertStatus(models.TextChoices):
+    OPEN = "open"
+    ACKNOWLEDGED = "acknowledged"
+    RESOLVED = "resolved"
+
+
+class Alert(models.Model):
+    """A durable alert (N5). Written by ``raise_alert()`` in its cause's transaction.
+
+    The subject is a typed pair, never a foreign key, so a resolved alert
+    never blocks its subject's retention delete (O7, I8). The code set is
+    closed in code (``alerts.codes``), not by a DB CHECK, so adding a code
+    never needs a constraint migration on a live table.
+    """
+
+    code = models.CharField(max_length=64)
+    severity = models.CharField(max_length=10, choices=AlertSeverity.choices)
+    subject_type = models.CharField(max_length=64)
+    subject_id = models.CharField(max_length=128)
+    status = models.CharField(max_length=15, choices=AlertStatus.choices, default=AlertStatus.OPEN)
+    # Internal identifiers only; never personal data (X13a).
+    context = models.JSONField(default=dict, blank=True)
+    first_raised_at = models.DateTimeField(default=timezone.now)
+    last_raised_at = models.DateTimeField(default=timezone.now)
+    raise_count = models.PositiveIntegerField(default=1)
+    notified_at = models.DateTimeField(null=True, blank=True)
+    acknowledged_at = models.DateTimeField(null=True, blank=True)
+    acknowledged_by_type = models.CharField(max_length=20, blank=True)
+    acknowledged_by_id = models.CharField(max_length=64, blank=True)
+    resolved_at = models.DateTimeField(null=True, blank=True)
+    resolved_by_type = models.CharField(max_length=20, blank=True)
+    resolved_by_id = models.CharField(max_length=64, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["code", "subject_type", "subject_id"],
+                condition=~models.Q(status="resolved"),
+                name="alert_one_open_per_subject",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(severity__in=["critical", "warning"]),
+                name="alert_severity_valid",
+            ),
+            models.CheckConstraint(
+                condition=models.Q(status__in=["open", "acknowledged", "resolved"]),
+                name="alert_status_valid",
+            ),
+        ]
+        indexes = [
+            models.Index(
+                fields=["notified_at"],
+                name="alert_unnotified",
+                condition=models.Q(notified_at__isnull=True),
+            ),
+            models.Index(fields=["status", "severity"], name="alert_status_severity"),
+        ]
+
+    def __str__(self):
+        return f"{self.code} {self.subject_type}:{self.subject_id}"

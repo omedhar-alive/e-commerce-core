@@ -44,3 +44,11 @@ def override_setting():
     yield set_
     conf._loaded.clear()
     conf._loaded.update(original)
+
+
+@pytest.fixture(scope="session")
+def smtp_server():
+    from tests.smtp_server import LocalSmtp
+
+    with LocalSmtp() as server:
+        yield server

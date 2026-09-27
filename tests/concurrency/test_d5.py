@@ -82,3 +82,18 @@ def test_business_day_marker_concurrent_insert_one_wins():
     outcomes = run_concurrently(mark, mark)
     assert sum(1 for _, e in outcomes if e is None) == 1
     assert "businessdayrun_job_date_uniq" in str(next(e for _, e in outcomes if e))
+
+
+def test_alert_retry_on_two_connections_keeps_one_open_alert():
+    from commerce_core.platform.alerts.services import raise_alert
+    from commerce_core.platform.models import Alert
+
+    def raise_it(barrier):
+        barrier.wait()
+        return raise_alert("job_stale", "job", "race")
+
+    outcomes = run_concurrently(raise_it, raise_it, raise_it)
+    assert all(e is None for _, e in outcomes)
+    assert len({r for r, _ in outcomes}) == 1
+    alert = Alert.objects.get(code="job_stale", subject_id="race")
+    assert alert.raise_count == 3
