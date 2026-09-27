@@ -228,10 +228,10 @@ jobs:
             IdentitiesOnly yes
           CFG
       - name: Clone the blank deployment template
-        run: git clone --depth 1 git@github-template:${{ github.repository_owner }}/commerce-deployment-template.git ../commerce-deployment-template
+        run: git clone --depth 1 git@github-template:${{ github.repository_owner }}/e-commerce-deployment-template.git ../e-commerce-deployment-template
       - name: Install core by git+ssh, bootstrap, release, boot, smoke
         env:
-          TEMPLATE_DIR: ../commerce-deployment-template
+          TEMPLATE_DIR: ../e-commerce-deployment-template
           OWNER_URL: postgresql://postgres:postgres@localhost:5432/postgres
           CORE_SPEC: commerce-core @ git+ssh://github-core/${{ github.repository }}.git@${{ github.sha }}
           PYTHON: python

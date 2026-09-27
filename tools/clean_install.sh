@@ -3,7 +3,7 @@
 # deployment skeleton, bootstrap a fresh database, run the release step, boot
 # with default settings and pass the smoke script.
 #
-#   TEMPLATE_DIR=../commerce-deployment-template \
+#   TEMPLATE_DIR=../e-commerce-deployment-template \
 #   OWNER_URL=postgresql:///postgres \
 #   CORE_SPEC=dist/commerce_core-0.1.0-py3-none-any.whl \
 #   tools/clean_install.sh
