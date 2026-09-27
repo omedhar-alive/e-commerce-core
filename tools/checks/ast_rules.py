@@ -37,6 +37,7 @@ class Violation:
 # F1a: modules that may read the process environment or Django settings.
 SETTINGS_READERS = {
     "commerce_core/platform/conf/django_settings.py": "the one reader of the environment",
+    "commerce_core/scripts/smoke.py": "standalone operator tool; reads only its own token variable",
 }
 
 # M1: DecimalField is allowed only on these non-money columns.

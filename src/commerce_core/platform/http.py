@@ -23,7 +23,13 @@ class TimeoutRequired(ValueError):
 
 
 def in_transaction() -> bool:
-    return any(conn.in_atomic_block for conn in connections.all(initialized_only=True))
+    from django.core.exceptions import ImproperlyConfigured
+
+    try:
+        opened = connections.all(initialized_only=True)
+    except ImproperlyConfigured:
+        return False  # no Django settings (a standalone tool): no database, so no transaction
+    return any(conn.in_atomic_block for conn in opened)
 
 
 def _check_timeout(timeout: httpx.Timeout) -> None:
