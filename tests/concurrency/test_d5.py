@@ -115,3 +115,23 @@ def test_rate_limit_holds_at_boundary_under_concurrency():
     outcomes = run_concurrently(*[request] * 10)
     assert all(e is None for _, e in outcomes)
     assert sum(1 for allowed, _ in outcomes if allowed) == 5
+
+
+def test_two_connections_racing_sync_schedules_leave_one_row_per_job():
+    """T6 (D5, N4a): JobSchedule.name's uniqueness holds when two releases sync at once."""
+    from collections import Counter
+
+    from commerce_core.platform.jobs.registry import JOBS, sync_schedules
+    from commerce_core.platform.models import JobSchedule
+
+    JobSchedule.objects.all().delete()
+
+    def sync(barrier):
+        barrier.wait()
+        return sync_schedules()
+
+    outcomes = run_concurrently(sync, sync)
+    assert all(e is None for _, e in outcomes), outcomes
+    names = Counter(JobSchedule.objects.values_list("name", flat=True))
+    assert set(names) == set(JOBS)
+    assert all(count == 1 for count in names.values()), names

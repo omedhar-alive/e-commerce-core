@@ -137,3 +137,44 @@ def test_get_setting_refuses_undeclared_runtime_and_unread():
     with pytest.raises(conf.SettingNotAvailable):
         conf.get_setting("WEB_DATABASE_URL")
     assert conf.get_setting("JOB_DATABASE_URL")["NAME"] == "db"
+
+
+# T3 (F1a, X10, N3)
+
+
+@pytest.mark.parametrize("env", ["staging", "demo", "local", "test"])
+def test_debug_boots_outside_production(env):
+    assert boot.load(None, _env(DEPLOYMENT_ENV=env, DEBUG="true"))["DEBUG"] is True
+
+
+def test_previous_monitoring_token_without_current_fails_boot():
+    problems = _problems(
+        MONITORING_TOKEN="",
+        MONITORING_TOKEN_PREVIOUS="p" * 40,
+        MONITORING_TOKEN_ROTATED_AT="2026-09-27T10:00:00+00:00",
+    )
+    assert problems == ["MONITORING_TOKEN_PREVIOUS is set without MONITORING_TOKEN"]
+
+
+def test_previous_monitoring_token_without_rotated_at_fails_boot():
+    problems = _problems(MONITORING_TOKEN_PREVIOUS="p" * 40)
+    assert problems == ["MONITORING_TOKEN_PREVIOUS needs MONITORING_TOKEN_ROTATED_AT"]
+
+
+def test_previous_monitoring_token_equal_to_current_fails_boot():
+    problems = _problems(
+        MONITORING_TOKEN_PREVIOUS=TEST_ENV["MONITORING_TOKEN"],
+        MONITORING_TOKEN_ROTATED_AT="2026-09-27T10:00:00+00:00",
+    )
+    assert problems == ["MONITORING_TOKEN_PREVIOUS must differ from MONITORING_TOKEN"]
+
+
+def test_valid_rotation_boots():
+    values = boot.load(
+        None,
+        _env(
+            MONITORING_TOKEN_PREVIOUS="p" * 40,
+            MONITORING_TOKEN_ROTATED_AT="2026-09-27T10:00:00+00:00",
+        ),
+    )
+    assert values["MONITORING_TOKEN_PREVIOUS"] == "p" * 40

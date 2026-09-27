@@ -131,3 +131,31 @@ def test_query_count_is_constant_at_two_sizes(client, n):
 def test_every_allowlisted_sort_and_filter_is_indexed():
     assert REGISTRY
     assert every_list_sort_and_filter_is_indexed(None) == []
+
+
+# T1 (Q2a): page boundaries.
+
+
+@pytest.mark.parametrize("limit", [1, 5, 20])
+def test_exactly_limit_rows_has_no_next_cursor(client, limit):
+    _make(limit)
+    body = _get(client, limit=limit).json()
+    assert len(body["items"]) == limit
+    assert body["next_cursor"] is None
+
+
+@pytest.mark.parametrize("limit", [1, 5, 20])
+def test_limit_plus_one_rows_has_a_next_cursor_to_the_last_row(client, limit):
+    rows = _make(limit + 1)
+    first = _get(client, limit=limit).json()
+    assert len(first["items"]) == limit and first["next_cursor"]
+    second = _get(client, limit=limit, cursor=first["next_cursor"]).json()
+    assert [i["public_id"] for i in second["items"]] == [rows[-1].public_id]
+    assert second["next_cursor"] is None
+
+
+def test_limit_of_one_is_valid(client):
+    _make(3)
+    response = _get(client, limit=1)
+    assert response.status_code == 200
+    assert len(response.json()["items"]) == 1

@@ -7,7 +7,7 @@ from psycopg import errors
 
 from commerce_core.platform.db import roles
 from commerce_core.platform.db.governed import BareSaveOnGovernedModel, governed_models
-from tests.testapp.models import GovernedProbe
+from tests.testapp.models import AppendOnlyProbe, GovernedProbe
 
 pytestmark = pytest.mark.django_db
 
@@ -101,3 +101,19 @@ def test_no_auto_now_on_governed_models_unless_updatable():
         for field in model._meta.concrete_fields:
             if getattr(field, "auto_now", False):
                 assert field.name in model.GOVERNANCE.update_fields, (model, field.name)
+
+
+# T5 (D7b): inserts are not restricted by the grants.
+
+
+def test_new_governed_instance_with_plain_save_inserts():
+    probe = GovernedProbe(amount=7, status="new")
+    probe.save()
+    assert probe.pk is not None
+    assert GovernedProbe.objects.filter(pk=probe.pk, amount=7, status="new").exists()
+
+
+def test_new_append_only_instance_with_plain_save_inserts():
+    row = AppendOnlyProbe(note="first")
+    row.save()
+    assert AppendOnlyProbe.objects.filter(pk=row.pk, note="first").exists()
