@@ -3,7 +3,7 @@
 All notable changes to `commerce-core`. Semantic versioning (W4). Every entry
 says whether the release needs a migration or a manual step.
 
-## 0.1.0 — unreleased
+## 0.1.0 — 2026-09-27
 
 Phase 1, foundation.
 
