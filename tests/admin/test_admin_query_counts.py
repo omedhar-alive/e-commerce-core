@@ -13,6 +13,7 @@ from django_tasks_db.models import DBTaskResult
 
 from commerce_core.accounts.models import User
 from commerce_core.platform.alerts.services import raise_alert
+from commerce_core.platform.db import roles
 from commerce_core.platform.models import (
     Alert,
     JobSchedule,
@@ -20,6 +21,7 @@ from commerce_core.platform.models import (
     RuntimeSetting,
     SettingChange,
 )
+from tests import harness
 from tests.accounts.helpers import make_staff, otp_login
 
 pytestmark = pytest.mark.django_db
@@ -66,9 +68,11 @@ def _jobs(n):
 
 
 def _releases(n):
-    ReleaseRecord.objects.bulk_create(
-        [ReleaseRecord(core_version="0.1.0", deployment_env="test") for _ in range(n)]
-    )
+    # Release history is written only by the migration role (D6); measured in its own test below.
+    with harness.as_role(roles.MIGRATION):
+        ReleaseRecord.objects.bulk_create(
+            [ReleaseRecord(core_version="0.1.0", deployment_env="test") for _ in range(n)]
+        )
 
 
 def _task_results(n):
@@ -107,6 +111,13 @@ def test_every_registered_admin_has_a_builder():
     assert set(admin.site._registry) <= set(BUILDERS), set(admin.site._registry) - set(BUILDERS)
 
 
+# Rows web cannot insert are measured in transactional tests, as the migration role.
+MIGRATION_ROLE_ONLY = {ReleaseRecord}
+WEB_BUILT = sorted(
+    (m for m in BUILDERS if m not in MIGRATION_ROLE_ONLY), key=lambda m: m._meta.label
+)
+
+
 @pytest.fixture
 def staff_client(client):
     user, device = make_staff("qc@x.com", is_superuser=True)
@@ -122,9 +133,7 @@ def _count(client, url):
     return len(ctx.captured_queries)
 
 
-@pytest.mark.parametrize(
-    "model", sorted(BUILDERS, key=lambda m: m._meta.label), ids=lambda m: m._meta.label
-)
+@pytest.mark.parametrize("model", WEB_BUILT, ids=lambda m: m._meta.label)
 def test_changelist_query_count_is_constant(staff_client, model):
     if model not in admin.site._registry:
         pytest.skip("not registered in this admin")
@@ -135,9 +144,7 @@ def test_changelist_query_count_is_constant(staff_client, model):
     assert _count(staff_client, url) == small
 
 
-@pytest.mark.parametrize(
-    "model", sorted(BUILDERS, key=lambda m: m._meta.label), ids=lambda m: m._meta.label
-)
+@pytest.mark.parametrize("model", WEB_BUILT, ids=lambda m: m._meta.label)
 def test_change_page_query_count_is_constant(staff_client, model):
     if model not in admin.site._registry:
         pytest.skip("not registered in this admin")
@@ -147,3 +154,15 @@ def test_change_page_query_count_is_constant(staff_client, model):
     small = _count(staff_client, url)
     BUILDERS[model](9)
     assert _count(staff_client, url) == small
+
+
+@pytest.mark.django_db(transaction=True)
+def test_release_record_pages_query_count_is_constant(client):
+    user, device = make_staff("qc@x.com", is_superuser=True)
+    otp_login(client, user, device)
+    _releases(3)
+    obj = ReleaseRecord.objects.order_by("pk").first()
+    pages = ["/admin/platform/releaserecord/", f"/admin/platform/releaserecord/{obj.pk}/change/"]
+    small = [_count(client, url) for url in pages]
+    _releases(9)
+    assert [_count(client, url) for url in pages] == small

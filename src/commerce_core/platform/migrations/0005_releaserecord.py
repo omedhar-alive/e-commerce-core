@@ -34,4 +34,9 @@ class Migration(migrations.Migration):
             },
         ),
         ProtectTable(model_name="ReleaseRecord"),
+        # Only the release step, as the migration role, writes release history (D6, W5).
+        migrations.RunSQL(
+            "REVOKE INSERT ON platform_releaserecord FROM commerce_web, commerce_job",
+            "GRANT INSERT ON platform_releaserecord TO commerce_web, commerce_job",
+        ),
     ]

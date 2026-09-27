@@ -55,11 +55,12 @@ def test_release_step_refuses_before_migrating(monkeypatch, override_setting, en
     assert migrated == []
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 def test_restore_point_is_recorded_with_the_release(monkeypatch):
     monkeypatch.setattr(run, "classify", lambda *a, **k: DESTRUCTIVE)
     monkeypatch.setattr(run, "migrate_with_retry", lambda *a, **k: 1)
-    record = run.run_release(restore_point="dump-2026-09-27.sql", stdout=io.StringIO())
+    with harness.as_role(roles.MIGRATION):  # the release step's role
+        record = run.run_release(restore_point="dump-2026-09-27.sql", stdout=io.StringIO())
     record = ReleaseRecord.objects.get(pk=record.pk)
     assert record.restore_point == "dump-2026-09-27.sql"
     assert record.restore_point_verified is False
@@ -98,12 +99,46 @@ def test_one_minor_version_at_a_time(current, recorded, ok):
             check_version_gate(current, recorded)
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db(transaction=True)
 def test_release_refuses_a_deployment_two_minors_behind(monkeypatch):
-    ReleaseRecord.objects.create(core_version="0.1.0", deployment_env="test")
     monkeypatch.setattr(run, "core_version", lambda: "0.3.0")
-    with pytest.raises(ReleaseRefused, match="W5"):
-        run.run_release()
+    with harness.as_role(roles.MIGRATION):  # the release step's role
+        ReleaseRecord.objects.create(core_version="0.1.0", deployment_env="test")
+        with pytest.raises(ReleaseRefused, match="W5"):
+            run.run_release()
+
+
+# D6, W5: only the release step writes release history.
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("role", roles.DML_ROLES)
+def test_web_and_job_cannot_insert_a_release_record(role_conn, role):
+    conn = role_conn(role)
+    with pytest.raises(errors.InsufficientPrivilege):
+        conn.execute(
+            "INSERT INTO platform_releaserecord (core_version, deployment_env, restore_point,"
+            " restore_point_verified, destructive_migrations, applied_migrations, applied_at)"
+            " VALUES ('9.9.9', 'test', '', false, '[]', '[]', now())"
+        )
+
+
+@pytest.mark.django_db
+def test_web_process_cannot_record_a_release():
+    from django.db import transaction
+    from django.db.utils import ProgrammingError
+
+    with pytest.raises(ProgrammingError, match="permission denied"), transaction.atomic():
+        ReleaseRecord.objects.create(core_version="9.9.9", deployment_env="test")
+
+
+@pytest.mark.django_db(transaction=True)
+def test_the_release_step_still_records_a_release():
+    with harness.as_role(roles.MIGRATION):
+        before = ReleaseRecord.objects.count()
+        record = run.run_release(stdout=io.StringIO())
+        assert ReleaseRecord.objects.count() == before + 1
+    assert record.core_version == "0.1.0" and record.applied_migrations == []
 
 
 def _lock_timeout():
